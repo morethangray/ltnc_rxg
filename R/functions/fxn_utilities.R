@@ -1,6 +1,7 @@
 # ========================================================== -----
 # Load libraries ----
 # File management ---
+library(glue)
 library(fs)   ## To manage directories
 library(hms)  ## For working with times
 library(janitor)   ## To clean data tables
@@ -45,4 +46,85 @@ fxn_define_file_paths <- function(){
 #
 # Execute function to define file paths
 fxn_define_file_paths()
+# ========================================================== -----
+# Create helpers ----
+#   lookup_plants ----
+lookup_plants <-
+  read_excel(here(path_in_lookup, "attributes_plant.xlsx"),
+             sheet = "crosswalk"
+  ) %>%
+  # specify package because distinct() may be blocked
+  dplyr::distinct(
+    orig_name,
+    taxonomic_name,
+    genus_species,
+    f_native,
+    f_forb,
+    include_plant,
+    has_mult_taxa,
+    is_native,
+    is_forb
+  )
+#   lookup_plot_names ----
+lookup_plot_names <-
+  read_xlsx(here(path_in_lookup, "attributes_plots.xlsx"),
+            sheet = "lookup-plot-name"
+  )
+#   lookup_grazing_interval ----
+lookup_grazing_interval <-
+  read_xlsx(here(path_in_lookup, "attributes_plots.xlsx"),
+            sheet = "grazing-interval"
+  ) %>%
+  # specify package because distinct() may be blocked
+  dplyr::select(
+    index,
+    starts_with("f_"),
+    grazer,
+    interval,
+    in_v1,
+    -f_grazed
+  ) %>%
+  dplyr::distinct()
+
+#   list_active_surveys ----
+# Define active surveys (2019 to 2022)
+# Exclude years 2016 to 2018 and any inactive plots
+list_active_surveys <-
+  read_xlsx(here(path_in_lookup, "attributes_plots.xlsx"),
+            sheet = "surveyed-plots"
+  ) %>%
+  filter(
+    include_plot == TRUE,
+    include_data == TRUE,
+    year > 2018,
+  ) %>%
+  pull(index)
+
+#   lookup_annotation ----
+lookup_annotation <-
+  read_xlsx(here(path_in_lookup, "attributes_plots.xlsx"),
+            sheet = "plot-attributes"
+  ) %>%
+  mutate(f_new = ifelse(interval == "New plot", "n1", "n0")) %>%
+  filter(
+    index %in% list_active_surveys,
+  ) %>%
+  distinct(
+    treatment,
+    plot_name,
+    plot_type,
+    year,
+    interval,
+    grazer,
+    f_year,
+    f_break,
+    f_new,
+    f_one_yr,
+    f_two_yr,
+    index,
+    index_g
+  )
+
+
+
 # ========================================================== -----
