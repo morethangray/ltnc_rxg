@@ -1,0 +1,44 @@
+﻿palette,palette_subset,variable_1,hex_code,levels,label
+plot_type,dark,per,#5a6390,1,PER
+plot_type,dark,wan,#8f513c,2,WAN
+plot_type,light,per,#b493b0,1,PER
+plot_type,light,wan,#c0b9a6,2,WAN
+plot_type,medium,per,#8c6c88,1,PER
+plot_type,medium,wan,#968f7c,2,WAN
+plot_type,mid,per,#6c76a8,1,PER
+plot_type,mid,wan,#ad6953,2,WAN
+plot_type,mix,per,#8c6c88,1,PER
+plot_type,mix,wan,#c0b9a6,2,WAN
+plot_type,teal,per,#5e6d6f,1,PER
+plot_type,teal,wan,#62b9c2,2,WAN
+treatment,bright_dark,grazed,#008c72,1,Grazed
+treatment,bright_dark,excluded,#968f7c,2,Ungrazed
+treatment,line_light,grazed,#00a988,1,Grazed
+treatment,line_light,excluded,#a49e9f,2,Ungrazed
+treatment,point_light,grazed,#68baa0,1,Grazed
+treatment,point_light,excluded,#c4bfc0,2,Ungrazed
+treatment,v1,grazed,#6a914c,1,Grazed
+treatment,v1,excluded,#b3adb2,2,Ungrazed
+treatment,v2,grazed,#6a914c,1,Grazed
+treatment,v2,excluded,#bfbabe,2,Ungrazed
+veg_type,blu_ora,all species,#686766,1,All
+veg_type,blu_ora,native forbs,#5aa6a7,2,Native forb
+veg_type,blu_ora,native species,#414185,3,Native
+veg_type,blu_ora,non-native species,#a6865f,4,Non-native
+veg_type,grn_pin,all species,#686766,1,All
+veg_type,grn_pin,native forbs,#a9c28d,2,Native forb
+veg_type,grn_pin,native species,#55986f,3,Native
+veg_type,grn_pin,non-native species,#ae8484,4,Non-native
+veg_type,grn_pur,all species,#939290,1,All
+veg_type,grn_pur,native forbs,#a0b900,2,Native forb
+veg_type,grn_pur,native species,#568900,3,Native
+veg_type,grn_pur,non-native species,#a3619b,4,Non-native
+grazer,light,goat,#cc9276,1,goat
+grazer,light,sheep,#848081,2,sheep
+grazer,points,goat,#c7784f,1,goat
+grazer,points,sheep,#777374,2,sheep
+plot_type,points,per,#898d90,1,PER
+plot_type,points,wan,#6d9ac9,2,WAN
+delta_t,points,new plot,#797979,1,New plot
+delta_t,points,one year,#ab559f,2,One year
+delta_t,points,two years,#bc9200,3,Two years
