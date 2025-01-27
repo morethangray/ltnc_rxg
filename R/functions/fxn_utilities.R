@@ -39,8 +39,8 @@ fxn_define_file_paths <- function(){
   path_out_prepare <<- here(path_out, "0_prepare")
   path_out_clean <<- here(path_out, "1_clean")
   path_out_explore <<- here(path_out, "2_explore")
-  path_out_analysis1 <<- here(path_out, "4_analysis-1")
-  path_out_analysis2 <<- here(path_out, "5_analysis-2")
+  path_out_abundance <<- here(path_out, "4_abundance")
+  path_out_richness <<- here(path_out, "5_richness")
   #
 }
 #
