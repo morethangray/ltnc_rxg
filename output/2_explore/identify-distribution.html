@@ -1,0 +1,1789 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.57">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Morgan Gray">
+
+<title>Identify the distribution for each model</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="identify-distribution_files/libs/clipboard/clipboard.min.js"></script>
+<script src="identify-distribution_files/libs/quarto-html/quarto.js"></script>
+<script src="identify-distribution_files/libs/quarto-html/popper.min.js"></script>
+<script src="identify-distribution_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="identify-distribution_files/libs/quarto-html/anchor.min.js"></script>
+<link href="identify-distribution_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="identify-distribution_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="identify-distribution_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="identify-distribution_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="identify-distribution_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="identify-distribution_files/libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="identify-distribution_files/libs/lightable-0.0.1/lightable.css" rel="stylesheet">
+
+
+</head>
+
+<body>
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Contents</h2>
+   
+  <ul>
+  <li><a href="#richness" id="toc-richness" class="nav-link active" data-scroll-target="#richness"><span class="header-section-number">1</span> Richness</a>
+  <ul class="collapse">
+  <li><a href="#methods" id="toc-methods" class="nav-link" data-scroll-target="#methods"><span class="header-section-number">1.1</span> Methods</a></li>
+  <li><a href="#native-species" id="toc-native-species" class="nav-link" data-scroll-target="#native-species"><span class="header-section-number">1.2</span> Native species</a></li>
+  <li><a href="#native-forb-species" id="toc-native-forb-species" class="nav-link" data-scroll-target="#native-forb-species"><span class="header-section-number">1.3</span> Native forb species</a></li>
+  <li><a href="#non-native-species" id="toc-non-native-species" class="nav-link" data-scroll-target="#non-native-species"><span class="header-section-number">1.4</span> Non-native species</a></li>
+  </ul></li>
+  <li><a href="#abundance" id="toc-abundance" class="nav-link" data-scroll-target="#abundance"><span class="header-section-number">2</span> Abundance</a>
+  <ul class="collapse">
+  <li><a href="#methods-1" id="toc-methods-1" class="nav-link" data-scroll-target="#methods-1"><span class="header-section-number">2.1</span> Methods</a></li>
+  <li><a href="#native-species-1" id="toc-native-species-1" class="nav-link" data-scroll-target="#native-species-1"><span class="header-section-number">2.2</span> Native species</a></li>
+  <li><a href="#native-forb-species-1" id="toc-native-forb-species-1" class="nav-link" data-scroll-target="#native-forb-species-1"><span class="header-section-number">2.3</span> Native forb species</a></li>
+  <li><a href="#non-native-species-1" id="toc-non-native-species-1" class="nav-link" data-scroll-target="#non-native-species-1"><span class="header-section-number">2.4</span> Non-native species</a></li>
+  </ul></li>
+  </ul>
+</nav>
+</div>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Identify the distribution for each model</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Morgan Gray </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="richness" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Richness</h1>
+<p>Print the first 10 rows of the data table for richness (rich).</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Scroll to the right to see more columns.</p>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<table class="table table-striped table-hover table-condensed caption-top table-sm small" data-quarto-postprocess="true">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th" style="text-align: left; position: sticky; top: 0; background-color: #FFFFFF;">treatment</th>
+<th data-quarto-table-cell-role="th" style="text-align: right; position: sticky; top: 0; background-color: #FFFFFF;">value</th>
+<th data-quarto-table-cell-role="th" style="text-align: right; position: sticky; top: 0; background-color: #FFFFFF;">value_log</th>
+<th data-quarto-table-cell-role="th" style="text-align: right; position: sticky; top: 0; background-color: #FFFFFF;">value_sqrt</th>
+<th data-quarto-table-cell-role="th" style="text-align: left; position: sticky; top: 0; background-color: #FFFFFF;">plot_name</th>
+<th data-quarto-table-cell-role="th" style="text-align: left; position: sticky; top: 0; background-color: #FFFFFF;">plot_type</th>
+<th data-quarto-table-cell-role="th" style="text-align: right; position: sticky; top: 0; background-color: #FFFFFF;">year</th>
+<th data-quarto-table-cell-role="th" style="text-align: left; position: sticky; top: 0; background-color: #FFFFFF;">grazer</th>
+<th data-quarto-table-cell-role="th" style="text-align: left; position: sticky; top: 0; background-color: #FFFFFF;">f_year</th>
+<th data-quarto-table-cell-role="th" style="text-align: left; position: sticky; top: 0; background-color: #FFFFFF;">f_break</th>
+<th data-quarto-table-cell-role="th" style="text-align: left; position: sticky; top: 0; background-color: #FFFFFF;">f_new</th>
+<th data-quarto-table-cell-role="th" style="text-align: left; position: sticky; top: 0; background-color: #FFFFFF;">f_one_yr</th>
+<th data-quarto-table-cell-role="th" style="text-align: left; position: sticky; top: 0; background-color: #FFFFFF;">f_two_yr</th>
+<th data-quarto-table-cell-role="th" style="text-align: left; position: sticky; top: 0; background-color: #FFFFFF;">met_sub</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Ungrazed</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">2.079442</td>
+<td style="text-align: right;">2.828427</td>
+<td style="text-align: left;">p01</td>
+<td style="text-align: left;">p</td>
+<td style="text-align: right;">2019</td>
+<td style="text-align: left;">Goat</td>
+<td style="text-align: left;">y4</td>
+<td style="text-align: left;">b0</td>
+<td style="text-align: left;">n1</td>
+<td style="text-align: left;">o0</td>
+<td style="text-align: left;">t0</td>
+<td style="text-align: left;">rich_non</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Grazed</td>
+<td style="text-align: right;">11</td>
+<td style="text-align: right;">2.397895</td>
+<td style="text-align: right;">3.316625</td>
+<td style="text-align: left;">p01</td>
+<td style="text-align: left;">p</td>
+<td style="text-align: right;">2019</td>
+<td style="text-align: left;">Goat</td>
+<td style="text-align: left;">y4</td>
+<td style="text-align: left;">b0</td>
+<td style="text-align: left;">n1</td>
+<td style="text-align: left;">o0</td>
+<td style="text-align: left;">t0</td>
+<td style="text-align: left;">rich_non</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Ungrazed</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">2.302585</td>
+<td style="text-align: right;">3.162278</td>
+<td style="text-align: left;">p02</td>
+<td style="text-align: left;">p</td>
+<td style="text-align: right;">2019</td>
+<td style="text-align: left;">Goat</td>
+<td style="text-align: left;">y4</td>
+<td style="text-align: left;">b0</td>
+<td style="text-align: left;">n1</td>
+<td style="text-align: left;">o0</td>
+<td style="text-align: left;">t0</td>
+<td style="text-align: left;">rich_non</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Grazed</td>
+<td style="text-align: right;">11</td>
+<td style="text-align: right;">2.397895</td>
+<td style="text-align: right;">3.316625</td>
+<td style="text-align: left;">p02</td>
+<td style="text-align: left;">p</td>
+<td style="text-align: right;">2019</td>
+<td style="text-align: left;">Goat</td>
+<td style="text-align: left;">y4</td>
+<td style="text-align: left;">b0</td>
+<td style="text-align: left;">n1</td>
+<td style="text-align: left;">o0</td>
+<td style="text-align: left;">t0</td>
+<td style="text-align: left;">rich_non</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Ungrazed</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">2.079442</td>
+<td style="text-align: right;">2.828427</td>
+<td style="text-align: left;">p03</td>
+<td style="text-align: left;">p</td>
+<td style="text-align: right;">2019</td>
+<td style="text-align: left;">Goat</td>
+<td style="text-align: left;">y4</td>
+<td style="text-align: left;">b0</td>
+<td style="text-align: left;">n1</td>
+<td style="text-align: left;">o0</td>
+<td style="text-align: left;">t0</td>
+<td style="text-align: left;">rich_non</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Grazed</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">1.791760</td>
+<td style="text-align: right;">2.449490</td>
+<td style="text-align: left;">p03</td>
+<td style="text-align: left;">p</td>
+<td style="text-align: right;">2019</td>
+<td style="text-align: left;">Goat</td>
+<td style="text-align: left;">y4</td>
+<td style="text-align: left;">b0</td>
+<td style="text-align: left;">n1</td>
+<td style="text-align: left;">o0</td>
+<td style="text-align: left;">t0</td>
+<td style="text-align: left;">rich_non</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Ungrazed</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">1.945910</td>
+<td style="text-align: right;">2.645751</td>
+<td style="text-align: left;">p04</td>
+<td style="text-align: left;">p</td>
+<td style="text-align: right;">2019</td>
+<td style="text-align: left;">Goat</td>
+<td style="text-align: left;">y4</td>
+<td style="text-align: left;">b0</td>
+<td style="text-align: left;">n1</td>
+<td style="text-align: left;">o0</td>
+<td style="text-align: left;">t0</td>
+<td style="text-align: left;">rich_non</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Grazed</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">1.791760</td>
+<td style="text-align: right;">2.449490</td>
+<td style="text-align: left;">p04</td>
+<td style="text-align: left;">p</td>
+<td style="text-align: right;">2019</td>
+<td style="text-align: left;">Goat</td>
+<td style="text-align: left;">y4</td>
+<td style="text-align: left;">b0</td>
+<td style="text-align: left;">n1</td>
+<td style="text-align: left;">o0</td>
+<td style="text-align: left;">t0</td>
+<td style="text-align: left;">rich_non</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Ungrazed</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">1.945910</td>
+<td style="text-align: right;">2.645751</td>
+<td style="text-align: left;">p05</td>
+<td style="text-align: left;">p</td>
+<td style="text-align: right;">2019</td>
+<td style="text-align: left;">Goat</td>
+<td style="text-align: left;">y4</td>
+<td style="text-align: left;">b0</td>
+<td style="text-align: left;">n1</td>
+<td style="text-align: left;">o0</td>
+<td style="text-align: left;">t0</td>
+<td style="text-align: left;">rich_non</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Grazed</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">2.197225</td>
+<td style="text-align: right;">3.000000</td>
+<td style="text-align: left;">p05</td>
+<td style="text-align: left;">p</td>
+<td style="text-align: right;">2019</td>
+<td style="text-align: left;">Goat</td>
+<td style="text-align: left;">y4</td>
+<td style="text-align: left;">b0</td>
+<td style="text-align: left;">n1</td>
+<td style="text-align: left;">o0</td>
+<td style="text-align: left;">t0</td>
+<td style="text-align: left;">rich_non</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+<section id="methods" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="methods"><span class="header-section-number">1.1</span> Methods</h2>
+<p>To determine the most suitable probability distribution for count data (species richness), I conducted a comprehensive analysis that involved a combination of visual inspection (histograms, Q-Q plots), statistical tests (goodness-of-fit tests, Vuong tests), and model comparisons. Together, they allowed me to evaluate different probability distributions and identify the best fit for the data.</p>
+<p>A custom function was developed to streamline this process. It generated visualizations, conducted statistical tests, and handled potential errors during model fitting. For distributions requiring strictly positive values, I added a constant of 1 to all values.</p>
+<p>Clear labeling was maintained throughout to ensure traceability. This systematic approach provided multiple lines of evidence for selecting the most appropriate statistical distribution for modeling species richness in subsequent analyses.</p>
+<p><strong>Histograms</strong></p>
+<p>The analysis began with visual inspection of the data through histograms, which revealed key distributional features such as central tendency, spread, symmetry, and potential outliers. For count data, the shape of the histogram provided initial insight into whether the data followed common distributions like Poisson (right-skewed with a single peak) or negative binomial (right-skewed with a longer tail).</p>
+<p><strong>Goodness-of-Fit Tests</strong></p>
+<p>I then performed goodness-of-fit tests to formally evaluate whether the data followed Poisson or negative binomial distributions. These tests produced p-values that indicated the strength of evidence against each distribution, with p &gt; 0.05 suggesting acceptable fit and p &lt; 0.05 indicating poor fit:</p>
+<ul>
+<li><p>p &gt; 0.05: The data was consistent with the distribution (fail to reject the null hypothesis).</p></li>
+<li><p>p &lt; 0.05: The data significantly deviated from the distribution (reject the null hypothesis).</p></li>
+</ul>
+<p>For example, if testing a Poisson distribution and we get p &gt; 0.05, we can work with the data as if it follows a Poisson distribution. On the other hand, a p-value less than 0.05 suggests the data significantly deviates from the tested distribution and we should consider alternatives.</p>
+<p><strong>Vuong Tests</strong></p>
+<p>I used Vuong tests to directly compare the fit of competing models. The Vuong test helps us directly compare two competing models to see which better fits our data. It produces a z-statistic and associated p-value, where the sign of the z-statistic (when significant at p &lt; 0.05) indicates which model provides better fit:</p>
+<ul>
+<li><p>Positive z-statistics with p &lt; 0.05 indicate first model is better</p></li>
+<li><p>Negative z-statistics with p &lt; 0.05 indicate second model is better</p></li>
+<li><p>p &gt; 0.05 indicates models are statistically indistinguishable</p></li>
+</ul>
+<p>For example, a Vuong test comparing a negative binomial model to a Poisson model with a z-statistic of 2.5 and p = 0.01 would indicate that the negative binomial model provides a significantly better fit.</p>
+<p><strong>Quantile-Quantile (Q-Q) Plots</strong></p>
+<p>To further assess distributional fit, I generated quantile-quantile (Q-Q) plots comparing the observed data against the following distributions:</p>
+<ul>
+<li><p>Normal distribution</p></li>
+<li><p>Lognormal distribution</p></li>
+<li><p>Poisson distribution</p></li>
+<li><p>Negative Binomial distribution (using robust maximum likelihood estimation)</p></li>
+<li><p>Gamma distribution</p></li>
+</ul>
+<p>In these plots, we’re comparing our observed data against what we would expect if it perfectly followed a theoretical distribution. The interpretation centers on how closely the points follow the diagonal reference line. Points falling along the diagonal reference line indicate good agreement between observed and theoretical distributions.</p>
+<p>More realistically, we look for patterns in how points deviate from this line. Small random deviations around the line are acceptable, but systematic patterns raise concerns. Systematic deviations can reveal the specific ways in which the data departed from theoretical expectations.</p>
+<p>In ecological count data, deviations are often observed at the extremes, particularly due to rare species (excess zeros) or highly abundant counts. These patterns can aid in model selection. For example, consistent deviations at low values might suggest the need for a zero-inflated model, while heavy tails might favor a negative binomial over a Poisson distribution.</p>
+</section>
+<section id="native-species" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="native-species"><span class="header-section-number">1.2</span> Native species</h2>
+<p><strong>Recommended distribution:</strong> Negative binomial distribution</p>
+<p><strong>Statistical summary</strong></p>
+<p>Goodness of fit test:</p>
+<ul>
+<li><p>Poisson distribution: poor</p></li>
+<li><p>Negative binomial distribution: ok</p></li>
+</ul>
+<p>The Vuong test(s):</p>
+<ul>
+<li><p>Negative binomial vs.&nbsp;Poisson: Negative binomial better</p></li>
+<li><p>Poisson vs.&nbsp;zero-inflated: No difference</p></li>
+<li><p>Negative binomial vs.&nbsp;zero-inflated: Negative binomial better</p></li>
+</ul>
+<p>Q-Q plot results:</p>
+<ul>
+<li><p>Normal: Points showed zero inflation</p></li>
+<li><p>Lognormal: Very poor</p></li>
+<li><p>Poisson: Points outside bounds halfway through</p></li>
+<li><p>Negative binomial: Decent until upper values</p></li>
+<li><p>Gamma: Spread beyond bounds at all values, falls off at upper values</p></li>
+</ul>
+<p><br></p>
+<p><strong>Statistical tests and visualization results</strong></p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="identify-distribution_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Poisson Goodness of Fit for native richness"
+
+     Goodness-of-fit test for poisson distribution
+
+                      X^2 df     P(&gt; X^2)
+Likelihood Ratio 146.0324 16 4.721291e-23
+                      X^2 df     P(&gt; X^2)
+Likelihood Ratio 146.0324 16 4.721291e-23</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="identify-distribution_files/figure-html/unnamed-chunk-1-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Negative Binomial Goodness of Fit for native richness"
+
+     Goodness-of-fit test for nbinomial distribution
+
+                      X^2 df   P(&gt; X^2)
+Likelihood Ratio 23.99674 15 0.06514879
+                      X^2 df   P(&gt; X^2)
+Likelihood Ratio 23.99674 15 0.06514879</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="identify-distribution_files/figure-html/unnamed-chunk-1-3.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Vuong test: Negative Binomial vs. Poisson for native richness"
+Vuong Non-Nested Hypothesis Test-Statistic: 
+(test-statistic is asymptotically distributed N(0,1) under the
+ null that the models are indistinguishible)
+-------------------------------------------------------------
+              Vuong z-statistic             H_A   p-value
+Raw                     4.45714 model1 &gt; model2 4.153e-06
+AIC-corrected           4.45714 model1 &gt; model2 4.153e-06
+BIC-corrected           4.45714 model1 &gt; model2 4.153e-06
+NULL
+[1] "Vuong test: Poisson vs. Zero-Inflated for native richness"
+Vuong Non-Nested Hypothesis Test-Statistic: 
+(test-statistic is asymptotically distributed N(0,1) under the
+ null that the models are indistinguishible)
+-------------------------------------------------------------
+              Vuong z-statistic             H_A    p-value
+Raw                  -0.4419274 model2 &gt; model1   0.329271
+AIC-corrected         1.2870107 model1 &gt; model2   0.099045
+BIC-corrected         4.6220746 model1 &gt; model2 1.8996e-06
+NULL
+[1] "Vuong test: Negative Binomial vs. Zero-Inflated for native richness"
+Vuong Non-Nested Hypothesis Test-Statistic: 
+(test-statistic is asymptotically distributed N(0,1) under the
+ null that the models are indistinguishible)
+-------------------------------------------------------------
+              Vuong z-statistic             H_A    p-value
+Raw                    4.485144 model1 &gt; model2 3.6432e-06
+AIC-corrected          4.659626 model1 &gt; model2 1.5839e-06
+BIC-corrected          4.996195 model1 &gt; model2 2.9236e-07
+NULL</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="identify-distribution_files/figure-html/unnamed-chunk-1-4.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="identify-distribution_files/figure-html/unnamed-chunk-1-5.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="identify-distribution_files/figure-html/unnamed-chunk-1-6.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="identify-distribution_files/figure-html/unnamed-chunk-1-7.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="native-forb-species" class="level2" data-number="1.3">
+<h2 data-number="1.3" class="anchored" data-anchor-id="native-forb-species"><span class="header-section-number">1.3</span> Native forb species</h2>
+<p><strong>Recommended distribution:</strong> Negative binomial distribution</p>
+<p><strong>Statistical summary</strong></p>
+<p>Goodness of fit test:</p>
+<ul>
+<li><p>Poisson distribution: poor</p></li>
+<li><p>Negative binomial distribution: ok</p></li>
+</ul>
+<p>The Vuong test(s):</p>
+<ul>
+<li><p>Negative binomial vs.&nbsp;Poisson: Negative binomial better</p></li>
+<li><p>Poisson vs.&nbsp;zero-inflated: No difference</p></li>
+<li><p>Negative binomial vs.&nbsp;zero-inflated: Negative binomial better</p></li>
+</ul>
+<p>Q-Q plot results:</p>
+<ul>
+<li><p>Normal: Shows zero inflation</p></li>
+<li><p>Lognormal: Very poor</p></li>
+<li><p>Poisson: Points fall below bounds halfway through</p></li>
+<li><p>Gamma: Points spread beyond bounds overall; falls off at upper values</p></li>
+</ul>
+<p><br></p>
+<p><strong>Statistical tests and visualization results</strong></p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="identify-distribution_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Poisson Goodness of Fit for native forb richness"
+
+     Goodness-of-fit test for poisson distribution
+
+                      X^2 df     P(&gt; X^2)
+Likelihood Ratio 149.1477 15 3.561991e-24
+                      X^2 df     P(&gt; X^2)
+Likelihood Ratio 149.1477 15 3.561991e-24</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="identify-distribution_files/figure-html/unnamed-chunk-2-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Negative Binomial Goodness of Fit for native forb richness"
+
+     Goodness-of-fit test for nbinomial distribution
+
+                      X^2 df  P(&gt; X^2)
+Likelihood Ratio 16.55131 14 0.2808772
+                      X^2 df  P(&gt; X^2)
+Likelihood Ratio 16.55131 14 0.2808772</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="identify-distribution_files/figure-html/unnamed-chunk-2-3.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Vuong test: Negative Binomial vs. Poisson for native forb richness"
+Vuong Non-Nested Hypothesis Test-Statistic: 
+(test-statistic is asymptotically distributed N(0,1) under the
+ null that the models are indistinguishible)
+-------------------------------------------------------------
+              Vuong z-statistic             H_A    p-value
+Raw                    4.284394 model1 &gt; model2 9.1619e-06
+AIC-corrected          4.284394 model1 &gt; model2 9.1619e-06
+BIC-corrected          4.284394 model1 &gt; model2 9.1619e-06
+NULL
+[1] "Vuong test: Poisson vs. Zero-Inflated for native forb richness"
+Vuong Non-Nested Hypothesis Test-Statistic: 
+(test-statistic is asymptotically distributed N(0,1) under the
+ null that the models are indistinguishible)
+-------------------------------------------------------------
+              Vuong z-statistic             H_A  p-value
+Raw                  -1.4491151 model2 &gt; model1 0.073653
+AIC-corrected        -1.0565711 model2 &gt; model1 0.145354
+BIC-corrected        -0.2993668 model2 &gt; model1 0.382330
+NULL
+[1] "Vuong test: Negative Binomial vs. Zero-Inflated for native forb richness"
+Vuong Non-Nested Hypothesis Test-Statistic: 
+(test-statistic is asymptotically distributed N(0,1) under the
+ null that the models are indistinguishible)
+-------------------------------------------------------------
+              Vuong z-statistic             H_A    p-value
+Raw                    4.047711 model1 &gt; model2 2.5861e-05
+AIC-corrected          4.222072 model1 &gt; model2 1.2103e-05
+BIC-corrected          4.558408 model1 &gt; model2 2.5771e-06
+NULL</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="identify-distribution_files/figure-html/unnamed-chunk-2-4.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="identify-distribution_files/figure-html/unnamed-chunk-2-5.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="identify-distribution_files/figure-html/unnamed-chunk-2-6.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="identify-distribution_files/figure-html/unnamed-chunk-2-7.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="non-native-species" class="level2" data-number="1.4">
+<h2 data-number="1.4" class="anchored" data-anchor-id="non-native-species"><span class="header-section-number">1.4</span> Non-native species</h2>
+<p><strong>Recommended distribution:</strong> Normal distribution with log-transformed values</p>
+<p><strong>Statistical summary</strong></p>
+<p>Goodness of fit test:</p>
+<ul>
+<li><p>Poisson distribution: ok</p></li>
+<li><p>Negative binomial distribution: poor</p></li>
+</ul>
+<p>The Vuong test(s):</p>
+<ul>
+<li>Negative binomial vs.&nbsp;Poisson: Poisson</li>
+</ul>
+<p>Q-Q plot results:</p>
+<ul>
+<li><p>Normal: Points above bounds for upper values</p></li>
+<li><p>Lognormal: Very poor</p></li>
+<li><p>Poisson: Points below bounds across most of the distribution; very high values above bounds</p></li>
+<li><p>Gamma: Points spread beyond bounds overall; below bounds at low values, above bounds at high values</p></li>
+</ul>
+<p><br></p>
+<p><strong>Statistical tests and visualization results</strong></p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="identify-distribution_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Poisson Goodness of Fit for nonnative richness"
+
+     Goodness-of-fit test for poisson distribution
+
+                      X^2 df   P(&gt; X^2)
+Likelihood Ratio 21.87264 14 0.08126932
+                      X^2 df   P(&gt; X^2)
+Likelihood Ratio 21.87264 14 0.08126932</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="identify-distribution_files/figure-html/unnamed-chunk-3-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Negative Binomial Goodness of Fit for nonnative richness"
+
+     Goodness-of-fit test for nbinomial distribution
+
+                      X^2 df   P(&gt; X^2)
+Likelihood Ratio 23.24761 13 0.03879904
+                      X^2 df   P(&gt; X^2)
+Likelihood Ratio 23.24761 13 0.03879904</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="identify-distribution_files/figure-html/unnamed-chunk-3-3.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Vuong test: Negative Binomial vs. Poisson for nonnative richness"
+Vuong Non-Nested Hypothesis Test-Statistic: 
+(test-statistic is asymptotically distributed N(0,1) under the
+ null that the models are indistinguishible)
+-------------------------------------------------------------
+              Vuong z-statistic             H_A   p-value
+Raw                   -2.538273 model2 &gt; model1 0.0055701
+AIC-corrected         -2.538273 model2 &gt; model1 0.0055701
+BIC-corrected         -2.538273 model2 &gt; model1 0.0055701
+NULL</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="identify-distribution_files/figure-html/unnamed-chunk-3-4.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="identify-distribution_files/figure-html/unnamed-chunk-3-5.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="identify-distribution_files/figure-html/unnamed-chunk-3-6.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="identify-distribution_files/figure-html/unnamed-chunk-3-7.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="abundance" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Abundance</h1>
+<p>Print the first 10 rows of the data table for abundance (abun).</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Scroll to the right to see more columns.</p>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<table class="table table-striped table-hover table-condensed caption-top table-sm small" data-quarto-postprocess="true">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th" style="text-align: left; position: sticky; top: 0; background-color: #FFFFFF;">treatment</th>
+<th data-quarto-table-cell-role="th" style="text-align: right; position: sticky; top: 0; background-color: #FFFFFF;">value</th>
+<th data-quarto-table-cell-role="th" style="text-align: right; position: sticky; top: 0; background-color: #FFFFFF;">value_log</th>
+<th data-quarto-table-cell-role="th" style="text-align: right; position: sticky; top: 0; background-color: #FFFFFF;">value_std</th>
+<th data-quarto-table-cell-role="th" style="text-align: right; position: sticky; top: 0; background-color: #FFFFFF;">value_sqrt</th>
+<th data-quarto-table-cell-role="th" style="text-align: left; position: sticky; top: 0; background-color: #FFFFFF;">plot_name</th>
+<th data-quarto-table-cell-role="th" style="text-align: left; position: sticky; top: 0; background-color: #FFFFFF;">plot_type</th>
+<th data-quarto-table-cell-role="th" style="text-align: right; position: sticky; top: 0; background-color: #FFFFFF;">year</th>
+<th data-quarto-table-cell-role="th" style="text-align: left; position: sticky; top: 0; background-color: #FFFFFF;">grazer</th>
+<th data-quarto-table-cell-role="th" style="text-align: left; position: sticky; top: 0; background-color: #FFFFFF;">f_year</th>
+<th data-quarto-table-cell-role="th" style="text-align: left; position: sticky; top: 0; background-color: #FFFFFF;">f_break</th>
+<th data-quarto-table-cell-role="th" style="text-align: left; position: sticky; top: 0; background-color: #FFFFFF;">f_new</th>
+<th data-quarto-table-cell-role="th" style="text-align: left; position: sticky; top: 0; background-color: #FFFFFF;">f_one_yr</th>
+<th data-quarto-table-cell-role="th" style="text-align: left; position: sticky; top: 0; background-color: #FFFFFF;">f_two_yr</th>
+<th data-quarto-table-cell-role="th" style="text-align: left; position: sticky; top: 0; background-color: #FFFFFF;">met_sub</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Ungrazed</td>
+<td style="text-align: right;">66</td>
+<td style="text-align: right;">4.189655</td>
+<td style="text-align: right;">0.4768881</td>
+<td style="text-align: right;">8.124038</td>
+<td style="text-align: left;">p01</td>
+<td style="text-align: left;">p</td>
+<td style="text-align: right;">2019</td>
+<td style="text-align: left;">Goat</td>
+<td style="text-align: left;">y4</td>
+<td style="text-align: left;">b0</td>
+<td style="text-align: left;">n1</td>
+<td style="text-align: left;">o0</td>
+<td style="text-align: left;">t0</td>
+<td style="text-align: left;">abun_non</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Ungrazed</td>
+<td style="text-align: right;">85</td>
+<td style="text-align: right;">4.442651</td>
+<td style="text-align: right;">1.0742334</td>
+<td style="text-align: right;">9.219544</td>
+<td style="text-align: left;">p02</td>
+<td style="text-align: left;">p</td>
+<td style="text-align: right;">2019</td>
+<td style="text-align: left;">Goat</td>
+<td style="text-align: left;">y4</td>
+<td style="text-align: left;">b0</td>
+<td style="text-align: left;">n1</td>
+<td style="text-align: left;">o0</td>
+<td style="text-align: left;">t0</td>
+<td style="text-align: left;">abun_non</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Ungrazed</td>
+<td style="text-align: right;">71</td>
+<td style="text-align: right;">4.262680</td>
+<td style="text-align: right;">0.6340842</td>
+<td style="text-align: right;">8.426150</td>
+<td style="text-align: left;">p03</td>
+<td style="text-align: left;">p</td>
+<td style="text-align: right;">2019</td>
+<td style="text-align: left;">Goat</td>
+<td style="text-align: left;">y4</td>
+<td style="text-align: left;">b0</td>
+<td style="text-align: left;">n1</td>
+<td style="text-align: left;">o0</td>
+<td style="text-align: left;">t0</td>
+<td style="text-align: left;">abun_non</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Ungrazed</td>
+<td style="text-align: right;">86</td>
+<td style="text-align: right;">4.454347</td>
+<td style="text-align: right;">1.1056726</td>
+<td style="text-align: right;">9.273618</td>
+<td style="text-align: left;">p04</td>
+<td style="text-align: left;">p</td>
+<td style="text-align: right;">2019</td>
+<td style="text-align: left;">Goat</td>
+<td style="text-align: left;">y4</td>
+<td style="text-align: left;">b0</td>
+<td style="text-align: left;">n1</td>
+<td style="text-align: left;">o0</td>
+<td style="text-align: left;">t0</td>
+<td style="text-align: left;">abun_non</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Ungrazed</td>
+<td style="text-align: right;">51</td>
+<td style="text-align: right;">3.931826</td>
+<td style="text-align: right;">0.0052998</td>
+<td style="text-align: right;">7.141428</td>
+<td style="text-align: left;">p05</td>
+<td style="text-align: left;">p</td>
+<td style="text-align: right;">2019</td>
+<td style="text-align: left;">Goat</td>
+<td style="text-align: left;">y4</td>
+<td style="text-align: left;">b0</td>
+<td style="text-align: left;">n1</td>
+<td style="text-align: left;">o0</td>
+<td style="text-align: left;">t0</td>
+<td style="text-align: left;">abun_non</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Ungrazed</td>
+<td style="text-align: right;">45</td>
+<td style="text-align: right;">3.806662</td>
+<td style="text-align: right;">-0.1833356</td>
+<td style="text-align: right;">6.708204</td>
+<td style="text-align: left;">p06</td>
+<td style="text-align: left;">p</td>
+<td style="text-align: right;">2019</td>
+<td style="text-align: left;">Goat</td>
+<td style="text-align: left;">y4</td>
+<td style="text-align: left;">b0</td>
+<td style="text-align: left;">n1</td>
+<td style="text-align: left;">o0</td>
+<td style="text-align: left;">t0</td>
+<td style="text-align: left;">abun_non</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Ungrazed</td>
+<td style="text-align: right;">63</td>
+<td style="text-align: right;">4.143135</td>
+<td style="text-align: right;">0.3825704</td>
+<td style="text-align: right;">7.937254</td>
+<td style="text-align: left;">p07</td>
+<td style="text-align: left;">p</td>
+<td style="text-align: right;">2019</td>
+<td style="text-align: left;">Goat</td>
+<td style="text-align: left;">y4</td>
+<td style="text-align: left;">b0</td>
+<td style="text-align: left;">n1</td>
+<td style="text-align: left;">o0</td>
+<td style="text-align: left;">t0</td>
+<td style="text-align: left;">abun_non</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Ungrazed</td>
+<td style="text-align: right;">98</td>
+<td style="text-align: right;">4.584968</td>
+<td style="text-align: right;">1.4829433</td>
+<td style="text-align: right;">9.899495</td>
+<td style="text-align: left;">p08</td>
+<td style="text-align: left;">p</td>
+<td style="text-align: right;">2019</td>
+<td style="text-align: left;">Goat</td>
+<td style="text-align: left;">y4</td>
+<td style="text-align: left;">b0</td>
+<td style="text-align: left;">n1</td>
+<td style="text-align: left;">o0</td>
+<td style="text-align: left;">t0</td>
+<td style="text-align: left;">abun_non</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Ungrazed</td>
+<td style="text-align: right;">29</td>
+<td style="text-align: right;">3.367296</td>
+<td style="text-align: right;">-0.6863632</td>
+<td style="text-align: right;">5.385165</td>
+<td style="text-align: left;">p09</td>
+<td style="text-align: left;">p</td>
+<td style="text-align: right;">2019</td>
+<td style="text-align: left;">Goat</td>
+<td style="text-align: left;">y4</td>
+<td style="text-align: left;">b0</td>
+<td style="text-align: left;">n1</td>
+<td style="text-align: left;">o0</td>
+<td style="text-align: left;">t0</td>
+<td style="text-align: left;">abun_non</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Ungrazed</td>
+<td style="text-align: right;">107</td>
+<td style="text-align: right;">4.672829</td>
+<td style="text-align: right;">1.7658963</td>
+<td style="text-align: right;">10.344080</td>
+<td style="text-align: left;">p10</td>
+<td style="text-align: left;">p</td>
+<td style="text-align: right;">2019</td>
+<td style="text-align: left;">Goat</td>
+<td style="text-align: left;">y4</td>
+<td style="text-align: left;">b0</td>
+<td style="text-align: left;">n1</td>
+<td style="text-align: left;">o0</td>
+<td style="text-align: left;">t0</td>
+<td style="text-align: left;">abun_non</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+<section id="methods-1" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="methods-1"><span class="header-section-number">2.1</span> Methods</h2>
+<p>Distribution analysis was performed on continuous data (percent cover abundance) through multiple visualization and statistical approaches:</p>
+<p><strong>Data distribution was visualized using histograms of:</strong></p>
+<ul>
+<li><p>Raw values</p></li>
+<li><p>Standardized values</p></li>
+<li><p>Log-transformed values</p></li>
+<li><p>Square root-transformed values</p></li>
+</ul>
+<p><strong>Normal distribution fit was assessed using Q-Q plots for:</strong></p>
+<ul>
+<li><p>Standardized data</p></li>
+<li><p>Square root-transformed data</p></li>
+<li><p>Log-transformed data</p></li>
+</ul>
+<p><strong>Distribution fitting was performed using multiple transformations and distributions:</strong></p>
+<ul>
+<li><p>Normal distribution fit to raw, log-transformed, and square root-transformed data</p></li>
+<li><p>Logistic distribution fit to raw, log-transformed, and square root-transformed data</p></li>
+</ul>
+<p>Each visualization and test included dataset-specific labels for identification. This analysis helped determine the most appropriate data transformation and statistical distribution for modeling abundance data.</p>
+</section>
+<section id="native-species-1" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="native-species-1"><span class="header-section-number">2.2</span> Native species</h2>
+<p><strong>Recommended distribution:</strong> Normal distribution with log-transformed values</p>
+<p><strong>Statistical summary</strong></p>
+<p>Histogram:</p>
+<ul>
+<li><p>Raw values: Skewed left, long tail to right</p></li>
+<li><p>Standardized values: Skewed left between -1 to 0, long tail to right</p></li>
+<li><p>Log-transformed values: Normal distribution with outlier to far left (negative)</p></li>
+<li><p>Square root-transformed values: Main peat at 3, secondary peak(s) between 7-10</p></li>
+</ul>
+<p>Q-Q plot results:</p>
+<ul>
+<li><p>Standardized values: Not good</p></li>
+<li><p>Square root-transformed values: Kindof along line except for low values</p></li>
+<li><p>Log-transformed values: Hard to tell because skewed by two outliers</p></li>
+</ul>
+<p>Distribution fitting:</p>
+<ul>
+<li><p>Normal distribution fit to raw values:</p></li>
+<li><p>Normal distribution fit to log-transformed data</p></li>
+<li><p>Normal distribution fit to square root-transformed data</p></li>
+<li><p>Logistic distribution fit to raw values:</p></li>
+<li><p>Logistic distribution fit to log-transformed data</p></li>
+<li><p>Logistic distribution fit to square root-transformed data</p></li>
+</ul>
+<p><br></p>
+<p><strong>Statistical tests and visualizations</strong></p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="identify-distribution_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="identify-distribution_files/figure-html/unnamed-chunk-4-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="identify-distribution_files/figure-html/unnamed-chunk-4-3.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="identify-distribution_files/figure-html/unnamed-chunk-4-4.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="identify-distribution_files/figure-html/unnamed-chunk-4-5.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="identify-distribution_files/figure-html/unnamed-chunk-4-6.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="identify-distribution_files/figure-html/unnamed-chunk-4-7.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Normal Distribution Fit for native abundance"</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="identify-distribution_files/figure-html/unnamed-chunk-4-8.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>NULL
+[1] "Normal Distribution Fit for Log-transformed native abundance"</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="identify-distribution_files/figure-html/unnamed-chunk-4-9.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Normal Distribution Fit for Square Root-transformed native abundance"</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="identify-distribution_files/figure-html/unnamed-chunk-4-10.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Logistic Distribution Fit for native abundance"</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="identify-distribution_files/figure-html/unnamed-chunk-4-11.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Logistic Distribution Fit for Log-transformed native abundance"</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="identify-distribution_files/figure-html/unnamed-chunk-4-12.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Logistic Distribution Fit for Square Root-transformed native abundance"</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="identify-distribution_files/figure-html/unnamed-chunk-4-13.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="native-forb-species-1" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="native-forb-species-1"><span class="header-section-number">2.3</span> Native forb species</h2>
+<p><strong>Recommended distribution:</strong> Normal distribution with log-transformed values</p>
+<p><strong>Statistical summary</strong></p>
+<p>Histogram:</p>
+<ul>
+<li><p>Raw values:</p></li>
+<li><p>Standardized values:</p></li>
+<li><p>Log-transformed values:</p></li>
+<li><p>Square root-transformed values:</p></li>
+</ul>
+<p>Q-Q plot results:</p>
+<ul>
+<li><p>Standardized values:</p></li>
+<li><p>Square root-transformed values:</p></li>
+<li><p>Log-transformed values:</p></li>
+</ul>
+<p>Distribution fitting:</p>
+<ul>
+<li><p>Normal distribution fit to raw values:</p></li>
+<li><p>Normal distribution fit to log-transformed data</p></li>
+<li><p>Normal distribution fit to square root-transformed data</p></li>
+<li><p>Logistic distribution fit to raw values:</p></li>
+<li><p>Logistic distribution fit to log-transformed data</p></li>
+<li><p>Logistic distribution fit to square root-transformed data</p></li>
+</ul>
+<p><br></p>
+<p><strong>Statistical tests and visualizations</strong></p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="identify-distribution_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="identify-distribution_files/figure-html/unnamed-chunk-5-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="identify-distribution_files/figure-html/unnamed-chunk-5-3.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="identify-distribution_files/figure-html/unnamed-chunk-5-4.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="identify-distribution_files/figure-html/unnamed-chunk-5-5.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="identify-distribution_files/figure-html/unnamed-chunk-5-6.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="identify-distribution_files/figure-html/unnamed-chunk-5-7.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Normal Distribution Fit for native forb abundance"</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="identify-distribution_files/figure-html/unnamed-chunk-5-8.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>NULL
+[1] "Normal Distribution Fit for Log-transformed native forb abundance"</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="identify-distribution_files/figure-html/unnamed-chunk-5-9.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Normal Distribution Fit for Square Root-transformed native forb abundance"</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="identify-distribution_files/figure-html/unnamed-chunk-5-10.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Logistic Distribution Fit for native forb abundance"</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="identify-distribution_files/figure-html/unnamed-chunk-5-11.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Logistic Distribution Fit for Log-transformed native forb abundance"</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="identify-distribution_files/figure-html/unnamed-chunk-5-12.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Logistic Distribution Fit for Square Root-transformed native forb abundance"</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="identify-distribution_files/figure-html/unnamed-chunk-5-13.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="non-native-species-1" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="non-native-species-1"><span class="header-section-number">2.4</span> Non-native species</h2>
+<p><strong>Recommended distribution:</strong> Normal distribution with square root-transformed values</p>
+<p><strong>Statistical summary</strong></p>
+<p>Histogram:</p>
+<ul>
+<li><p>Raw values:</p></li>
+<li><p>Standardized values:</p></li>
+<li><p>Log-transformed values:</p></li>
+<li><p>Square root-transformed values:</p></li>
+</ul>
+<p>Q-Q plot results:</p>
+<ul>
+<li><p>Standardized values:</p></li>
+<li><p>Square root-transformed values:</p></li>
+<li><p>Log-transformed values:</p></li>
+</ul>
+<p>Distribution fitting:</p>
+<ul>
+<li><p>Normal distribution fit to raw values:</p></li>
+<li><p>Normal distribution fit to log-transformed data</p></li>
+<li><p>Normal distribution fit to square root-transformed data</p></li>
+<li><p>Logistic distribution fit to raw values:</p></li>
+<li><p>Logistic distribution fit to log-transformed data</p></li>
+<li><p>Logistic distribution fit to square root-transformed data</p></li>
+</ul>
+<p><br></p>
+<p><strong>Statistical tests and visualizations</strong></p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="identify-distribution_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="identify-distribution_files/figure-html/unnamed-chunk-6-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="identify-distribution_files/figure-html/unnamed-chunk-6-3.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="identify-distribution_files/figure-html/unnamed-chunk-6-4.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="identify-distribution_files/figure-html/unnamed-chunk-6-5.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="identify-distribution_files/figure-html/unnamed-chunk-6-6.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="identify-distribution_files/figure-html/unnamed-chunk-6-7.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Normal Distribution Fit for nonnative abundance"</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="identify-distribution_files/figure-html/unnamed-chunk-6-8.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>NULL
+[1] "Normal Distribution Fit for Log-transformed nonnative abundance"</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="identify-distribution_files/figure-html/unnamed-chunk-6-9.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Normal Distribution Fit for Square Root-transformed nonnative abundance"</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="identify-distribution_files/figure-html/unnamed-chunk-6-10.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Logistic Distribution Fit for nonnative abundance"</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="identify-distribution_files/figure-html/unnamed-chunk-6-11.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Logistic Distribution Fit for Log-transformed nonnative abundance"</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="identify-distribution_files/figure-html/unnamed-chunk-6-12.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Logistic Distribution Fit for Square Root-transformed nonnative abundance"</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="identify-distribution_files/figure-html/unnamed-chunk-6-13.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
