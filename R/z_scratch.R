@@ -152,3 +152,117 @@ check_count_distribution <- function(data, data_name) {
 }
 # ---------------------------------------------------------- -----
 # ========================================================== -----
+
+# ----
+fxn_histogram <- function(data, data_name){
+    
+    hist(data$value, breaks = 15, col = "gray", main = paste("Histogram of", data_name), xlab = "Value", ylab = "Count")
+    
+    if("value_std" %in% names(data)){
+      hist(data$value_std, breaks = 25, col = "gray", main = paste("Histogram of Standardized", data_name), xlab = "Standardized Value", ylab = "Count")
+    }
+    
+    if("value_log" %in% names(data)){
+      hist(data$value_log, breaks = 25, col = "gray", main = paste("Histogram of Log-transformed", data_name), xlab = "Log Value", ylab = "Count")
+    }
+    
+    if("value_sqrt" %in% names(data)){
+      hist(data$value_sqrt, breaks = 25, col = "gray", main = paste("Histogram of Square Root-transformed", data_name), xlab = "Sqrt Value", ylab = "Count")
+    }
+    
+  }
+fxn_gof_test_rich <- function(data, data_name){
+  
+  gf_pois <- vcd::goodfit(data$value, type = "poisson")
+  # Extract the first line (Likelihood Ratio goodness-of-fit test results)
+  pois_first_line <- summary(gf_pois)[1, ]
+  plot(gf_pois, main = "") 
+  
+  gf_nbin <- vcd::goodfit(data$value, type = "nbinomial")
+  nbin_first_line <- summary(gf_nbin)[1, ]
+  plot(gf_nbin,  main = "") 
+  
+}
+fxn_gof_test_abun <- function(data, data_name){
+  
+  print(paste("Normal Distribution Fit for", data_name)) 
+  shapiro.test(data$value)
+  fitdist(data$value, dist = "norm") %>%
+    plot(histo = TRUE, demp = TRUE)
+  cat("\n")
+  
+  print(paste("Normal Distribution Fit for Standardized", data_name)) 
+  shapiro.test(data$value_std)
+  fitdist(data$value_std, dist = "norm") %>%
+    plot(histo = TRUE, demp = TRUE)
+  cat("\n")
+  
+  print(paste("Normal Distribution Fit for Log-transformed", data_name))
+  shapiro.test(data$value_log)
+  fitdist(data$value_log, dist = "norm") %>%
+    plot(histo = TRUE, demp = TRUE)
+  cat("\n")
+  
+  print(paste("Normal Distribution Fit for Square Root-transformed", data_name)) 
+  shapiro.test(data$value_sqrt)
+  fitdist(data$value_sqrt, dist = "norm") %>%
+    plot(histo = TRUE, demp = TRUE)
+  
+  
+}
+fxn_vuong_test <- function(data, data_name){
+  # Vuong tests (if applicable and if models converge)
+  if (length(unique(data$treatment)) > 1) {
+    tryCatch({ # Wrap in tryCatch to handle potential errors
+      nb <- MASS::glm.nb(value ~ treatment, data = data)
+      p <- glm(value ~ treatment, data = data, family = "poisson")
+      print(paste("Vuong test: Negative Binomial vs. Poisson for", data_name))
+      print(vuong(nb, p))
+      cat("\n\n")
+      
+      if (min(data$value) == 0) {
+        z <- pscl::zeroinfl(value ~ treatment, data = data)
+        print(paste("Vuong test: Poisson vs. Zero-Inflated for", data_name))
+        print(vuong(p, z))
+        cat("\n\n")
+        print(paste("Vuong test: Negative Binomial vs. Zero-Inflated for", data_name))
+        print(vuong(nb, z))
+      }
+    }, error = function(e) {
+      message(paste("Error in Vuong tests for", data_name, ":", e$message))
+    })
+  } else {
+    message("Skipping Vuong tests as no treatment variable is present.")
+  }
+}
+fxn_qq_plot <- function(data, data_name) {
+  # Q-Q plots - Use mle2 for more robust Negative Binomial fitting
+  data$value_1 <- data$value + 1 # Shifting values for better visualization
+  
+  # Poisson fit
+  poisson <- fitdistr(data$value_1, "Poisson")
+  qqp(data$value_1, "pois", lambda = poisson$estimate, main = paste("Poisson QQ plot for", data_name))
+  
+  tryCatch({
+    nbinom_mle <- mle2(value_1 ~ dnegbin(mu = mu, theta = theta), 
+                       start = list(mu = mean(data$value_1), theta = 1), 
+                       data = data)
+    qqp(data$value_1, 
+        "nbinom", 
+        size = coef(nbinom_mle)["theta"], 
+        mu = coef(nbinom_mle)["mu"], 
+        main = paste("Negative binomial QQ plot for", data_name))
+  }, 
+  error = function(e) {
+    message(paste("Error fitting Negative Binomial with mle2 for", data_name, ":", e$message))
+  })
+  
+  # Conditional additional fits for specific data_name
+  if (data_name == "nonnative richness") {
+    qqp(data$value_1, "norm", main = paste("Normal QQ plot for", data_name))
+    qqp(data$value_1, "lnorm", main = paste("Lognormal QQ plot for", data_name))
+    
+    gamma <- fitdistr(data$value_1, "gamma")
+    qqp(data$value_1, "gamma", shape = gamma$estimate[[1]], rate = gamma$estimate[[2]], main = paste("Gamma QQ plot for", data_name))
+  }
+}

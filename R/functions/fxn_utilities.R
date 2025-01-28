@@ -2,16 +2,16 @@
 # Load libraries ----
 # File management ---
 library(glue)
-library(fs)   ## To manage directories
-library(hms)  ## For working with times
-library(janitor)   ## To clean data tables
-library(lubridate)   ## To work with dates and times
-library(stringr)   ## To wrangle character variables
-library(openxlsx)   ## To write xlsx files
 library(readxl)   ## To read xlsx files
-library(testthat)  ## For data checks
-# library(exiftoolr)   ## To work with exif details from jpg files
-# library(plotrix)   ## To get color names from hex codes
+# library(lubridate)   ## To work with dates and times
+# library(stringr)   ## To wrangle character variables
+
+# library(testthat)  ## For data checks
+# library(openxlsx)   ## To write xlsx files
+# library(fs)   ## To manage directories
+# library(hms)  ## For working with times
+# library(janitor)   ## To clean data tables
+
 #
 # Define basic functions ----
 #   %nin%: Negate %in% 
