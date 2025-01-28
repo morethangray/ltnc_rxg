@@ -19,29 +19,21 @@ rm(list = ls())
 library(tidyverse) ## To manipulate data frames
 library(here) ## To manage directories
 library(vcd)
-library(pscl)
-library(MASS)
-library(car)
 library(fitdistrplus)
-library(tidyr) # For pivot_longer
-library(gridExtra)
+library(MASS)
+library(bbmle)
+library(pscl)
+library(car)
 library(kableExtra)
 #
 source(here("R/functions/fxn_utilities.R"))
 # Read the richness and abundance data tables
 source(here("R/functions/fxn_load_rich_abun.R"))
 
-# fig : Simple theme for ggplot figures  ----
-fig <-
-  theme_bw() +
-  theme(
-    panel.grid.minor = element_blank(),
-    panel.grid.major = element_blank(), panel.background = element_blank(),
-    strip.background = element_blank(), strip.text.y = element_text(),
-    legend.background = element_blank(), legend.key = element_blank(),
-    panel.border = element_rect(colour = "black", fill = NA)
-  )
-#   fxn_kable: Format table for markdown ----
+
+```
+
+```{r functions}
 fxn_kable <- function(df){
   
   df  %>%
@@ -53,41 +45,73 @@ fxn_kable <- function(df){
                   fixed_thead = TRUE)
 }
 
-```
-
-```{r functions}
-# Function to perform distribution checks for count data (Richness)
-check_count_distribution <- function(data, data_name) {
-  message(paste("Checking distribution for:", data_name))
-
-  # Basic histogram
+fxn_histogram <- function(data, data_name) {
   hist(data$value, breaks = 15, col = "gray", main = paste("Histogram of", data_name), xlab = "Value", ylab = "Count")
+  
+  if ("value_std" %in% names(data)) {
+    hist(data$value_std, breaks = 25, col = "gray", main = paste("Histogram of Standardized", data_name), xlab = "Standardized Value", ylab = "Count")
+  }
+  
+  if ("value_log" %in% names(data)) {
+    hist(data$value_log, breaks = 25, col = "gray", main = paste("Histogram of Log-transformed", data_name), xlab = "Log Value", ylab = "Count")
+  }
+  
+  if ("value_sqrt" %in% names(data)) {
+    hist(data$value_sqrt, breaks = 25, col = "gray", main = paste("Histogram of Square Root-transformed", data_name), xlab = "Sqrt Value", ylab = "Count")
+  }
+}
 
-  # Goodness-of-fit tests
-  gf_pois <- goodfit(data$value, type = "poisson")
-  print(paste("Poisson Goodness of Fit for", data_name))
-  print(summary(gf_pois))
-  plot(gf_pois, main = paste("Poisson Goodness of Fit Plot for", data_name))
+fxn_gof_test_rich <- function(data, data_name) {
+  gf_pois <- vcd::goodfit(data$value, type = "poisson")
+  pois_first_line <- summary(gf_pois)[1, ]
+  plot(gf_pois, main = "") 
+  
+  gf_nbin <- vcd::goodfit(data$value, type = "nbinomial")
+  nbin_first_line <- summary(gf_nbin)[1, ]
+  plot(gf_nbin, main = "") 
+}
 
-  gf_nbin <- goodfit(data$value, type = "nbinomial")
-  print(paste("Negative Binomial Goodness of Fit for", data_name))
-  print(summary(gf_nbin))
-  plot(gf_nbin, main = paste("Negative Binomial Goodness of Fit Plot for", data_name))
+fxn_gof_test_abun <- function(data, data_name) {
+  print(paste("Normal Distribution Fit for", data_name)) 
+  print(shapiro.test(data$value))
+  fitdistrplus::fitdist(data$value, dist = "norm") %>%
+    plot(histo = TRUE, demp = TRUE)
+  cat("\n")
+  
+  print(paste("Normal Distribution Fit for Standardized", data_name)) 
+  print(shapiro.test(data$value_std))
+  fitdistrplus::fitdist(data$value_std, dist = "norm") %>%
+    plot(histo = TRUE, demp = TRUE)
+  cat("\n")
+  
+  print(paste("Normal Distribution Fit for Log-transformed", data_name))
+  print(shapiro.test(data$value_log))
+  fitdistrplus::fitdist(data$value_log, dist = "norm") %>%
+    plot(histo = TRUE, demp = TRUE)
+  cat("\n")
+  
+  print(paste("Normal Distribution Fit for Square Root-transformed", data_name)) 
+  print(shapiro.test(data$value_sqrt))
+  fitdistrplus::fitdist(data$value_sqrt, dist = "norm") %>%
+    plot(histo = TRUE, demp = TRUE)
+}
 
-  # Vuong tests (if applicable and if models converge)
+fxn_vuong_test <- function(data, data_name) {
   if (length(unique(data$treatment)) > 1) {
-    tryCatch({ # Wrap in tryCatch to handle potential errors
-      nb <- glm.nb(value ~ treatment, data = data)
+    tryCatch({
+      nb <- MASS::glm.nb(value ~ treatment, data = data)
       p <- glm(value ~ treatment, data = data, family = "poisson")
       print(paste("Vuong test: Negative Binomial vs. Poisson for", data_name))
-      print(vuong(nb, p))
-
+      print(pscl::vuong(nb, p))
+      cat("\n\n")
+      
       if (min(data$value) == 0) {
-        z <- zeroinfl(value ~ treatment, data = data)
+        z <- pscl::zeroinfl(value ~ treatment, data = data)
         print(paste("Vuong test: Poisson vs. Zero-Inflated for", data_name))
-        print(vuong(p, z))
+        print(pscl::vuong(p, z))
+        cat("\n\n")
         print(paste("Vuong test: Negative Binomial vs. Zero-Inflated for", data_name))
-        print(vuong(nb, z))
+        print(pscl::vuong(nb, z))
       }
     }, error = function(e) {
       message(paste("Error in Vuong tests for", data_name, ":", e$message))
@@ -95,91 +119,65 @@ check_count_distribution <- function(data, data_name) {
   } else {
     message("Skipping Vuong tests as no treatment variable is present.")
   }
-
-  # Q-Q plots - Use mle2 for more robust Negative Binomial fitting
-  data$value_1 <- data$value + 1 # Shifting values for better visualization
-    tryCatch({
-      nbinom_mle <- mle2(value_1 ~ dnegbin(mu = mu, theta = theta), start = list(mu = mean(data$value_1), theta = 1), data = data)
-      qqp(data$value_1, "nbinom", size = coef(nbinom_mle)["theta"], mu = coef(nbinom_mle)["mu"], main = paste("Negative Binomial Q-Q Plot for", data_name))
-    }, error = function(e) {
-      message(paste("Error fitting Negative Binomial with mle2 for", data_name, ":", e$message))
-    })
-
-  qqp(data$value_1, "norm", main = paste("Normal Q-Q Plot for", data_name))
-  qqp(data$value_1, "lnorm", main = paste("Lognormal Q-Q Plot for", data_name))
-
-  poisson <- fitdistr(data$value_1, "Poisson")
-  qqp(data$value_1, "pois", lambda = poisson$estimate, main = paste("Poisson Q-Q Plot for", data_name))
-
-  gamma <- fitdistr(data$value_1, "gamma")
-  qqp(data$value_1, "gamma", shape = gamma$estimate[[1]], rate = gamma$estimate[[2]], main = paste("Gamma Q-Q Plot for", data_name))
-
-  invisible(data)
 }
 
-# Function to perform distribution checks for continuous data (Abundance)
-check_continuous_distribution <- function(data, data_name) {
-  message(paste("Checking distribution for:", data_name))
-
-  # Histograms
-  hist(data$value, breaks = 25, col = "gray", main = paste("Histogram of", data_name), xlab = "Value", ylab = "Count")
-  hist(data$value_std, breaks = 25, col = "gray", main = paste("Histogram of Standardized", data_name), xlab = "Standardized Value", ylab = "Count")
-  hist(data$value_log, breaks = 25, col = "gray", main = paste("Histogram of Log-transformed", data_name), xlab = "Log Value", ylab = "Count")
-  hist(data$value_sqrt, breaks = 25, col = "gray", main = paste("Histogram of Square Root-transformed", data_name), xlab = "Sqrt Value", ylab = "Count")
-
-  # Q-Q Plots
-  qqp(data$value_std, "norm", main = paste("Normal Q-Q Plot of Standardized", data_name))
-  qqp(data$value_sqrt, "norm", main = paste("Normal Q-Q Plot of Square Root-transformed", data_name))
-  qqp(data$value_log, "norm", main = paste("Normal Q-Q Plot of Log-transformed", data_name))
-
-  # fitdistrplus - Corrected plotting
-
-  print(paste("Normal Distribution Fit for", data_name)) 
-  fit_norm <- fitdist(data$value, dist = "norm")
-  print(plot(fit_norm, histo = FALSE, demp = TRUE))
-
-  print(paste("Normal Distribution Fit for Log-transformed", data_name))
-  fit_lognorm <- fitdist(data$value_log, dist = "norm")
-  plot(fit_lognorm, histo = FALSE, demp = TRUE)
+fxn_qq_plot <- function(data, data_name) {
+  data$value_1 <- data$value + 1
   
-  print(paste("Normal Distribution Fit for Square Root-transformed", data_name)) 
-  fit_sqrtnorm <- fitdist(data$value_sqrt, dist = "norm")
-  plot(fit_sqrtnorm, histo = FALSE, demp = TRUE)
-
-  print(paste("Logistic Distribution Fit for", data_name))
-  fit_logis <- fitdist(data$value, dist = "logis")
-  plot(fit_logis, histo = FALSE, demp = TRUE)
-
-  print(paste("Logistic Distribution Fit for Log-transformed", data_name))
-  fit_loglogis <- fitdist(data$value_log, dist = "logis")
-  plot(fit_loglogis, histo = FALSE, demp = TRUE)
-
-  print(paste("Logistic Distribution Fit for Square Root-transformed", data_name))
-  fit_sqrtlogis <- fitdist(data$value_sqrt, dist = "logis")
-  plot(fit_sqrtlogis, histo = FALSE, demp = TRUE)
+  poisson <- MASS::fitdistr(data$value_1, "Poisson")
+  car::qqp(data$value_1, "pois", lambda = poisson$estimate, main = paste("Poisson QQ plot for", data_name))
   
-  invisible(data)
+  tryCatch({
+    nbinom_mle <- bbmle::mle2(value_1 ~ dnegbin(mu = mu, theta = theta), 
+                              start = list(mu = mean(data$value_1), theta = 1), 
+                              data = data)
+    car::qqp(data$value_1, 
+             "nbinom", 
+             size = bbmle::coef(nbinom_mle)["theta"], 
+             mu = bbmle::coef(nbinom_mle)["mu"], 
+             main = paste("Negative binomial QQ plot for", data_name))
+  }, error = function(e) {
+    message(paste("Error fitting Negative Binomial with mle2 for", data_name, ":", e$message))
+  })
+  
+  if (data_name == "nonnative richness") {
+    car::qqp(data$value_1, "norm", main = paste("Normal QQ plot for", data_name))
+    car::qqp(data$value_1, "lnorm", main = paste("Lognormal QQ plot for", data_name))
+    
+    gamma <- MASS::fitdistr(data$value_1, "gamma")
+    car::qqp(data$value_1, "gamma", shape = gamma$estimate[[1]], rate = gamma$estimate[[2]], main = paste("Gamma QQ plot for", data_name))
+  }
 }
+
+
 
 ```
 
-# Objectives
+# Introduction
 
-To determine the most suitable probability distribution for each of the six models. There were two data types: count data (species richness) and continuous data (abundance; i.e., percent cover). For each data type, a model was fit for each of three subsets: native plant species, native forb species (a subset of native plants), and non-native species.
+The objective of this analysis was to determine the most suitable probability distribution for each of six generalized linear mixed models (GLMMs) fit to plant observation data. Two response variable types were considered: species richness (count data) and percent cover abundance (continuous data). For each response variable, models were fit for three plant groups: native species, native forb species (a subset of native species), and non-native species.
+
+::: callout-note
+The subsequent model fitting, selection, and performance assessments are not described here.
+:::
 
 # Methods
 
-To determine the most suitable probability distribution for count data and continuous data , I conducted a comprehensive analysis that involved a combination of visual inspection (histograms, Q-Q plots), statistical tests (goodness-of-fit tests, Vuong tests), and model comparisons. Together, they allowed me to evaluate different probability distributions and identify the best fit for the data.
+A comprehensive analysis, incorporating visual inspection, statistical tests, and model comparisons, was conducted to identify the best-fitting probability distribution for each of the six models. This multi-faceted approach provided multiple lines of evidence for selecting the most appropriate distribution for subsequent analyses.
 
-I assessed data transformations. In addition to raw values, also performed tests with standardized, square root-transformed, and log-transformed values. For distributions requiring strictly positive values, I added a constant of 1 to all values.
+Custom functions were developed to streamline the assessment process, handling visualization generation, statistical test execution, and potential errors during model fitting. These functions were designed to assess different components of the distribution fitting process, including histogram generation, goodness-of-fit tests (for richness and abundance separately), Vuong tests, and QQ plot generation.
 
-A custom function for was developed for each data type (i.e., count and continuous) to streamline this process. The functions generated visualizations, conducted statistical tests, and handled potential errors during model fitting.
+Both richness and abundance data were initially assessed through visual inspection of histograms and QQ plots. Goodness-of-fit tests were then performed. For the discrete richness data, the `vcd::goodfit()` function was used, and pairwise model comparisons were conducted using Vuong tests. For the continuous abundance data, goodness-of-fit was assessed using the Shapiro-Wilk test.
 
-Evaluation of both data types included visual inspection with histograms and Q-Q plots, and distribution fitting. The assessment for count data also included statistical tests for goodness-of-fit and Vuong test. The details about each assessment component are described below.
+The influence of data transformations was also explored. In addition to raw values, analyses were performed using standardized, log-transformed, and square-root transformed values. Log transformation was applied to positively skewed data or data with non-negative values, while square root transformation was used to reduce skewness in count-like or non-negative data. A constant of 1 was added to all values prior to log transformation for distributions requiring strictly positive values.
 
-This systematic approach provided multiple lines of evidence for selecting the most appropriate statistical distribution for modeling species richness in subsequent analyses.
+Custom functions were developed for each assessment (i.e., generate visualizations, conduct statistical tests) to streamline this process. The functions handled potential errors during model fitting. This systematic approach provided multiple lines of evidence for selecting the most appropriate statistical distribution for modeling species richness in subsequent analyses.
 
-**Histograms**
+Evaluation of both data types included visual inspection with histograms and Q-Q plots, as well as distribution fitting. Goodness of fit tests for count (discrete) data used vcd::goodfit() and pairwise model comparison with Vuong tests. Fit for continuous data was assessed using the Shapiro Wilks test.
+
+I also assessed the influence of data transformations. In addition to raw values, also performed tests with standardized, log-transformed and square root-transformed values. Log transformation is suitable for positively skewed data or data with non-negative values. Square root transformation helps reduce skewness in count-like data or data with non-negative values. For distributions requiring strictly positive values, I added a constant of 1 to all values.
+
+## Histograms
 
 The analysis for each data type began with visual inspection of the raw data values through histograms, which revealed key distributional features such as central tendency, spread, symmetry, and potential outliers.
 
@@ -187,9 +185,9 @@ The shape of the histogram provided initial insight into whether the data follow
 
 For continuous data, I created plots showing the distribution of raw and transformed values. In addition to the histogram for raw values, I also created histograms for standardized, log-transformed, and square root-transformed values.
 
-**Goodness-of-Fit Tests**
+## Goodness-of-fit
 
-For count data, I then performed goodness-of-fit tests to formally evaluate whether the data followed Poisson or negative binomial distributions. These tests produced p-values that indicated the strength of evidence against each distribution, with p \> 0.05 suggesting acceptable fit and p \< 0.05 indicating poor fit:
+For count data, I then performed discrete goodness-of-fit tests to formally evaluate whether the data followed Poisson or negative binomial distributions. These tests produced p-values that indicated the strength of evidence against each distribution, with p \> 0.05 suggesting acceptable fit and p \< 0.05 indicating poor fit:
 
 -   p \> 0.05: The data was consistent with the distribution (fail to reject the null hypothesis).
 
@@ -197,7 +195,9 @@ For count data, I then performed goodness-of-fit tests to formally evaluate whet
 
 For example, if testing a Poisson distribution and we get p \> 0.05, we can work with the data as if it follows a Poisson distribution. On the other hand, a p-value less than 0.05 suggests the data significantly deviates from the tested distribution and we should consider alternatives.
 
-**Vuong Tests**
+For continuous data, I evaluated goodness of fit using the Shapiro Wilks test. If the Shapiro-Wilk test suggests that the transformed data is normal (p-value \> 0.05), it indicates the transformation helped achieve normality. A significant result (p-value \< 0.05) indicates the transformed data still deviate significantly from normality.
+
+### Vuong tests
 
 For count data, I used Vuong tests to directly compare the fit of competing models. The Vuong test helps us directly compare two competing models to see which better fits our data. It produces a z-statistic and associated p-value, where the sign of the z-statistic (when significant at p \< 0.05) indicates which model provides better fit:
 
@@ -209,9 +209,9 @@ For count data, I used Vuong tests to directly compare the fit of competing mode
 
 For example, a Vuong test comparing a negative binomial model to a Poisson model with a z-statistic of 2.5 and p = 0.01 would indicate that the negative binomial model provides a significantly better fit.
 
-**Quantile-Quantile (Q-Q) Plots**
+### Quantile-quantile plots
 
-To further assess distributional fit, I generated quantile-quantile (Q-Q) plots comparing the observed data against theoretical distributions. Although not a discrete test statistic (like the outcome of a goodness of fit or Vuong test), this visualization can support those test results or provide insight when data fails to fit common distribution.
+To further assess distributional fit, I generated quantile-quantile (QQ) plots comparing the observed data against theoretical distributions. Although not a discrete test statistic (like the outcome of a goodness of fit or Vuong test), this visualization can support those test results or provide insight when data fails to fit common distribution.
 
 In these plots, we're comparing our observed data against what we would expect if it perfectly followed a theoretical distribution. The interpretation centers on how closely the points follow the diagonal reference line. Points falling along the diagonal reference line indicate good agreement between observed and theoretical distributions.
 
@@ -219,13 +219,15 @@ More realistically, we look for patterns in how points deviate from this line. S
 
 In ecological count data, deviations are often observed at the extremes, particularly due to rare species (excess zeros) or highly abundant counts. These patterns can aid in model selection. For example, consistent deviations at low values might suggest the need for a zero-inflated model, while heavy tails might favor a negative binomial over a Poisson distribution.
 
-For count data, I reviewed the Q-Q plots for Poisson and negative binomial. When the goodness-of-fit and/or Vuong tests were inconclusive (i.e., for non-native count values), I evaluated the shape of the initial histograms to identify potential alternate distributions (e.g., normal, log-normal, and gamma distributions). I then evaluated Q-Q plots for alternate distributions.
+For count data, I reviewed the QQ plots for Poisson and negative binomial. When the goodness-of-fit and/or Vuong tests were inconclusive (i.e., for non-native count values), I evaluated the shape of the initial histograms to identify potential alternate distributions (e.g., normal, log-normal, and gamma distributions). I then evaluated QQ plots for alternate distributions.
 
-For continuous data, Distribution fitting was performed using multiple transformations and distributions. Normal and logistic distributions fit to standardized, square-root transformed, and log-transformed values.
+#### Additional plots
+
+For continuous data, distribution fitting was performed using multiple transformations and distributions. Normal distributions were fit to standardized, square-root transformed, and log-transformed values. In addition to QQ plots the empirical and theoretical comparisons were visualized using a density plot overlaid on a histogram, a CDF, and a PP plot.
 
 # Results
 
-# Richness
+## Richness
 
 Print the first 10 rows of the data table for richness (rich).
 
@@ -235,173 +237,189 @@ Scroll to the right to see more columns.
 
 ```{r richness}
 rich %>%
-  slice(1:10) %>%
+  dplyr::slice(1:10) %>%
   fxn_kable()
 ```
 
-## Methods
-
-**Histograms**
-
-The analysis began with visual inspection of the data through histograms, which revealed key distributional features such as central tendency, spread, symmetry, and potential outliers. For count data, the shape of the histogram provided initial insight into whether the data followed common distributions like Poisson (right-skewed with a single peak) or negative binomial (right-skewed with a longer tail).
-
-**Goodness-of-Fit Tests**
-
-I then performed goodness-of-fit tests to formally evaluate whether the data followed Poisson or negative binomial distributions. These tests produced p-values that indicated the strength of evidence against each distribution, with p \> 0.05 suggesting acceptable fit and p \< 0.05 indicating poor fit:
-
--   p \> 0.05: The data was consistent with the distribution (fail to reject the null hypothesis).
-
--   p \< 0.05: The data significantly deviated from the distribution (reject the null hypothesis).
-
-For example, if testing a Poisson distribution and we get p \> 0.05, we can work with the data as if it follows a Poisson distribution. On the other hand, a p-value less than 0.05 suggests the data significantly deviates from the tested distribution and we should consider alternatives.
-
-**Vuong Tests**
-
-I used Vuong tests to directly compare the fit of competing models. The Vuong test helps us directly compare two competing models to see which better fits our data. It produces a z-statistic and associated p-value, where the sign of the z-statistic (when significant at p \< 0.05) indicates which model provides better fit:
-
--   Positive z-statistics with p \< 0.05 indicate first model is better
-
--   Negative z-statistics with p \< 0.05 indicate second model is better
-
--   p \> 0.05 indicates models are statistically indistinguishable
-
-For example, a Vuong test comparing a negative binomial model to a Poisson model with a z-statistic of 2.5 and p = 0.01 would indicate that the negative binomial model provides a significantly better fit.
-
-**Quantile-Quantile (Q-Q) Plots**
-
-To further assess distributional fit, I generated quantile-quantile (Q-Q) plots comparing the observed data against the following distributions:
-
--   Normal distribution
-
--   Lognormal distribution
-
--   Poisson distribution
-
--   Negative Binomial distribution (using robust maximum likelihood estimation)
-
--   Gamma distribution
-
-In these plots, we're comparing our observed data against what we would expect if it perfectly followed a theoretical distribution. The interpretation centers on how closely the points follow the diagonal reference line. Points falling along the diagonal reference line indicate good agreement between observed and theoretical distributions.
-
-More realistically, we look for patterns in how points deviate from this line. Small random deviations around the line are acceptable, but systematic patterns raise concerns. Systematic deviations can reveal the specific ways in which the data departed from theoretical expectations.
-
-In ecological count data, deviations are often observed at the extremes, particularly due to rare species (excess zeros) or highly abundant counts. These patterns can aid in model selection. For example, consistent deviations at low values might suggest the need for a zero-inflated model, while heavy tails might favor a negative binomial over a Poisson distribution.
-
-## Native species
+### Native species
 
 **Recommended distribution:** Negative binomial distribution
 
-**Statistical summary**
+<br>
 
-Goodness of fit test:
+#### **Histograms**
 
--   Poisson distribution: poor
+The histograms indicated the raw data followed a Poisson distribution, which was expected for count data.
 
--   Negative binomial distribution: ok
+-   Raw values: Skewed left with tail
 
-The Vuong test(s):
+-   Log-transformed values: More normal but with outliers to the far left (negative values)
 
--   Negative binomial vs. Poisson: Negative binomial better
+-   Square root-transformed values: Kindof normal with some gaps in the lower range
 
--   Poisson vs. zero-inflated: No difference
+```{r }
+fxn_histogram(rich_nat, "native richness")
 
--   Negative binomial vs. zero-inflated: Negative binomial better
+```
 
-Q-Q plot results:
+#### **Goodness-of-fit tests**
 
--   Normal: Points showed zero inflation
+The goodness-of-fit test results suggested a negative binomial distribution was a good fit for the data.
 
--   Lognormal: Very poor
+-   Poisson distribution: poor (p \< 0.05)
 
--   Poisson: Points outside bounds halfway through
+-   Negative binomial distribution: ok (p \> 0.05)
 
--   Negative binomial: Decent until upper values
+```{r }
+fxn_gof_test_rich(rich_nat, "native richness")
 
--   Gamma: Spread beyond bounds at all values, falls off at upper values
+```
+
+#### **Vuong tests**
+
+The Vuong test results supported a negative binomial distribution for the data.
+
+-   Negative binomial vs. Poisson: Negative binomial better (positive z, p \< 0.05)
+
+-   Poisson vs. zero-inflated: No difference (p \> 0.05)
+
+-   Negative binomial vs. zero-inflated: Negative binomial better (positive z, p \< 0.05)
+
+```{r }
+fxn_vuong_test(rich_nat, "native richness")
+
+```
+
+#### **QQ plot(s)**
+
+The QQ plot supported a negative binomial distribution for the data. The points approximately followed the line, although there was some zero-inflation (lower values above the line) and skew above the line with upper values.
+
+```{r }
+fxn_qq_plot(rich_nat, "native richness")
+
+```
 
 <br>
 
-**Statistical tests and visualization results**
-
-```{r }
-check_count_distribution(rich_nat, "native richness")
-```
-
-## Native forb species
+### Native forb species
 
 **Recommended distribution:** Negative binomial distribution
 
-**Statistical summary**
+The results for native forb species richness were similar to those for all native species. This was not surprising given the forb data was a large component of the native species data.
 
-Goodness of fit test:
+#### **Histograms**
 
--   Poisson distribution: poor
+The histograms indicated the raw data followed a Poisson distribution, which was expected for count data.
 
--   Negative binomial distribution: ok
+-   Raw values: Skewed left with tail
 
-The Vuong test(s):
+-   Log-transformed values: More normal but with outliers to the far left (negative values)
 
--   Negative binomial vs. Poisson: Negative binomial better
+-   Square root-transformed values: Kindof normal with some gaps in the lower range
 
--   Poisson vs. zero-inflated: No difference
+```{r }
+fxn_histogram(rich_frb, "native forb richness")
 
--   Negative binomial vs. zero-inflated: Negative binomial better
+```
 
-Q-Q plot results:
+#### **Goodness-of-fit tests**
 
--   Normal: Shows zero inflation
+The goodness-of-fit test results suggested a negative binomial distribution was a good fit for the data.
 
--   Lognormal: Very poor
+-   Poisson distribution: poor (p \< 0.05)
 
--   Poisson: Points fall below bounds halfway through
+-   Negative binomial distribution: good (p \> 0.05); better than for native species
 
--   Gamma: Points spread beyond bounds overall; falls off at upper values
+```{r }
+fxn_gof_test_rich(rich_frb, "native forb richness")
+
+```
+
+#### **Vuong tests**
+
+The Vuong test results supported a negative binomial distribution for the data.
+
+-   Negative binomial vs. Poisson: Negative binomial better (positive z, p \< 0.05)
+
+-   Poisson vs. zero-inflated: No difference (p \> 0.05)
+
+-   Negative binomial vs. zero-inflated: Negative binomial better (positive z, p \< 0.05)
+
+```{r }
+fxn_vuong_test(rich_frb, "native forb richness")
+
+```
+
+#### **QQ plot(s)**
+
+The QQ plot supported a negative binomial distribution for the data. The points approximately followed the line, although there was some zero-inflation (lower values above the line).
+
+```{r }
+fxn_qq_plot(rich_frb, "native forb richness")
+
+```
 
 <br>
 
-**Statistical tests and visualization results**
-
-```{r }
-check_count_distribution(rich_frb, "native forb richness")
-```
-
-## Non-native species
+### Non-native species
 
 **Recommended distribution:** Normal distribution with log-transformed values
 
-**Statistical summary**
+#### **Histograms**
 
-Goodness of fit test:
+The histogram for the square-root transformed data appeared the most normal of those considered.
 
--   Poisson distribution: ok
+-   Raw values: Slightly skewed to the left
 
--   Negative binomial distribution: poor
+-   Standardized: Slightly skewed to the left
 
-The Vuong test(s):
+-   Log-transformed values: Skewed to the right
 
--   Negative binomial vs. Poisson: Poisson
+-   Square root-transformed values: Kindof normal with some gaps in the lower range
 
-Q-Q plot results:
+```{r }
+fxn_histogram(rich_non, "non-native richness")
 
--   Normal: Points above bounds for upper values
+```
 
--   Lognormal: Very poor
+#### **Goodness-of-fit tests**
 
--   Poisson: Points below bounds across most of the distribution; very high values above bounds
+The goodness-of-fit test results suggested a Poisson distribution was an ok fit for the raw data.
 
--   Gamma: Points spread beyond bounds overall; below bounds at low values, above bounds at high values
+-   Poisson distribution: ok (p \> 0.05)
+
+-   Negative binomial distribution: poor (p \< 0.05)
+
+```{r }
+fxn_gof_test_rich(rich_non, "non-native richness")
+
+```
+
+#### **Vuong tests**
+
+The Vuong test results supported a Poisson distribution for the data.
+
+-   Negative binomial vs. Poisson: Poisson better (negative z, p \< 0.05)
+
+```{r }
+fxn_vuong_test(rich_non, "non-native richness")
+
+```
+
+#### **QQ plot(s)**
+
+The QQ plot for the Poisson distribution was not a strong fit for the data. The points approximately followed the line, although never within the bounds; lower values were below the line and upper values were above line.
+
+```{r }
+fxn_qq_plot(rich_non, "non-native richness")
+
+```
 
 <br>
 
-**Statistical tests and visualization results**
-
-```{r }
-check_count_distribution(rich_non, "nonnative richness")
-```
-
 ------------------------------------------------------------------------
 
-# Abundance
+## Abundance
 
 Print the first 10 rows of the data table for abundance (abun).
 
@@ -411,17 +429,17 @@ Scroll to the right to see more columns.
 
 ```{r abundance}
 abun %>%
-  slice(1:10) %>%
+  dplyr::slice(1:10) %>%
   fxn_kable()
 ```
 
-## Native species
+### Native species
 
 **Recommended distribution:** Normal distribution with log-transformed values
 
-**Statistical summary**
+#### **Histograms**
 
-Histogram:
+The histograms indicated the log-transformed data most closely resembled a normal distribution.
 
 -   Raw values: Skewed left, long tail to right
 
@@ -429,126 +447,128 @@ Histogram:
 
 -   Log-transformed values: Normal distribution with outlier to far left (negative)
 
--   Square root-transformed values: Main peat at 3, secondary peak(s) between 7-10
+-   Square root-transformed values: Main peak at 3, additional peak(s) between 7-10
 
-Q-Q plot results:
+```{r }
+fxn_histogram(abun_nat, "native abundance")
 
--   Standardized values: Not good
+```
 
--   Square root-transformed values: Kindof along line except for low values
+#### Goodness-of-fit 
 
--   Log-transformed values: Hard to tell because skewed by two outliers
+A comparison of theoretical and empirical distributions showed the best fit for log-transformed values.
 
-Distribution fitting:
+-   Raw values: Different central tendency and spread for empirical and theoretical density plot; curvature away from the reference line in the QQ plot, PP plot, and CDF
 
--   Normal distribution fit to raw values:
+-   Standardized values: Same as for raw values
 
--   Normal distribution fit to log-transformed data
+-   Log-transformed values: Similar central tendency and spread for density curves; points relatively consistent with reference line for QQ plot, PP plot, and CDF
 
--   Normal distribution fit to square root-transformed data
+-   Square root-transformed values: Different central tendency, spread, and symmetry for empirical and theoretical density plot; modest curvature away from the reference line in the QQ plot (especially at low values), PP plot, and CDF
 
--   Logistic distribution fit to raw values:
-
--   Logistic distribution fit to log-transformed data
-
--   Logistic distribution fit to square root-transformed data
+```{r}
+fxn_gof_test_abun(abun_nat, "native abundance")
+```
 
 <br>
 
-**Statistical tests and visualizations**
-
-```{r }
-check_continuous_distribution(abun_nat, "native abundance")
-```
-
-## Native forb species
+### Native forb species
 
 **Recommended distribution:** Normal distribution with log-transformed values
 
-**Statistical summary**
+The results for native forb species abundance were similar to those for all native species. This was not surprising given the forb data was a large component of the native species data.
 
-Histogram:
+#### Histograms
 
--   Raw values:
+The histograms indicated the log-transformed data most closely resembled a normal distribution.
 
--   Standardized values:
+-   Raw values: Skewed left, long tail to right
 
--   Log-transformed values:
+-   Standardized values: Skewed left between -1 to 0, long tail to right
 
--   Square root-transformed values:
+-   Log-transformed values: Normal distribution with outlier to far left (negative)
 
-Q-Q plot results:
+-   Square root-transformed values: Main peak at 3, broad plateau (no clear peak) of elevated counts between 4-10
 
--   Standardized values:
+```{r }
+fxn_histogram(abun_frb, "native forb abundance")
 
--   Square root-transformed values:
+```
 
--   Log-transformed values:
+#### Goodness-of-fit 
 
-Distribution fitting:
+A comparison of theoretical and empirical distributions showed the best fit for log-transformed values. The square root-transformed values appeared to behave well upon visual inspection. I opted for the log-transformation in part to be consistent with the approach used for native species and also based on model selection results. Specifically, I compared the performance of models fit to the log-transformed and square-root transformed values (results not shown here) and found the log transformation to be a better approach.
 
--   Normal distribution fit to raw values:
+-   Raw values: Different central tendency and spread for empirical and theoretical density plot; curvature away from the reference line in the QQ plot, PP plot, and CDF
 
--   Normal distribution fit to log-transformed data
+-   Standardized values: Same as for raw values
 
--   Normal distribution fit to square root-transformed data
+-   Log-transformed values: Similar central tendency and spread for density curves; points relatively consistent with reference line for CDF; low values fall below the reference line for QQ plot and PP plot
 
--   Logistic distribution fit to raw values:
+-   Square root-transformed values: Different central tendency, spread, and symmetry for empirical and theoretical density plot; modest curvature away from the reference line in the QQ plot, PP plot, and CDF
 
--   Logistic distribution fit to log-transformed data
-
--   Logistic distribution fit to square root-transformed data
+```{r}
+fxn_gof_test_abun(abun_frb, "native forb abundance")
+```
 
 <br>
 
-**Statistical tests and visualizations**
-
-```{r }
-check_continuous_distribution(abun_frb, "native forb abundance")
-```
-
-## Non-native species
+### Non-native species
 
 **Recommended distribution:** Normal distribution with square root-transformed values
 
-**Statistical summary**
+#### Histograms
 
-Histogram:
+The histograms indicated the square root-transformed data most closely resembled a normal distribution.
 
--   Raw values:
+-   Raw values: Skewed left, tail to right
 
--   Standardized values:
+-   Standardized values: Skewed left between -1 to 0, tail to right
 
--   Log-transformed values:
+-   Log-transformed values: Skewed right with tail to left
 
--   Square root-transformed values:
-
-Q-Q plot results:
-
--   Standardized values:
-
--   Square root-transformed values:
-
--   Log-transformed values:
-
-Distribution fitting:
-
--   Normal distribution fit to raw values:
-
--   Normal distribution fit to log-transformed data
-
--   Normal distribution fit to square root-transformed data
-
--   Logistic distribution fit to raw values:
-
--   Logistic distribution fit to log-transformed data
-
--   Logistic distribution fit to square root-transformed data
-
-<br>
-
-**Statistical tests and visualizations**
+-   Square root-transformed values: Kindof normal
 
 ```{r }
-check_continuous_distribution(abun_non, "nonnative abundance")
+fxn_histogram(abun_non, "non-native abundance")
+
+```
+
+#### Goodness-of-fit
+
+A comparison of theoretical and empirical distributions showed the best fit for square root-transformed values.
+
+-   Raw values: Different central tendency and symmetry for empirical and theoretical density plot; curvature away from the reference line for upper values in the QQ plot; points relatively consistent with reference line for PP plot, and CDF
+
+-   Standardized values: Same as for raw values
+
+    Log-transformed values: Different central tendency and symmetry for empirical and theoretical density plot; modest curvature away from the reference line in the QQ plot, PP plot, and CDF
+
+    Square root-transformed values: Similar central tendency and spread for density curves (empirical still isn't completely symmetrical); points relatively consistent with reference line for the QQ plot, PP plot, and CDF
+
+```{r}
+fxn_gof_test_abun(abun_non, "non-native abundance")
+```
+
+------------------------------------------------------------------------
+
+# Packages Used
+
+```         
+Base R: hist(), paste(), print(), cat(), message(), tryCatch(), if(), %in%, glm()
+vcd:
+    goodfit()
+fitdistrplus:
+    fitdist()
+MASS:
+    fitdistr()
+    glm.nb()
+bbmle:
+    mle2()
+    coef() (on mle2() objects)
+pscl:
+    zeroinfl()
+    vuong()
+car:
+    qqp()
 ```

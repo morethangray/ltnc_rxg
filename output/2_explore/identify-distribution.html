@@ -48,20 +48,32 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Contents</h2>
    
   <ul>
-  <li><a href="#richness" id="toc-richness" class="nav-link active" data-scroll-target="#richness"><span class="header-section-number">1</span> Richness</a>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="header-section-number">1</span> Introduction</a></li>
+  <li><a href="#methods" id="toc-methods" class="nav-link" data-scroll-target="#methods"><span class="header-section-number">2</span> Methods</a>
   <ul class="collapse">
-  <li><a href="#methods" id="toc-methods" class="nav-link" data-scroll-target="#methods"><span class="header-section-number">1.1</span> Methods</a></li>
-  <li><a href="#native-species" id="toc-native-species" class="nav-link" data-scroll-target="#native-species"><span class="header-section-number">1.2</span> Native species</a></li>
-  <li><a href="#native-forb-species" id="toc-native-forb-species" class="nav-link" data-scroll-target="#native-forb-species"><span class="header-section-number">1.3</span> Native forb species</a></li>
-  <li><a href="#non-native-species" id="toc-non-native-species" class="nav-link" data-scroll-target="#non-native-species"><span class="header-section-number">1.4</span> Non-native species</a></li>
-  </ul></li>
-  <li><a href="#abundance" id="toc-abundance" class="nav-link" data-scroll-target="#abundance"><span class="header-section-number">2</span> Abundance</a>
+  <li><a href="#histograms" id="toc-histograms" class="nav-link" data-scroll-target="#histograms"><span class="header-section-number">2.1</span> Histograms</a></li>
+  <li><a href="#goodness-of-fit" id="toc-goodness-of-fit" class="nav-link" data-scroll-target="#goodness-of-fit"><span class="header-section-number">2.2</span> Goodness-of-fit</a>
   <ul class="collapse">
-  <li><a href="#methods-1" id="toc-methods-1" class="nav-link" data-scroll-target="#methods-1"><span class="header-section-number">2.1</span> Methods</a></li>
-  <li><a href="#native-species-1" id="toc-native-species-1" class="nav-link" data-scroll-target="#native-species-1"><span class="header-section-number">2.2</span> Native species</a></li>
-  <li><a href="#native-forb-species-1" id="toc-native-forb-species-1" class="nav-link" data-scroll-target="#native-forb-species-1"><span class="header-section-number">2.3</span> Native forb species</a></li>
-  <li><a href="#non-native-species-1" id="toc-non-native-species-1" class="nav-link" data-scroll-target="#non-native-species-1"><span class="header-section-number">2.4</span> Non-native species</a></li>
+  <li><a href="#vuong-tests" id="toc-vuong-tests" class="nav-link" data-scroll-target="#vuong-tests"><span class="header-section-number">2.2.1</span> Vuong tests</a></li>
+  <li><a href="#quantile-quantile-plots" id="toc-quantile-quantile-plots" class="nav-link" data-scroll-target="#quantile-quantile-plots"><span class="header-section-number">2.2.2</span> Quantile-quantile plots</a></li>
   </ul></li>
+  </ul></li>
+  <li><a href="#results" id="toc-results" class="nav-link" data-scroll-target="#results"><span class="header-section-number">3</span> Results</a>
+  <ul class="collapse">
+  <li><a href="#richness" id="toc-richness" class="nav-link" data-scroll-target="#richness"><span class="header-section-number">3.1</span> Richness</a>
+  <ul class="collapse">
+  <li><a href="#native-species" id="toc-native-species" class="nav-link" data-scroll-target="#native-species"><span class="header-section-number">3.1.1</span> Native species</a></li>
+  <li><a href="#native-forb-species" id="toc-native-forb-species" class="nav-link" data-scroll-target="#native-forb-species"><span class="header-section-number">3.1.2</span> Native forb species</a></li>
+  <li><a href="#non-native-species" id="toc-non-native-species" class="nav-link" data-scroll-target="#non-native-species"><span class="header-section-number">3.1.3</span> Non-native species</a></li>
+  </ul></li>
+  <li><a href="#abundance" id="toc-abundance" class="nav-link" data-scroll-target="#abundance"><span class="header-section-number">3.2</span> Abundance</a>
+  <ul class="collapse">
+  <li><a href="#native-species-1" id="toc-native-species-1" class="nav-link" data-scroll-target="#native-species-1"><span class="header-section-number">3.2.1</span> Native species</a></li>
+  <li><a href="#native-forb-species-1" id="toc-native-forb-species-1" class="nav-link" data-scroll-target="#native-forb-species-1"><span class="header-section-number">3.2.2</span> Native forb species</a></li>
+  <li><a href="#non-native-species-1" id="toc-non-native-species-1" class="nav-link" data-scroll-target="#non-native-species-1"><span class="header-section-number">3.2.3</span> Non-native species</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#packages-used" id="toc-packages-used" class="nav-link" data-scroll-target="#packages-used"><span class="header-section-number">4</span> Packages Used</a></li>
   </ul>
 </nav>
 </div>
@@ -92,8 +104,72 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="richness" class="level1" data-number="1">
-<h1 data-number="1"><span class="header-section-number">1</span> Richness</h1>
+<section id="introduction" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Introduction</h1>
+<p>The objective of this analysis was to determine the most suitable probability distribution for each of six generalized linear mixed models (GLMMs) fit to plant observation data. Two response variable types were considered: species richness (count data) and percent cover abundance (continuous data). For each response variable, models were fit for three plant groups: native species, native forb species (a subset of native species), and non-native species.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The subsequent model fitting, selection, and performance assessments are not described here.</p>
+</div>
+</div>
+</section>
+<section id="methods" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Methods</h1>
+<p>To determine the most suitable probability distribution for count data and continuous data , I conducted a comprehensive analysis that involved a combination of visual inspection (histograms, Q-Q plots), statistical tests (goodness-of-fit tests, Vuong tests), and model comparisons. Together, they allowed me to evaluate different probability distributions and identify the best fit for the data.</p>
+<p>Custom functions were developed for each assessment (i.e., generate visualizations, conduct statistical tests) to streamline this process. The functions handled potential errors during model fitting. This systematic approach provided multiple lines of evidence for selecting the most appropriate statistical distribution for modeling species richness in subsequent analyses.</p>
+<p>Evaluation of both data types included visual inspection with histograms and Q-Q plots, as well as distribution fitting. Goodness of fit tests for count (discrete) data used vcd::goodfit() and pairwise model comparison with Vuong tests. Fit for continuous data was assessed using the Shapiro Wilks test.</p>
+<p>I also assessed the influence of data transformations. In addition to raw values, also performed tests with standardized, log-transformed and square root-transformed values. Log transformation is suitable for positively skewed data or data with non-negative values. Square root transformation helps reduce skewness in count-like data or data with non-negative values. For distributions requiring strictly positive values, I added a constant of 1 to all values.</p>
+<section id="histograms" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="histograms"><span class="header-section-number">2.1</span> Histograms</h2>
+<p>The analysis for each data type began with visual inspection of the raw data values through histograms, which revealed key distributional features such as central tendency, spread, symmetry, and potential outliers.</p>
+<p>The shape of the histogram provided initial insight into whether the data followed common distributions like Poisson (right-skewed with a single peak) or negative binomial (right-skewed with a longer tail).</p>
+<p>For continuous data, I created plots showing the distribution of raw and transformed values. In addition to the histogram for raw values, I also created histograms for standardized, log-transformed, and square root-transformed values.</p>
+</section>
+<section id="goodness-of-fit" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="goodness-of-fit"><span class="header-section-number">2.2</span> Goodness-of-fit</h2>
+<p>For count data, I then performed discrete goodness-of-fit tests to formally evaluate whether the data followed Poisson or negative binomial distributions. These tests produced p-values that indicated the strength of evidence against each distribution, with p &gt; 0.05 suggesting acceptable fit and p &lt; 0.05 indicating poor fit:</p>
+<ul>
+<li><p>p &gt; 0.05: The data was consistent with the distribution (fail to reject the null hypothesis).</p></li>
+<li><p>p &lt; 0.05: The data significantly deviated from the distribution (reject the null hypothesis).</p></li>
+</ul>
+<p>For example, if testing a Poisson distribution and we get p &gt; 0.05, we can work with the data as if it follows a Poisson distribution. On the other hand, a p-value less than 0.05 suggests the data significantly deviates from the tested distribution and we should consider alternatives.</p>
+<p>For continuous data, I evaluated goodness of fit using the Shapiro Wilks test. If the Shapiro-Wilk test suggests that the transformed data is normal (p-value &gt; 0.05), it indicates the transformation helped achieve normality. A significant result (p-value &lt; 0.05) indicates the transformed data still deviate significantly from normality.</p>
+<section id="vuong-tests" class="level3" data-number="2.2.1">
+<h3 data-number="2.2.1" class="anchored" data-anchor-id="vuong-tests"><span class="header-section-number">2.2.1</span> Vuong tests</h3>
+<p>For count data, I used Vuong tests to directly compare the fit of competing models. The Vuong test helps us directly compare two competing models to see which better fits our data. It produces a z-statistic and associated p-value, where the sign of the z-statistic (when significant at p &lt; 0.05) indicates which model provides better fit:</p>
+<ul>
+<li><p>Positive z-statistics with p &lt; 0.05 indicate first model is better</p></li>
+<li><p>Negative z-statistics with p &lt; 0.05 indicate second model is better</p></li>
+<li><p>p &gt; 0.05 indicates models are statistically indistinguishable</p></li>
+</ul>
+<p>For example, a Vuong test comparing a negative binomial model to a Poisson model with a z-statistic of 2.5 and p = 0.01 would indicate that the negative binomial model provides a significantly better fit.</p>
+</section>
+<section id="quantile-quantile-plots" class="level3" data-number="2.2.2">
+<h3 data-number="2.2.2" class="anchored" data-anchor-id="quantile-quantile-plots"><span class="header-section-number">2.2.2</span> Quantile-quantile plots</h3>
+<p>To further assess distributional fit, I generated quantile-quantile (QQ) plots comparing the observed data against theoretical distributions. Although not a discrete test statistic (like the outcome of a goodness of fit or Vuong test), this visualization can support those test results or provide insight when data fails to fit common distribution.</p>
+<p>In these plots, we’re comparing our observed data against what we would expect if it perfectly followed a theoretical distribution. The interpretation centers on how closely the points follow the diagonal reference line. Points falling along the diagonal reference line indicate good agreement between observed and theoretical distributions.</p>
+<p>More realistically, we look for patterns in how points deviate from this line. Small random deviations around the line are acceptable, but systematic patterns raise concerns. Systematic deviations can reveal the specific ways in which the data departed from theoretical expectations.</p>
+<p>In ecological count data, deviations are often observed at the extremes, particularly due to rare species (excess zeros) or highly abundant counts. These patterns can aid in model selection. For example, consistent deviations at low values might suggest the need for a zero-inflated model, while heavy tails might favor a negative binomial over a Poisson distribution.</p>
+<p>For count data, I reviewed the QQ plots for Poisson and negative binomial. When the goodness-of-fit and/or Vuong tests were inconclusive (i.e., for non-native count values), I evaluated the shape of the initial histograms to identify potential alternate distributions (e.g., normal, log-normal, and gamma distributions). I then evaluated QQ plots for alternate distributions.</p>
+<section id="additional-plots" class="level4" data-number="2.2.2.1">
+<h4 data-number="2.2.2.1" class="anchored" data-anchor-id="additional-plots"><span class="header-section-number">2.2.2.1</span> Additional plots</h4>
+<p>For continuous data, distribution fitting was performed using multiple transformations and distributions. Normal distributions were fit to standardized, square-root transformed, and log-transformed values. In addition to QQ plots the empirical and theoretical comparisons were visualized using a density plot overlaid on a histogram, a CDF, and a PP plot.</p>
+</section>
+</section>
+</section>
+</section>
+<section id="results" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Results</h1>
+<section id="richness" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="richness"><span class="header-section-number">3.1</span> Richness</h2>
 <p>Print the first 10 rows of the data table for richness (rich).</p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -296,66 +372,18 @@ Tip
 
 </div>
 </div>
-<section id="methods" class="level2" data-number="1.1">
-<h2 data-number="1.1" class="anchored" data-anchor-id="methods"><span class="header-section-number">1.1</span> Methods</h2>
-<p>To determine the most suitable probability distribution for count data (species richness), I conducted a comprehensive analysis that involved a combination of visual inspection (histograms, Q-Q plots), statistical tests (goodness-of-fit tests, Vuong tests), and model comparisons. Together, they allowed me to evaluate different probability distributions and identify the best fit for the data.</p>
-<p>A custom function was developed to streamline this process. It generated visualizations, conducted statistical tests, and handled potential errors during model fitting. For distributions requiring strictly positive values, I added a constant of 1 to all values.</p>
-<p>Clear labeling was maintained throughout to ensure traceability. This systematic approach provided multiple lines of evidence for selecting the most appropriate statistical distribution for modeling species richness in subsequent analyses.</p>
-<p><strong>Histograms</strong></p>
-<p>The analysis began with visual inspection of the data through histograms, which revealed key distributional features such as central tendency, spread, symmetry, and potential outliers. For count data, the shape of the histogram provided initial insight into whether the data followed common distributions like Poisson (right-skewed with a single peak) or negative binomial (right-skewed with a longer tail).</p>
-<p><strong>Goodness-of-Fit Tests</strong></p>
-<p>I then performed goodness-of-fit tests to formally evaluate whether the data followed Poisson or negative binomial distributions. These tests produced p-values that indicated the strength of evidence against each distribution, with p &gt; 0.05 suggesting acceptable fit and p &lt; 0.05 indicating poor fit:</p>
-<ul>
-<li><p>p &gt; 0.05: The data was consistent with the distribution (fail to reject the null hypothesis).</p></li>
-<li><p>p &lt; 0.05: The data significantly deviated from the distribution (reject the null hypothesis).</p></li>
-</ul>
-<p>For example, if testing a Poisson distribution and we get p &gt; 0.05, we can work with the data as if it follows a Poisson distribution. On the other hand, a p-value less than 0.05 suggests the data significantly deviates from the tested distribution and we should consider alternatives.</p>
-<p><strong>Vuong Tests</strong></p>
-<p>I used Vuong tests to directly compare the fit of competing models. The Vuong test helps us directly compare two competing models to see which better fits our data. It produces a z-statistic and associated p-value, where the sign of the z-statistic (when significant at p &lt; 0.05) indicates which model provides better fit:</p>
-<ul>
-<li><p>Positive z-statistics with p &lt; 0.05 indicate first model is better</p></li>
-<li><p>Negative z-statistics with p &lt; 0.05 indicate second model is better</p></li>
-<li><p>p &gt; 0.05 indicates models are statistically indistinguishable</p></li>
-</ul>
-<p>For example, a Vuong test comparing a negative binomial model to a Poisson model with a z-statistic of 2.5 and p = 0.01 would indicate that the negative binomial model provides a significantly better fit.</p>
-<p><strong>Quantile-Quantile (Q-Q) Plots</strong></p>
-<p>To further assess distributional fit, I generated quantile-quantile (Q-Q) plots comparing the observed data against the following distributions:</p>
-<ul>
-<li><p>Normal distribution</p></li>
-<li><p>Lognormal distribution</p></li>
-<li><p>Poisson distribution</p></li>
-<li><p>Negative Binomial distribution (using robust maximum likelihood estimation)</p></li>
-<li><p>Gamma distribution</p></li>
-</ul>
-<p>In these plots, we’re comparing our observed data against what we would expect if it perfectly followed a theoretical distribution. The interpretation centers on how closely the points follow the diagonal reference line. Points falling along the diagonal reference line indicate good agreement between observed and theoretical distributions.</p>
-<p>More realistically, we look for patterns in how points deviate from this line. Small random deviations around the line are acceptable, but systematic patterns raise concerns. Systematic deviations can reveal the specific ways in which the data departed from theoretical expectations.</p>
-<p>In ecological count data, deviations are often observed at the extremes, particularly due to rare species (excess zeros) or highly abundant counts. These patterns can aid in model selection. For example, consistent deviations at low values might suggest the need for a zero-inflated model, while heavy tails might favor a negative binomial over a Poisson distribution.</p>
-</section>
-<section id="native-species" class="level2" data-number="1.2">
-<h2 data-number="1.2" class="anchored" data-anchor-id="native-species"><span class="header-section-number">1.2</span> Native species</h2>
+<section id="native-species" class="level3" data-number="3.1.1">
+<h3 data-number="3.1.1" class="anchored" data-anchor-id="native-species"><span class="header-section-number">3.1.1</span> Native species</h3>
 <p><strong>Recommended distribution:</strong> Negative binomial distribution</p>
-<p><strong>Statistical summary</strong></p>
-<p>Goodness of fit test:</p>
-<ul>
-<li><p>Poisson distribution: poor</p></li>
-<li><p>Negative binomial distribution: ok</p></li>
-</ul>
-<p>The Vuong test(s):</p>
-<ul>
-<li><p>Negative binomial vs.&nbsp;Poisson: Negative binomial better</p></li>
-<li><p>Poisson vs.&nbsp;zero-inflated: No difference</p></li>
-<li><p>Negative binomial vs.&nbsp;zero-inflated: Negative binomial better</p></li>
-</ul>
-<p>Q-Q plot results:</p>
-<ul>
-<li><p>Normal: Points showed zero inflation</p></li>
-<li><p>Lognormal: Very poor</p></li>
-<li><p>Poisson: Points outside bounds halfway through</p></li>
-<li><p>Negative binomial: Decent until upper values</p></li>
-<li><p>Gamma: Spread beyond bounds at all values, falls off at upper values</p></li>
-</ul>
 <p><br></p>
-<p><strong>Statistical tests and visualization results</strong></p>
+<section id="histograms-1" class="level4" data-number="3.1.1.1">
+<h4 data-number="3.1.1.1" class="anchored" data-anchor-id="histograms-1"><span class="header-section-number">3.1.1.1</span> <strong>Histograms</strong></h4>
+<p>The histograms indicated the raw data followed a Poisson distribution, which was expected for count data.</p>
+<ul>
+<li><p>Raw values: Skewed left with tail</p></li>
+<li><p>Log-transformed values: More normal but with outliers to the far left (negative values)</p></li>
+<li><p>Square root-transformed values: Kindof normal with some gaps in the lower range</p></li>
+</ul>
 <div class="cell">
 <div class="cell-output-display">
 <div>
@@ -364,32 +392,12 @@ Tip
 </figure>
 </div>
 </div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] "Poisson Goodness of Fit for native richness"
-
-     Goodness-of-fit test for poisson distribution
-
-                      X^2 df     P(&gt; X^2)
-Likelihood Ratio 146.0324 16 4.721291e-23
-                      X^2 df     P(&gt; X^2)
-Likelihood Ratio 146.0324 16 4.721291e-23</code></pre>
-</div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
 <p><img src="identify-distribution_files/figure-html/unnamed-chunk-1-2.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] "Negative Binomial Goodness of Fit for native richness"
-
-     Goodness-of-fit test for nbinomial distribution
-
-                      X^2 df   P(&gt; X^2)
-Likelihood Ratio 23.99674 15 0.06514879
-                      X^2 df   P(&gt; X^2)
-Likelihood Ratio 23.99674 15 0.06514879</code></pre>
 </div>
 <div class="cell-output-display">
 <div>
@@ -398,6 +406,55 @@ Likelihood Ratio 23.99674 15 0.06514879</code></pre>
 </figure>
 </div>
 </div>
+</div>
+</section>
+<section id="goodness-of-fit-tests" class="level4" data-number="3.1.1.2">
+<h4 data-number="3.1.1.2" class="anchored" data-anchor-id="goodness-of-fit-tests"><span class="header-section-number">3.1.1.2</span> <strong>Goodness-of-fit tests</strong></h4>
+<p>The goodness-of-fit test results suggested a negative binomial distribution was a good fit for the data.</p>
+<ul>
+<li><p>Poisson distribution: poor (p &lt; 0.05)</p></li>
+<li><p>Negative binomial distribution: ok (p &gt; 0.05)</p></li>
+</ul>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>
+     Goodness-of-fit test for poisson distribution
+
+                      X^2 df     P(&gt; X^2)
+Likelihood Ratio 146.0324 16 4.721291e-23</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="identify-distribution_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+     Goodness-of-fit test for nbinomial distribution
+
+                      X^2 df   P(&gt; X^2)
+Likelihood Ratio 23.99674 15 0.06514879</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="identify-distribution_files/figure-html/unnamed-chunk-2-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="vuong-tests-1" class="level4" data-number="3.1.1.3">
+<h4 data-number="3.1.1.3" class="anchored" data-anchor-id="vuong-tests-1"><span class="header-section-number">3.1.1.3</span> <strong>Vuong tests</strong></h4>
+<p>The Vuong test results supported a negative binomial distribution for the data.</p>
+<ul>
+<li><p>Negative binomial vs.&nbsp;Poisson: Negative binomial better (positive z, p &lt; 0.05)</p></li>
+<li><p>Poisson vs.&nbsp;zero-inflated: No difference (p &gt; 0.05)</p></li>
+<li><p>Negative binomial vs.&nbsp;zero-inflated: Negative binomial better (positive z, p &lt; 0.05)</p></li>
+</ul>
+<div class="cell">
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "Vuong test: Negative Binomial vs. Poisson for native richness"
 Vuong Non-Nested Hypothesis Test-Statistic: 
@@ -409,6 +466,8 @@ Raw                     4.45714 model1 &gt; model2 4.153e-06
 AIC-corrected           4.45714 model1 &gt; model2 4.153e-06
 BIC-corrected           4.45714 model1 &gt; model2 4.153e-06
 NULL
+
+
 [1] "Vuong test: Poisson vs. Zero-Inflated for native richness"
 Vuong Non-Nested Hypothesis Test-Statistic: 
 (test-statistic is asymptotically distributed N(0,1) under the
@@ -419,6 +478,8 @@ Raw                  -0.4419274 model2 &gt; model1   0.329271
 AIC-corrected         1.2870107 model1 &gt; model2   0.099045
 BIC-corrected         4.6220746 model1 &gt; model2 1.8996e-06
 NULL
+
+
 [1] "Vuong test: Negative Binomial vs. Zero-Inflated for native richness"
 Vuong Non-Nested Hypothesis Test-Statistic: 
 (test-statistic is asymptotically distributed N(0,1) under the
@@ -430,102 +491,106 @@ AIC-corrected          4.659626 model1 &gt; model2 1.5839e-06
 BIC-corrected          4.996195 model1 &gt; model2 2.9236e-07
 NULL</code></pre>
 </div>
+</div>
+</section>
+<section id="qq-plots" class="level4" data-number="3.1.1.4">
+<h4 data-number="3.1.1.4" class="anchored" data-anchor-id="qq-plots"><span class="header-section-number">3.1.1.4</span> <strong>QQ plot(s)</strong></h4>
+<p>The QQ plot supported a negative binomial distribution for the data. The points approximately followed the line, although there was some zero-inflation (lower values above the line) and skew above the line with upper values.</p>
+<div class="cell">
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="identify-distribution_files/figure-html/unnamed-chunk-1-4.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="identify-distribution_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><br></p>
+</section>
+</section>
+<section id="native-forb-species" class="level3" data-number="3.1.2">
+<h3 data-number="3.1.2" class="anchored" data-anchor-id="native-forb-species"><span class="header-section-number">3.1.2</span> Native forb species</h3>
+<p><strong>Recommended distribution:</strong> Negative binomial distribution</p>
+<p>The results for native forb species richness were similar to those for all native species. This was not surprising given the forb data was a large component of the native species data.</p>
+<section id="histograms-2" class="level4" data-number="3.1.2.1">
+<h4 data-number="3.1.2.1" class="anchored" data-anchor-id="histograms-2"><span class="header-section-number">3.1.2.1</span> <strong>Histograms</strong></h4>
+<p>The histograms indicated the raw data followed a Poisson distribution, which was expected for count data.</p>
+<ul>
+<li><p>Raw values: Skewed left with tail</p></li>
+<li><p>Log-transformed values: More normal but with outliers to the far left (negative values)</p></li>
+<li><p>Square root-transformed values: Kindof normal with some gaps in the lower range</p></li>
+</ul>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="identify-distribution_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="identify-distribution_files/figure-html/unnamed-chunk-1-5.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="identify-distribution_files/figure-html/unnamed-chunk-5-2.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="identify-distribution_files/figure-html/unnamed-chunk-1-6.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="identify-distribution_files/figure-html/unnamed-chunk-1-7.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="identify-distribution_files/figure-html/unnamed-chunk-5-3.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
 </section>
-<section id="native-forb-species" class="level2" data-number="1.3">
-<h2 data-number="1.3" class="anchored" data-anchor-id="native-forb-species"><span class="header-section-number">1.3</span> Native forb species</h2>
-<p><strong>Recommended distribution:</strong> Negative binomial distribution</p>
-<p><strong>Statistical summary</strong></p>
-<p>Goodness of fit test:</p>
+<section id="goodness-of-fit-tests-1" class="level4" data-number="3.1.2.2">
+<h4 data-number="3.1.2.2" class="anchored" data-anchor-id="goodness-of-fit-tests-1"><span class="header-section-number">3.1.2.2</span> <strong>Goodness-of-fit tests</strong></h4>
+<p>The goodness-of-fit test results suggested a negative binomial distribution was a good fit for the data.</p>
 <ul>
-<li><p>Poisson distribution: poor</p></li>
-<li><p>Negative binomial distribution: ok</p></li>
+<li><p>Poisson distribution: poor (p &lt; 0.05)</p></li>
+<li><p>Negative binomial distribution: good (p &gt; 0.05); better than for native species</p></li>
 </ul>
-<p>The Vuong test(s):</p>
-<ul>
-<li><p>Negative binomial vs.&nbsp;Poisson: Negative binomial better</p></li>
-<li><p>Poisson vs.&nbsp;zero-inflated: No difference</p></li>
-<li><p>Negative binomial vs.&nbsp;zero-inflated: Negative binomial better</p></li>
-</ul>
-<p>Q-Q plot results:</p>
-<ul>
-<li><p>Normal: Shows zero inflation</p></li>
-<li><p>Lognormal: Very poor</p></li>
-<li><p>Poisson: Points fall below bounds halfway through</p></li>
-<li><p>Gamma: Points spread beyond bounds overall; falls off at upper values</p></li>
-</ul>
-<p><br></p>
-<p><strong>Statistical tests and visualization results</strong></p>
 <div class="cell">
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="identify-distribution_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "Poisson Goodness of Fit for native forb richness"
-
+<pre><code>
      Goodness-of-fit test for poisson distribution
 
-                      X^2 df     P(&gt; X^2)
-Likelihood Ratio 149.1477 15 3.561991e-24
                       X^2 df     P(&gt; X^2)
 Likelihood Ratio 149.1477 15 3.561991e-24</code></pre>
 </div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="identify-distribution_files/figure-html/unnamed-chunk-2-2.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="identify-distribution_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "Negative Binomial Goodness of Fit for native forb richness"
-
+<pre><code>
      Goodness-of-fit test for nbinomial distribution
 
-                      X^2 df  P(&gt; X^2)
-Likelihood Ratio 16.55131 14 0.2808772
                       X^2 df  P(&gt; X^2)
 Likelihood Ratio 16.55131 14 0.2808772</code></pre>
 </div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="identify-distribution_files/figure-html/unnamed-chunk-2-3.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="identify-distribution_files/figure-html/unnamed-chunk-6-2.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
+</div>
+</section>
+<section id="vuong-tests-2" class="level4" data-number="3.1.2.3">
+<h4 data-number="3.1.2.3" class="anchored" data-anchor-id="vuong-tests-2"><span class="header-section-number">3.1.2.3</span> <strong>Vuong tests</strong></h4>
+<p>The Vuong test results supported a negative binomial distribution for the data.</p>
+<ul>
+<li><p>Negative binomial vs.&nbsp;Poisson: Negative binomial better (positive z, p &lt; 0.05)</p></li>
+<li><p>Poisson vs.&nbsp;zero-inflated: No difference (p &gt; 0.05)</p></li>
+<li><p>Negative binomial vs.&nbsp;zero-inflated: Negative binomial better (positive z, p &lt; 0.05)</p></li>
+</ul>
+<div class="cell">
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "Vuong test: Negative Binomial vs. Poisson for native forb richness"
 Vuong Non-Nested Hypothesis Test-Statistic: 
@@ -537,6 +602,8 @@ Raw                    4.284394 model1 &gt; model2 9.1619e-06
 AIC-corrected          4.284394 model1 &gt; model2 9.1619e-06
 BIC-corrected          4.284394 model1 &gt; model2 9.1619e-06
 NULL
+
+
 [1] "Vuong test: Poisson vs. Zero-Inflated for native forb richness"
 Vuong Non-Nested Hypothesis Test-Statistic: 
 (test-statistic is asymptotically distributed N(0,1) under the
@@ -547,6 +614,8 @@ Raw                  -1.4491151 model2 &gt; model1 0.073653
 AIC-corrected        -1.0565711 model2 &gt; model1 0.145354
 BIC-corrected        -0.2993668 model2 &gt; model1 0.382330
 NULL
+
+
 [1] "Vuong test: Negative Binomial vs. Zero-Inflated for native forb richness"
 Vuong Non-Nested Hypothesis Test-Statistic: 
 (test-statistic is asymptotically distributed N(0,1) under the
@@ -558,102 +627,113 @@ AIC-corrected          4.222072 model1 &gt; model2 1.2103e-05
 BIC-corrected          4.558408 model1 &gt; model2 2.5771e-06
 NULL</code></pre>
 </div>
+</div>
+</section>
+<section id="qq-plots-1" class="level4" data-number="3.1.2.4">
+<h4 data-number="3.1.2.4" class="anchored" data-anchor-id="qq-plots-1"><span class="header-section-number">3.1.2.4</span> <strong>QQ plot(s)</strong></h4>
+<p>The QQ plot supported a negative binomial distribution for the data. The points approximately followed the line, although there was some zero-inflation (lower values above the line).</p>
+<div class="cell">
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="identify-distribution_files/figure-html/unnamed-chunk-2-4.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="identify-distribution_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><br></p>
+</section>
+</section>
+<section id="non-native-species" class="level3" data-number="3.1.3">
+<h3 data-number="3.1.3" class="anchored" data-anchor-id="non-native-species"><span class="header-section-number">3.1.3</span> Non-native species</h3>
+<p><strong>Recommended distribution:</strong> Normal distribution with log-transformed values</p>
+<section id="histograms-3" class="level4" data-number="3.1.3.1">
+<h4 data-number="3.1.3.1" class="anchored" data-anchor-id="histograms-3"><span class="header-section-number">3.1.3.1</span> <strong>Histograms</strong></h4>
+<p>The histogram for the square-root transformed data appeared the most normal of those considered.</p>
+<ul>
+<li><p>Raw values: Slightly skewed to the left</p></li>
+<li><p>Standardized: Slightly skewed to the left</p></li>
+<li><p>Log-transformed values: Skewed to the right</p></li>
+<li><p>Square root-transformed values: Kindof normal with some gaps in the lower range</p></li>
+</ul>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="identify-distribution_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="identify-distribution_files/figure-html/unnamed-chunk-2-5.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="identify-distribution_files/figure-html/unnamed-chunk-9-2.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="identify-distribution_files/figure-html/unnamed-chunk-2-6.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="identify-distribution_files/figure-html/unnamed-chunk-9-3.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="identify-distribution_files/figure-html/unnamed-chunk-2-7.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="identify-distribution_files/figure-html/unnamed-chunk-9-4.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
 </section>
-<section id="non-native-species" class="level2" data-number="1.4">
-<h2 data-number="1.4" class="anchored" data-anchor-id="non-native-species"><span class="header-section-number">1.4</span> Non-native species</h2>
-<p><strong>Recommended distribution:</strong> Normal distribution with log-transformed values</p>
-<p><strong>Statistical summary</strong></p>
-<p>Goodness of fit test:</p>
+<section id="goodness-of-fit-tests-2" class="level4" data-number="3.1.3.2">
+<h4 data-number="3.1.3.2" class="anchored" data-anchor-id="goodness-of-fit-tests-2"><span class="header-section-number">3.1.3.2</span> <strong>Goodness-of-fit tests</strong></h4>
+<p>The goodness-of-fit test results suggested a Poisson distribution was an ok fit for the raw data.</p>
 <ul>
-<li><p>Poisson distribution: ok</p></li>
-<li><p>Negative binomial distribution: poor</p></li>
+<li><p>Poisson distribution: ok (p &gt; 0.05)</p></li>
+<li><p>Negative binomial distribution: poor (p &lt; 0.05)</p></li>
 </ul>
-<p>The Vuong test(s):</p>
-<ul>
-<li>Negative binomial vs.&nbsp;Poisson: Poisson</li>
-</ul>
-<p>Q-Q plot results:</p>
-<ul>
-<li><p>Normal: Points above bounds for upper values</p></li>
-<li><p>Lognormal: Very poor</p></li>
-<li><p>Poisson: Points below bounds across most of the distribution; very high values above bounds</p></li>
-<li><p>Gamma: Points spread beyond bounds overall; below bounds at low values, above bounds at high values</p></li>
-</ul>
-<p><br></p>
-<p><strong>Statistical tests and visualization results</strong></p>
 <div class="cell">
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="identify-distribution_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "Poisson Goodness of Fit for nonnative richness"
-
+<pre><code>
      Goodness-of-fit test for poisson distribution
 
-                      X^2 df   P(&gt; X^2)
-Likelihood Ratio 21.87264 14 0.08126932
                       X^2 df   P(&gt; X^2)
 Likelihood Ratio 21.87264 14 0.08126932</code></pre>
 </div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="identify-distribution_files/figure-html/unnamed-chunk-3-2.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="identify-distribution_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "Negative Binomial Goodness of Fit for nonnative richness"
-
+<pre><code>
      Goodness-of-fit test for nbinomial distribution
 
-                      X^2 df   P(&gt; X^2)
-Likelihood Ratio 23.24761 13 0.03879904
                       X^2 df   P(&gt; X^2)
 Likelihood Ratio 23.24761 13 0.03879904</code></pre>
 </div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="identify-distribution_files/figure-html/unnamed-chunk-3-3.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="identify-distribution_files/figure-html/unnamed-chunk-10-2.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
+</div>
+</section>
+<section id="vuong-tests-3" class="level4" data-number="3.1.3.3">
+<h4 data-number="3.1.3.3" class="anchored" data-anchor-id="vuong-tests-3"><span class="header-section-number">3.1.3.3</span> <strong>Vuong tests</strong></h4>
+<p>The Vuong test results supported a Poisson distribution for the data.</p>
+<ul>
+<li>Negative binomial vs.&nbsp;Poisson: Poisson better (negative z, p &lt; 0.05)</li>
+</ul>
+<div class="cell">
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "Vuong test: Negative Binomial vs. Poisson for nonnative richness"
+<pre><code>[1] "Vuong test: Negative Binomial vs. Poisson for non-native richness"
 Vuong Non-Nested Hypothesis Test-Statistic: 
 (test-statistic is asymptotically distributed N(0,1) under the
  null that the models are indistinguishible)
@@ -664,40 +744,27 @@ AIC-corrected         -2.538273 model2 &gt; model1 0.0055701
 BIC-corrected         -2.538273 model2 &gt; model1 0.0055701
 NULL</code></pre>
 </div>
+</div>
+</section>
+<section id="qq-plots-2" class="level4" data-number="3.1.3.4">
+<h4 data-number="3.1.3.4" class="anchored" data-anchor-id="qq-plots-2"><span class="header-section-number">3.1.3.4</span> <strong>QQ plot(s)</strong></h4>
+<p>The QQ plot for the Poisson distribution was not a strong fit for the data. The points approximately followed the line, although never within the bounds; lower values were below the line and upper values were above line.</p>
+<div class="cell">
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="identify-distribution_files/figure-html/unnamed-chunk-3-4.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="identify-distribution_files/figure-html/unnamed-chunk-3-5.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="identify-distribution_files/figure-html/unnamed-chunk-3-6.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="identify-distribution_files/figure-html/unnamed-chunk-3-7.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="identify-distribution_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
+<p><br></p>
 <hr>
 </section>
 </section>
-<section id="abundance" class="level1" data-number="2">
-<h1 data-number="2"><span class="header-section-number">2</span> Abundance</h1>
+</section>
+<section id="abundance" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="abundance"><span class="header-section-number">3.2</span> Abundance</h2>
 <p>Print the first 10 rows of the data table for abundance (abun).</p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -911,452 +978,387 @@ Tip
 
 </div>
 </div>
-<section id="methods-1" class="level2" data-number="2.1">
-<h2 data-number="2.1" class="anchored" data-anchor-id="methods-1"><span class="header-section-number">2.1</span> Methods</h2>
-<p>Distribution analysis was performed on continuous data (percent cover abundance) through multiple visualization and statistical approaches:</p>
-<p><strong>Data distribution was visualized using histograms of:</strong></p>
-<ul>
-<li><p>Raw values</p></li>
-<li><p>Standardized values</p></li>
-<li><p>Log-transformed values</p></li>
-<li><p>Square root-transformed values</p></li>
-</ul>
-<p><strong>Normal distribution fit was assessed using Q-Q plots for:</strong></p>
-<ul>
-<li><p>Standardized data</p></li>
-<li><p>Square root-transformed data</p></li>
-<li><p>Log-transformed data</p></li>
-</ul>
-<p><strong>Distribution fitting was performed using multiple transformations and distributions:</strong></p>
-<ul>
-<li><p>Normal distribution fit to raw, log-transformed, and square root-transformed data</p></li>
-<li><p>Logistic distribution fit to raw, log-transformed, and square root-transformed data</p></li>
-</ul>
-<p>Each visualization and test included dataset-specific labels for identification. This analysis helped determine the most appropriate data transformation and statistical distribution for modeling abundance data.</p>
-</section>
-<section id="native-species-1" class="level2" data-number="2.2">
-<h2 data-number="2.2" class="anchored" data-anchor-id="native-species-1"><span class="header-section-number">2.2</span> Native species</h2>
+<section id="native-species-1" class="level3" data-number="3.2.1">
+<h3 data-number="3.2.1" class="anchored" data-anchor-id="native-species-1"><span class="header-section-number">3.2.1</span> Native species</h3>
 <p><strong>Recommended distribution:</strong> Normal distribution with log-transformed values</p>
-<p><strong>Statistical summary</strong></p>
-<p>Histogram:</p>
+<section id="histograms-4" class="level4" data-number="3.2.1.1">
+<h4 data-number="3.2.1.1" class="anchored" data-anchor-id="histograms-4"><span class="header-section-number">3.2.1.1</span> <strong>Histograms</strong></h4>
+<p>The histograms indicated the log-transformed data most closely resembled a normal distribution.</p>
 <ul>
 <li><p>Raw values: Skewed left, long tail to right</p></li>
 <li><p>Standardized values: Skewed left between -1 to 0, long tail to right</p></li>
 <li><p>Log-transformed values: Normal distribution with outlier to far left (negative)</p></li>
-<li><p>Square root-transformed values: Main peat at 3, secondary peak(s) between 7-10</p></li>
+<li><p>Square root-transformed values: Main peak at 3, additional peak(s) between 7-10</p></li>
 </ul>
-<p>Q-Q plot results:</p>
-<ul>
-<li><p>Standardized values: Not good</p></li>
-<li><p>Square root-transformed values: Kindof along line except for low values</p></li>
-<li><p>Log-transformed values: Hard to tell because skewed by two outliers</p></li>
-</ul>
-<p>Distribution fitting:</p>
-<ul>
-<li><p>Normal distribution fit to raw values:</p></li>
-<li><p>Normal distribution fit to log-transformed data</p></li>
-<li><p>Normal distribution fit to square root-transformed data</p></li>
-<li><p>Logistic distribution fit to raw values:</p></li>
-<li><p>Logistic distribution fit to log-transformed data</p></li>
-<li><p>Logistic distribution fit to square root-transformed data</p></li>
-</ul>
-<p><br></p>
-<p><strong>Statistical tests and visualizations</strong></p>
 <div class="cell">
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="identify-distribution_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="identify-distribution_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="identify-distribution_files/figure-html/unnamed-chunk-4-2.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="identify-distribution_files/figure-html/unnamed-chunk-13-2.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="identify-distribution_files/figure-html/unnamed-chunk-4-3.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="identify-distribution_files/figure-html/unnamed-chunk-13-3.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="identify-distribution_files/figure-html/unnamed-chunk-4-4.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="identify-distribution_files/figure-html/unnamed-chunk-4-5.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="identify-distribution_files/figure-html/unnamed-chunk-4-6.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="identify-distribution_files/figure-html/unnamed-chunk-4-7.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] "Normal Distribution Fit for native abundance"</code></pre>
-</div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="identify-distribution_files/figure-html/unnamed-chunk-4-8.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>NULL
-[1] "Normal Distribution Fit for Log-transformed native abundance"</code></pre>
-</div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="identify-distribution_files/figure-html/unnamed-chunk-4-9.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] "Normal Distribution Fit for Square Root-transformed native abundance"</code></pre>
-</div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="identify-distribution_files/figure-html/unnamed-chunk-4-10.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] "Logistic Distribution Fit for native abundance"</code></pre>
-</div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="identify-distribution_files/figure-html/unnamed-chunk-4-11.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] "Logistic Distribution Fit for Log-transformed native abundance"</code></pre>
-</div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="identify-distribution_files/figure-html/unnamed-chunk-4-12.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] "Logistic Distribution Fit for Square Root-transformed native abundance"</code></pre>
-</div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="identify-distribution_files/figure-html/unnamed-chunk-4-13.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="identify-distribution_files/figure-html/unnamed-chunk-13-4.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
 </section>
-<section id="native-forb-species-1" class="level2" data-number="2.3">
-<h2 data-number="2.3" class="anchored" data-anchor-id="native-forb-species-1"><span class="header-section-number">2.3</span> Native forb species</h2>
+<section id="goodness-of-fit-1" class="level4" data-number="3.2.1.2">
+<h4 data-number="3.2.1.2" class="anchored" data-anchor-id="goodness-of-fit-1"><span class="header-section-number">3.2.1.2</span> Goodness-of-fit</h4>
+<p>A comparison of theoretical and empirical distributions showed the best fit for log-transformed values.</p>
+<ul>
+<li><p>Raw values: Different central tendency and spread for empirical and theoretical density plot; curvature away from the reference line in the QQ plot, PP plot, and CDF</p></li>
+<li><p>Standardized values: Same as for raw values</p></li>
+<li><p>Log-transformed values: Similar central tendency and spread for density curves; points relatively consistent with reference line for QQ plot, PP plot, and CDF</p></li>
+<li><p>Square root-transformed values: Different central tendency, spread, and symmetry for empirical and theoretical density plot; modest curvature away from the reference line in the QQ plot (especially at low values), PP plot, and CDF</p></li>
+</ul>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Normal Distribution Fit for native abundance"
+
+    Shapiro-Wilk normality test
+
+data:  data$value
+W = 0.81529, p-value &lt; 2.2e-16</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="identify-distribution_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+[1] "Normal Distribution Fit for Standardized native abundance"
+
+    Shapiro-Wilk normality test
+
+data:  data$value_std
+W = 0.81529, p-value &lt; 2.2e-16</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="identify-distribution_files/figure-html/unnamed-chunk-14-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+[1] "Normal Distribution Fit for Log-transformed native abundance"
+
+    Shapiro-Wilk normality test
+
+data:  data$value_log
+W = 0.68187, p-value &lt; 2.2e-16</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="identify-distribution_files/figure-html/unnamed-chunk-14-3.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+[1] "Normal Distribution Fit for Square Root-transformed native abundance"
+
+    Shapiro-Wilk normality test
+
+data:  data$value_sqrt
+W = 0.93602, p-value = 3.981e-11</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="identify-distribution_files/figure-html/unnamed-chunk-14-4.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><br></p>
+</section>
+</section>
+<section id="native-forb-species-1" class="level3" data-number="3.2.2">
+<h3 data-number="3.2.2" class="anchored" data-anchor-id="native-forb-species-1"><span class="header-section-number">3.2.2</span> Native forb species</h3>
 <p><strong>Recommended distribution:</strong> Normal distribution with log-transformed values</p>
-<p><strong>Statistical summary</strong></p>
-<p>Histogram:</p>
+<p>The results for native forb species abundance were similar to those for all native species. This was not surprising given the forb data was a large component of the native species data.</p>
+<section id="histograms-5" class="level4" data-number="3.2.2.1">
+<h4 data-number="3.2.2.1" class="anchored" data-anchor-id="histograms-5"><span class="header-section-number">3.2.2.1</span> Histograms</h4>
+<p>The histograms indicated the log-transformed data most closely resembled a normal distribution.</p>
 <ul>
-<li><p>Raw values:</p></li>
-<li><p>Standardized values:</p></li>
-<li><p>Log-transformed values:</p></li>
-<li><p>Square root-transformed values:</p></li>
+<li><p>Raw values: Skewed left, long tail to right</p></li>
+<li><p>Standardized values: Skewed left between -1 to 0, long tail to right</p></li>
+<li><p>Log-transformed values: Normal distribution with outlier to far left (negative)</p></li>
+<li><p>Square root-transformed values: Main peak at 3, broad plateau (no clear peak) of elevated counts between 4-10</p></li>
 </ul>
-<p>Q-Q plot results:</p>
-<ul>
-<li><p>Standardized values:</p></li>
-<li><p>Square root-transformed values:</p></li>
-<li><p>Log-transformed values:</p></li>
-</ul>
-<p>Distribution fitting:</p>
-<ul>
-<li><p>Normal distribution fit to raw values:</p></li>
-<li><p>Normal distribution fit to log-transformed data</p></li>
-<li><p>Normal distribution fit to square root-transformed data</p></li>
-<li><p>Logistic distribution fit to raw values:</p></li>
-<li><p>Logistic distribution fit to log-transformed data</p></li>
-<li><p>Logistic distribution fit to square root-transformed data</p></li>
-</ul>
-<p><br></p>
-<p><strong>Statistical tests and visualizations</strong></p>
 <div class="cell">
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="identify-distribution_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="identify-distribution_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="identify-distribution_files/figure-html/unnamed-chunk-5-2.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="identify-distribution_files/figure-html/unnamed-chunk-15-2.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="identify-distribution_files/figure-html/unnamed-chunk-5-3.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="identify-distribution_files/figure-html/unnamed-chunk-15-3.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="identify-distribution_files/figure-html/unnamed-chunk-5-4.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="identify-distribution_files/figure-html/unnamed-chunk-5-5.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="identify-distribution_files/figure-html/unnamed-chunk-5-6.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="identify-distribution_files/figure-html/unnamed-chunk-5-7.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] "Normal Distribution Fit for native forb abundance"</code></pre>
-</div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="identify-distribution_files/figure-html/unnamed-chunk-5-8.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>NULL
-[1] "Normal Distribution Fit for Log-transformed native forb abundance"</code></pre>
-</div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="identify-distribution_files/figure-html/unnamed-chunk-5-9.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] "Normal Distribution Fit for Square Root-transformed native forb abundance"</code></pre>
-</div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="identify-distribution_files/figure-html/unnamed-chunk-5-10.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] "Logistic Distribution Fit for native forb abundance"</code></pre>
-</div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="identify-distribution_files/figure-html/unnamed-chunk-5-11.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] "Logistic Distribution Fit for Log-transformed native forb abundance"</code></pre>
-</div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="identify-distribution_files/figure-html/unnamed-chunk-5-12.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] "Logistic Distribution Fit for Square Root-transformed native forb abundance"</code></pre>
-</div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="identify-distribution_files/figure-html/unnamed-chunk-5-13.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="identify-distribution_files/figure-html/unnamed-chunk-15-4.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
 </section>
-<section id="non-native-species-1" class="level2" data-number="2.4">
-<h2 data-number="2.4" class="anchored" data-anchor-id="non-native-species-1"><span class="header-section-number">2.4</span> Non-native species</h2>
+<section id="goodness-of-fit-2" class="level4" data-number="3.2.2.2">
+<h4 data-number="3.2.2.2" class="anchored" data-anchor-id="goodness-of-fit-2"><span class="header-section-number">3.2.2.2</span> Goodness-of-fit</h4>
+<p>A comparison of theoretical and empirical distributions showed the best fit for log-transformed values. The square root-transformed values appeared to behave well upon visual inspection. I opted for the log-transformation in part to be consistent with the approach used for native species and also based on model selection results. Specifically, I compared the performance of models fit to the log-transformed and square-root transformed values (results not shown here) and found the log transformation to be a better approach.</p>
+<ul>
+<li><p>Raw values: Different central tendency and spread for empirical and theoretical density plot; curvature away from the reference line in the QQ plot, PP plot, and CDF</p></li>
+<li><p>Standardized values: Same as for raw values</p></li>
+<li><p>Log-transformed values: Similar central tendency and spread for density curves; points relatively consistent with reference line for CDF; low values fall below the reference line for QQ plot and PP plot</p></li>
+<li><p>Square root-transformed values: Different central tendency, spread, and symmetry for empirical and theoretical density plot; modest curvature away from the reference line in the QQ plot, PP plot, and CDF</p></li>
+</ul>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Normal Distribution Fit for native forb abundance"
+
+    Shapiro-Wilk normality test
+
+data:  data$value
+W = 0.79162, p-value &lt; 2.2e-16</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="identify-distribution_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+[1] "Normal Distribution Fit for Standardized native forb abundance"
+
+    Shapiro-Wilk normality test
+
+data:  data$value_std
+W = 0.79162, p-value &lt; 2.2e-16</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="identify-distribution_files/figure-html/unnamed-chunk-16-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+[1] "Normal Distribution Fit for Log-transformed native forb abundance"
+
+    Shapiro-Wilk normality test
+
+data:  data$value_log
+W = 0.53144, p-value &lt; 2.2e-16</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="identify-distribution_files/figure-html/unnamed-chunk-16-3.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+[1] "Normal Distribution Fit for Square Root-transformed native forb abundance"
+
+    Shapiro-Wilk normality test
+
+data:  data$value_sqrt
+W = 0.93002, p-value = 9.525e-12</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="identify-distribution_files/figure-html/unnamed-chunk-16-4.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><br></p>
+</section>
+</section>
+<section id="non-native-species-1" class="level3" data-number="3.2.3">
+<h3 data-number="3.2.3" class="anchored" data-anchor-id="non-native-species-1"><span class="header-section-number">3.2.3</span> Non-native species</h3>
 <p><strong>Recommended distribution:</strong> Normal distribution with square root-transformed values</p>
-<p><strong>Statistical summary</strong></p>
-<p>Histogram:</p>
+<section id="histograms-6" class="level4" data-number="3.2.3.1">
+<h4 data-number="3.2.3.1" class="anchored" data-anchor-id="histograms-6"><span class="header-section-number">3.2.3.1</span> Histograms</h4>
+<p>The histograms indicated the square root-transformed data most closely resembled a normal distribution.</p>
 <ul>
-<li><p>Raw values:</p></li>
-<li><p>Standardized values:</p></li>
-<li><p>Log-transformed values:</p></li>
-<li><p>Square root-transformed values:</p></li>
+<li><p>Raw values: Skewed left, tail to right</p></li>
+<li><p>Standardized values: Skewed left between -1 to 0, tail to right</p></li>
+<li><p>Log-transformed values: Skewed right with tail to left</p></li>
+<li><p>Square root-transformed values: Kindof normal</p></li>
 </ul>
-<p>Q-Q plot results:</p>
-<ul>
-<li><p>Standardized values:</p></li>
-<li><p>Square root-transformed values:</p></li>
-<li><p>Log-transformed values:</p></li>
-</ul>
-<p>Distribution fitting:</p>
-<ul>
-<li><p>Normal distribution fit to raw values:</p></li>
-<li><p>Normal distribution fit to log-transformed data</p></li>
-<li><p>Normal distribution fit to square root-transformed data</p></li>
-<li><p>Logistic distribution fit to raw values:</p></li>
-<li><p>Logistic distribution fit to log-transformed data</p></li>
-<li><p>Logistic distribution fit to square root-transformed data</p></li>
-</ul>
-<p><br></p>
-<p><strong>Statistical tests and visualizations</strong></p>
 <div class="cell">
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="identify-distribution_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="identify-distribution_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="identify-distribution_files/figure-html/unnamed-chunk-6-2.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="identify-distribution_files/figure-html/unnamed-chunk-17-2.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="identify-distribution_files/figure-html/unnamed-chunk-6-3.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="identify-distribution_files/figure-html/unnamed-chunk-17-3.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="identify-distribution_files/figure-html/unnamed-chunk-6-4.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="identify-distribution_files/figure-html/unnamed-chunk-6-5.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="identify-distribution_files/figure-html/unnamed-chunk-6-6.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="identify-distribution_files/figure-html/unnamed-chunk-6-7.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] "Normal Distribution Fit for nonnative abundance"</code></pre>
-</div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="identify-distribution_files/figure-html/unnamed-chunk-6-8.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>NULL
-[1] "Normal Distribution Fit for Log-transformed nonnative abundance"</code></pre>
-</div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="identify-distribution_files/figure-html/unnamed-chunk-6-9.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] "Normal Distribution Fit for Square Root-transformed nonnative abundance"</code></pre>
-</div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="identify-distribution_files/figure-html/unnamed-chunk-6-10.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] "Logistic Distribution Fit for nonnative abundance"</code></pre>
-</div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="identify-distribution_files/figure-html/unnamed-chunk-6-11.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] "Logistic Distribution Fit for Log-transformed nonnative abundance"</code></pre>
-</div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="identify-distribution_files/figure-html/unnamed-chunk-6-12.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] "Logistic Distribution Fit for Square Root-transformed nonnative abundance"</code></pre>
-</div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="identify-distribution_files/figure-html/unnamed-chunk-6-13.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="identify-distribution_files/figure-html/unnamed-chunk-17-4.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
 </section>
+<section id="goodness-of-fit-3" class="level4" data-number="3.2.3.2">
+<h4 data-number="3.2.3.2" class="anchored" data-anchor-id="goodness-of-fit-3"><span class="header-section-number">3.2.3.2</span> Goodness-of-fit</h4>
+<p>A comparison of theoretical and empirical distributions showed the best fit for square root-transformed values.</p>
+<ul>
+<li><p>Raw values: Different central tendency and symmetry for empirical and theoretical density plot; curvature away from the reference line for upper values in the QQ plot; points relatively consistent with reference line for PP plot, and CDF</p></li>
+<li><p>Standardized values: Same as for raw values</p>
+<p>Log-transformed values: Different central tendency and symmetry for empirical and theoretical density plot; modest curvature away from the reference line in the QQ plot, PP plot, and CDF</p>
+<p>Square root-transformed values: Similar central tendency and spread for density curves (empirical still isn’t completely symmetrical); points relatively consistent with reference line for the QQ plot, PP plot, and CDF</p></li>
+</ul>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Normal Distribution Fit for non-native abundance"
+
+    Shapiro-Wilk normality test
+
+data:  data$value
+W = 0.95865, p-value = 2.265e-08</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="identify-distribution_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+[1] "Normal Distribution Fit for Standardized non-native abundance"
+
+    Shapiro-Wilk normality test
+
+data:  data$value_std
+W = 0.95865, p-value = 2.265e-08</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="identify-distribution_files/figure-html/unnamed-chunk-18-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+[1] "Normal Distribution Fit for Log-transformed non-native abundance"
+
+    Shapiro-Wilk normality test
+
+data:  data$value_log
+W = 0.92746, p-value = 5.293e-12</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="identify-distribution_files/figure-html/unnamed-chunk-18-3.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+[1] "Normal Distribution Fit for Square Root-transformed non-native abundance"
+
+    Shapiro-Wilk normality test
+
+data:  data$value_sqrt
+W = 0.98814, p-value = 0.005948</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="identify-distribution_files/figure-html/unnamed-chunk-18-4.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<hr>
+</section>
+</section>
+</section>
+</section>
+<section id="packages-used" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> Packages Used</h1>
+<pre><code>Base R: hist(), paste(), print(), cat(), message(), tryCatch(), if(), %in%, glm()
+vcd:
+    goodfit()
+fitdistrplus:
+    fitdist()
+MASS:
+    fitdistr()
+    glm.nb()
+bbmle:
+    mle2()
+    coef() (on mle2() objects)
+pscl:
+    zeroinfl()
+    vuong()
+car:
+    qqp()</code></pre>
 </section>
 
 </main>
