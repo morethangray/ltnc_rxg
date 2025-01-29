@@ -33,7 +33,7 @@ library(sessioninfo)
 source(here("R/functions/fxn_utilities.R"))
 # Read the richness and abundance data tables
 source(here("R/functions/fxn_load_rich_abun.R"))
-source(here("R/functions/fxn_model-selection.R"))
+source(here("R/functions/fxn_model-selection_abun.R"))
 
 
 ```
@@ -79,35 +79,45 @@ The final model was selected based on AICc, diagnostic plot review, and ecologic
 
 ## Native species
 
+### Initial model assessment
+
 The log-transformed response with random slopes and intercepts for treatment by plot emerged as the best initial model based on AIC values and diagnostic plots.
+
+```{r}
+
+```
+
+### Fixed effects selection
+
+### Random effects selection
+
+### Final model selection
 
 The final selected model included log-transformed abundance as the response variable, treatment, year, and plot type as fixed effects, and random slopes and intercepts for treatment by plot. This model satisfied assumptions of uniform residual distribution and proper dispersion, showed no significant outliers, and maintained convergence without singularity issues.
 
+------------------------------------------------------------------------
+
 ## Native forb species
 
+------------------------------------------------------------------------
+
 ## Non-native species
+
+------------------------------------------------------------------------
 
 # References
 
 -   Barton, K. (2022). *MuMIn: Multi-Model Inference*. R package version 1.46.0.
+
 -   Bates, D., Mächler, M., Bolker, B. M., & Walker, S. C. (2015). Fitting Linear Mixed-Effects Models Using lme4. *Journal of Statistical Software*, *67*(1), 1–48.
+
 -   Firshman, T. (2023). *janitor: Simple Data Frame Cleaning Functions*. R package version 2.2.0.
+
 -   Hartig, F. (2022). *DHARMa: Residual Diagnostics for Hierarchical (Multi-Level / Mixed) Regression Models*. R package version 0.4.6.
+
 -   Lüdecke, D., Ben-Shachar, M., Patil, I., Waggoner, P., & Makowski, D. (2021). performance: Assessing and Comparing Statistical Models. *Journal of Open Source Software*, *6*(60), 3139.
 
-## Required R packages:
-
-lme4: Model fitting
-
-MuMIn: Model selection and multi-model inference
-
-DHARMa: Model diagnostics and residual checks
-
-dplyr: Data manipulation
-
-janitor: Name cleaning
-
-------------------------------------------------------------------------
+    å
 
 # Session info
 

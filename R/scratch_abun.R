@@ -1,177 +1,19 @@
 # ========================================================== -----
 # abundance model selection ----
+# ========================================================== -----
+# NATIVE SPECIES  ----
 # ---------------------------------------------------------- -----
-# Functions ----
-#   fxn_fixed_dredge_by_model ----
-fxn_fixed_dredge_by_model <- function(index_model) {
-  input_model <- get(index_model)
-  
-  f0 <- update(input_model, . ~ . +
-                 plot_type +
-                 f_year +
-                 # grazer +
-                 f_break +
-                 f_new +
-                 f_one_yr +
-                 f_two_yr)
-  
-  dd <- dredge(f0)
-  
-  aic_fixed <-
-    subset(dd, delta < 6) %>%
-    as_tibble(rownames = "model_name") %>%
-    mutate(
-      rank = 1:n(),
-      input_model = index_model
-    ) %>%
-    clean_names() %>%
-    dplyr::relocate(input_model,
-                    rank,
-                    treatment,
-                    f_one_yr,
-                    f_two_yr,
-                    f_break,
-                    f_new,
-                    plot_type,
-                    f_year,
-                    # grazer,
-                    delta,
-                    weight,
-                    aicc = ai_cc,
-                    df,
-                    model_name
-    )
-}
-
-#   fxn_fixed_one ----
-# index_subset <- "n_val_i"
-fxn_fixed_one <- function(index_subset) {
-  input_model <- get(paste0(index_subset, "_red"))
-  
-  f01 <- update(input_model, . ~ . + plot_type)
-  # f02 <- update(input_model, . ~ . + grazer)
-  f03 <- update(input_model, . ~ . + f_break)
-  f04 <- update(input_model, . ~ . + f_new)
-  f05 <- update(input_model, . ~ . + f_one_yr)
-  f06 <- update(input_model, . ~ . + f_two_yr)
-  f07 <- update(input_model, . ~ . + f_year)
-  
-  model.sel(
-    f01,
-    # f02,
-    f03,
-    f04,
-    f05, f06, f07
-  ) %>%
-    as_tibble(rownames = "model_name") %>%
-    clean_names() %>%
-    mutate(
-      input_model = index_subset,
-      rank = 1:n()
-    ) %>%
-    dplyr::relocate(input_model,
-                    rank,
-                    treatment,
-                    f_one_yr,
-                    f_two_yr,
-                    f_break,
-                    f_new,
-                    plot_type,
-                    f_year,
-                    # grazer,
-                    delta,
-                    weight,
-                    aicc = ai_cc,
-                    df,
-                    model_name
-    )
-}
-#   fxn_fixed_two ----
-fxn_fixed_two <- function(index_subset) {
-  input_model <- get(paste0(index_subset, "_red"))
-  
-  f08 <- update(input_model, . ~ . + f_year + plot_type)
-  # f09 <- update(input_model, . ~ . + f_year + grazer)
-  f10 <- update(input_model, . ~ . + f_year + f_break)
-  f11 <- update(input_model, . ~ . + f_year + f_new)
-  f12 <- update(input_model, . ~ . + f_year + f_one_yr)
-  f13 <- update(input_model, . ~ . + f_year + f_two_yr)
-  
-  model.sel(
-    f08,
-    # f09,
-    f10, f11, f12, f13
-  ) %>%
-    as_tibble(rownames = "model_name") %>%
-    clean_names() %>%
-    mutate(
-      input_model = index_subset,
-      rank = 1:n()
-    ) %>%
-    dplyr::relocate(input_model,
-                    rank,
-                    treatment,
-                    f_one_yr,
-                    f_two_yr,
-                    f_break,
-                    f_new,
-                    plot_type,
-                    f_year,
-                    # grazer,
-                    delta,
-                    weight,
-                    aicc = ai_cc,
-                    df,
-                    model_name
-    )
-}
-
-
-#   fxn_random ----
-fxn_random <- function(index_model) {
-  best_fixed <- index_model
-  
-  # Add each random intercept one at a time
-  m11 <- update(best_fixed, . ~ . + (1 | plot_type))
-  m12 <- update(best_fixed, . ~ . + (1 | f_year))
-  m13 <- update(best_fixed, . ~ . + (1 | f_year / grazer))
-  m14 <- update(best_fixed, . ~ . + (1 | grazer))
-  m15 <- update(best_fixed, . ~ . + (1 | f_break))
-  m16 <- update(best_fixed, . ~ . + (1 | f_one_yr))
-  m17 <- update(best_fixed, . ~ . + (1 | f_two_yr))
-  m18 <- update(best_fixed, . ~ . + (1 | f_new))
-  #
-  # # Add each random slope one at a time
-  m21 <- update(best_fixed, . ~ . + (1 + f_year | plot_type))
-  m22 <- update(best_fixed, . ~ . + (1 + treatment | f_year))
-  m23 <- update(best_fixed, . ~ . + (1 + treatment | f_year / grazer))
-  m24 <- update(best_fixed, . ~ . + (1 + treatment | grazer))
-  m25 <- update(best_fixed, . ~ . + (1 + treatment | f_break))
-  m26 <- update(best_fixed, . ~ . + (1 + treatment | f_one_yr))
-  m27 <- update(best_fixed, . ~ . + (1 + treatment | f_two_yr))
-  m28 <- update(best_fixed, . ~ . + (1 + treatment | f_new))
-  
-  model.sel(
-    best_fixed,
-    m11,
-    m12, m13, m14,
-    m15, m16, m17, m18,
-    m21, m22, m23, m24,
-    m25, m26, m27, m28
-  )
-}
-# ---------------------------------------------------------- -----
-# Fit reduced models  -----
+# Fit initial models  -----
 # Create a bunch of potential models: glm, glmer, glm.nb, glmmTMB, lmer
 
 #   value_std: normal (no random effect)
-n0 <- lm(value_std ~ treatment, data = abun_nat)
-n0n <- lm(value_std ~ 1, data = abun_nat)
+n0 <- lm(value_std ~ treatment, data = abun_nat) #lm
+n0n <- lm(value_std ~ 1, data = abun_nat) #lm_null
 #   value: normal
-n1 <- lmer(value_std ~ treatment + (1 | plot_name), data = abun_nat, REML = FALSE)
-n2 <- lmer(value_std ~ treatment + (1 + treatment | plot_name), data = abun_nat, REML = FALSE)
-n1n <- lmer(value_std ~ 1 + (1 | plot_name), data = abun_nat, REML = FALSE)
-n2n <- lmer(value_std ~ 1 + (1 + treatment | plot_name), data = abun_nat, REML = FALSE)
+n1 <- lmer(value_std ~ treatment + (1 | plot_name), data = abun_nat, REML = FALSE) #lmer_1
+n2 <- lmer(value_std ~ treatment + (1 + treatment | plot_name), data = abun_nat, REML = FALSE) #lmer_2
+n1n <- lmer(value_std ~ 1 + (1 | plot_name), data = abun_nat, REML = FALSE) #lmer_null_1
+n2n <- lmer(value_std ~ 1 + (1 + treatment | plot_name), data = abun_nat, REML = FALSE) #lmer_null_2
 
 #   value_log: normal
 n3 <- lmer(value_log ~ treatment + (1 | plot_name), data = abun_nat, REML = FALSE)
@@ -185,98 +27,84 @@ n6 <- lmer(value_sqrt ~ treatment + (1 + treatment | plot_name), data = abun_nat
 n5n <- lmer(value_sqrt ~ 1 + (1 | plot_name), data = abun_nat, REML = FALSE)
 n6n <- lmer(value_sqrt ~ 1 + (1 + treatment | plot_name), data = abun_nat, REML = FALSE)
 
-# Review reduced model performance ----
+# Review initial model performance ----
 AIC(n0, n0n) # n0
 model.sel(n1, n2, n1n, n2n) # n2, n1
-model.sel(n3, n4, n3n, n4n) # n4, n3
+model.sel(n3, n4, n3n, n4n) # n4, n4n
 model.sel(n5, n6, n5n, n6n) # n6, n5
 
 plotQQunif(n0) # significant deviation for KS test
 plotQQunif(n2) # significant deviation for KS test
-plotQQunif(n4) # looks good
+plotQQunif(n4) # looks ok
 plotQQunif(n6) # significant deviation for KS test
 
-best_reduced <- n4
+best_initial <- n4
 
-testDispersion(best_reduced)
-check_singularity(best_reduced)
-testUniformity(best_reduced)
-plotQQunif(best_reduced)
-testOutliers(best_reduced)
+testDispersion(best_initial)
+check_singularity(best_initial)
+testUniformity(best_initial)
+plotQQunif(best_initial)
+testOutliers(best_initial)
 
-plotResiduals(best_reduced)
-plotResiduals(best_reduced, abun_nat$treatment)
-plotResiduals(best_reduced, abun_nat$f_year) # y4
-plotResiduals(best_reduced, abun_nat$f_break)
-plotResiduals(best_reduced, abun_nat$f_one_yr)
-plotResiduals(best_reduced, abun_nat$f_two_yr)
-plotResiduals(best_reduced, abun_nat$f_new)
-plotResiduals(best_reduced, abun_nat$grazer) # grazer
+plotResiduals(best_initial)
+plotResiduals(best_initial, abun_nat$treatment)
+plotResiduals(best_initial, abun_nat$f_year) # y4
+plotResiduals(best_initial, abun_nat$f_break)
+plotResiduals(best_initial, abun_nat$f_one_yr)
+plotResiduals(best_initial, abun_nat$f_two_yr)
+plotResiduals(best_initial, abun_nat$f_new)
+plotResiduals(best_initial, abun_nat$grazer) # grazer
 
-# Best reduced: n4 ----
+# Best initial: n4 (log-transformed)----
 lmer(value_log ~ treatment + (1 + treatment | plot_name), data = abun_nat, REML = FALSE)
 
 # Define subset and model ----
-abun_nat <- abun %>%
-  filter(met_sub %in% "abun_nat")
-
-model_abun_nat_red <-
+model_abun_nat_init <-
   lmer(value_log ~ treatment + (1 + treatment | plot_name),
        data = abun, subset = met_sub == "abun_nat", REML = FALSE
   )
 
 # Fit fixed effects  ----
-abun_nat_tbl_fix_dredge <- fxn_fixed_dredge_by_model(index_subset = "abun_nat")
-abun_nat_tbl_fix_one <- fxn_fixed_one(index_subset = "abun_nat")
-abun_nat_tbl_fix_two <- fxn_fixed_two(index_subset = "abun_nat")
+abun_nat_tbl_fix_dredge <- fxn_fixed_dredge_by_model(index_model = "model_abun_nat_init")
+abun_nat_tbl_fix_one <- fxn_fixed_one(index_model = "model_abun_nat_init")
+abun_nat_tbl_fix_two <- fxn_fixed_two(index_model = "model_abun_nat_init")
 
+bind_fixed <- bind_rows(abun_nat_tbl_fix_dredge, 
+                        abun_nat_tbl_fix_one, 
+                        abun_nat_tbl_fix_two) %>%
+  arrange(aicc) 
 
-abun_nat_graz <- lmer(value_log ~ treatment + (1 + treatment | plot_name) + grazer,
-                      data = abun_nat, REML = FALSE
-)
-
-plotResiduals(abun_nat_graz, abun_nat$treatment)
-plotResiduals(abun_nat_graz, abun_nat$f_year)
-plotResiduals(abun_nat_graz, abun_nat$f_break)
-plotResiduals(abun_nat_graz, abun_nat$f_one_yr)
-plotResiduals(abun_nat_graz, abun_nat$f_two_yr)
-# plotResiduals(abun_nat_graz, abun_nat$grazer)
-testUniformity(abun_nat_graz)
-
-abun_nat_yr <- lmer(
-  value_log ~ treatment + (1 + treatment | plot_name) +
-    f_year +
-    plot_type,
-  data = abun_nat, REML = FALSE
-)
-
-plotResiduals(abun_nat_yr, abun_nat$treatment)
-plotResiduals(abun_nat_yr, abun_nat$f_year)
-plotResiduals(abun_nat_yr, abun_nat$f_break)
-plotResiduals(abun_nat_yr, abun_nat$f_one_yr)
-plotResiduals(abun_nat_yr, abun_nat$f_two_yr)
-testUniformity(abun_nat_yr)
+bind_fixed %>%
+  mutate(aicc_round = round(aicc, 0)) %>%
+  dplyr::select(treatment, 
+         starts_with("f_"), 
+         plot_type, 
+         aicc_round) %>%
+  distinct()
 
 #   Identify best fixed model ----
-model_abun_nat_fix <- lmer(value_log ~ treatment + (1 + treatment | plot_name) + f_year + plot_type,
-                           data = abun, subset = met_sub == "abun_nat", REML = FALSE
+model_abun_nat_fix <- lmer(
+  value_log ~ treatment + (1 + treatment | plot_name) + f_year,
+  data = abun, subset = met_sub == "abun_nat", REML = FALSE
 )
 
+# Plot the residuals for the variables in the model
 plotResiduals(model_abun_nat_fix, abun_nat$treatment)
 plotResiduals(model_abun_nat_fix, abun_nat$f_year)
-plotResiduals(model_abun_nat_fix, abun_nat$f_break)
-plotResiduals(model_abun_nat_fix, abun_nat$f_one_yr)
-plotResiduals(model_abun_nat_fix, abun_nat$f_two_yr)
+# plotResiduals(model_abun_nat_fix, abun_nat$f_break)
+# plotResiduals(model_abun_nat_fix, abun_nat$f_one_yr)
+# plotResiduals(model_abun_nat_fix, abun_nat$f_two_yr)
 testUniformity(model_abun_nat_fix)
 
 # Fit random effects  ----
-#   Reduced model with random effects ----
-abun_nat_red_tbl_ran <- fxn_random(index_model = model_abun_nat_red)
+#   initial model with random effects ----
+abun_nat_init_tbl_ran <- fxn_random(index_model = model_abun_nat_init)
 #   Fixed effects model(s) with random effects ----
 abun_nat_fix_tbl_ran <- fxn_random(index_model = model_abun_nat_fix)
 
-model_abun_nat_ran <- lmer(value_log ~ treatment + (1 + treatment | plot_name) + f_year + plot_type,
-                           data = abun, subset = met_sub == "abun_nat", REML = FALSE
+model_abun_nat_ran <- lmer(
+  value_log ~ treatment + (1 + treatment | plot_name) + f_year,
+  data = abun, subset = met_sub == "abun_nat", REML = FALSE
 )
 #   Review random model performance ----
 temp_model <- model_abun_nat_ran
@@ -287,27 +115,359 @@ check_singularity(temp_model)
 testUniformity(temp_model)
 testOutliers(temp_model)
 
+# Plot the residuals for the variables in the model
 plotResiduals(temp_model, abun_nat$treatment)
 plotResiduals(temp_model, abun_nat$f_year)
-plotResiduals(temp_model, abun_nat$f_break)
-plotResiduals(temp_model, abun_nat$f_one_yr)
-plotResiduals(temp_model, abun_nat$f_two_yr)
-plotResiduals(temp_model, abun_nat$f_new)
+# plotResiduals(temp_model, abun_nat$f_break)
+# plotResiduals(temp_model, abun_nat$f_one_yr)
+# plotResiduals(temp_model, abun_nat$f_two_yr)
+# plotResiduals(temp_model, abun_nat$f_new)
 # plotResiduals(temp_model, abun_nat$grazer)
 
 #   Final model ----
 model_abun_nat_final <-
-  lmer(value_log ~ treatment + (1 + treatment | plot_name) + f_year + plot_type,
+  lmer(value_log ~ treatment + (1 + treatment | plot_name) + f_year,
        data = abun, subset = met_sub == "abun_nat", REML = FALSE
   )
 
+# Plot the residuals for the variables in the model
 plotResiduals(model_abun_nat_final, abun_nat$treatment)
 plotResiduals(model_abun_nat_final, abun_nat$f_year)
-plotResiduals(model_abun_nat_final, abun_nat$f_break)
-plotResiduals(model_abun_nat_final, abun_nat$f_new)
-plotResiduals(model_abun_nat_final, abun_nat$grazer) #
-plotResiduals(model_abun_nat_final, abun_nat$f_one_yr)
-plotResiduals(model_abun_nat_final, abun_nat$f_two_yr)
+# plotResiduals(model_abun_nat_final, abun_nat$f_break)
+# plotResiduals(model_abun_nat_final, abun_nat$f_new)
+# plotResiduals(model_abun_nat_final, abun_nat$grazer) 
+# plotResiduals(model_abun_nat_final, abun_nat$f_one_yr)
+# plotResiduals(model_abun_nat_final, abun_nat$f_two_yr)
 
+
+
+# ========================================================== -----
+# NATIVE FORB SPECIES  ----
+# ---------------------------------------------------------- -----
+
+# Fit initial models  -----
+#   value_std: normal (no random effect)
+n0 <- lm(value_std ~ treatment, data = a_frb)
+n0n <- lm(value_std ~ 1, data = a_frb)
+#   value: normal
+n1 <- lmer(value_std ~ treatment + (1 | plot_name), data = a_frb, REML = FALSE)
+n2 <- lmer(value_std ~ treatment + (1 + treatment | plot_name), data = a_frb, REML = FALSE)
+n1n <- lmer(value_std ~ 1 + (1 | plot_name), data = a_frb, REML = FALSE)
+n2n <- lmer(value_std ~ 1 + (1 + treatment | plot_name), data = a_frb, REML = FALSE)
+
+#   value_log: normal
+n3 <- lmer(value_log ~ treatment + (1 | plot_name), data = a_frb, REML = FALSE)
+n4 <- lmer(value_log ~ treatment + (1 + treatment | plot_name), data = a_frb, REML = FALSE)
+n3n <- lmer(value_log ~ 1 + (1 | plot_name), data = a_frb, REML = FALSE)
+n4n <- lmer(value_log ~ 1 + (1 + treatment | plot_name), data = a_frb, REML = FALSE)
+
+#   value_sqrt: normal
+n5 <- lmer(value_sqrt ~ treatment + (1 | plot_name), data = a_frb, REML = FALSE)
+n6 <- lmer(value_sqrt ~ treatment + (1 + treatment | plot_name), data = a_frb, REML = FALSE)
+n5n <- lmer(value_sqrt ~ 1 + (1 | plot_name), data = a_frb, REML = FALSE)
+n6n <- lmer(value_sqrt ~ 1 + (1 + treatment | plot_name), data = a_frb, REML = FALSE)
+
+# Review initial model performance ----
+AIC(n0, n0n) # n0
+model.sel(n1, n2, n1n, n2n) # n2, n1
+model.sel(n3, n4, n3n, n4n) # n4, n3
+model.sel(n5, n6, n5n, n6n) # n6, n5
+
+plotQQunif(n0) # significant deviation for KS test
+plotQQunif(n2) # significant deviation for KS test, significant outlier(s)
+plotQQunif(n4) # looks good
+plotQQunif(n6) # significant deviation for KS test
+
+best_initial <- n4
+
+testDispersion(best_initial)
+check_singularity(best_initial)
+testUniformity(best_initial)
+plotQQunif(best_initial)
+testOutliers(best_initial) # one outlier near 0
+
+plotResiduals(best_initial, a_frb$treatment)
+plotResiduals(best_initial, a_frb$f_year) # y4
+plotResiduals(best_initial, a_frb$f_break) # b0, b1
+plotResiduals(best_initial, a_frb$f_one_yr) # o0, o1
+plotResiduals(best_initial, a_frb$f_two_yr) # fail levene
+plotResiduals(best_initial, a_frb$f_new) # n1
+plotResiduals(best_initial, a_frb$grazer) # goat, sheep
+
+
+# Best initial: n4 ----
+lmer(value_log ~ treatment + (1 + treatment | plot_name), data = a_frb, REML = FALSE)
+
+# Define subset and model ----
+# abun_frb <- abun %>%
+#   filter(met_sub %in% "abun_frb")
+model_abun_frb_init <-
+  lmer(value_log ~ treatment + (1 + treatment | plot_name),
+       data = abun, subset = met_sub == "abun_frb", REML = FALSE
+  )
+# Fit fixed effects  ----
+abun_frb_tbl_fix_dredge <- fxn_fixed_dredge_by_model(index_model = "abun_frb")
+abun_frb_tbl_fix_one <- fxn_fixed_one(index_model = "abun_frb")
+abun_frb_tbl_fix_two <- fxn_fixed_two(index_model = "abun_frb")
+
+abun_frb_fix_yp <- lmer(
+  value_log ~ treatment + (1 + treatment | plot_name) +
+    (f_year) * (plot_type),
+  data = abun, subset = met_sub == "abun_frb", REML = FALSE
+)
+
+abun_frb_fix_y <- lmer(
+  value_log ~ treatment + (1 + treatment | plot_name) +
+    (year),
+  data = abun, subset = met_sub == "abun_frb", REML = FALSE
+)
+
+plotResiduals(abun_frb_fix_yp, abun_frb$treatment)
+plotResiduals(abun_frb_fix_yp, abun_frb$f_year) # levene
+plotResiduals(abun_frb_fix_yp, abun_frb$f_break)
+plotResiduals(abun_frb_fix_yp, abun_frb$f_one_yr) # levene
+plotResiduals(abun_frb_fix_yp, abun_frb$f_two_yr)
+plotResiduals(abun_frb_fix_yp, abun_frb$f_new)
+testUniformity(abun_frb_fix_yp)
+
+# temp <- lmer(value_log ~ treatment + year + plot_type*f_break + (1 + treatment | plot_name),
+#              data = abun, subset = met_sub == "abun_frb", REML = FALSE)
+# plotResiduals(temp, abun_frb$treatment)
+# plotResiduals(temp, abun_frb$f_year)  # levene
+# plotResiduals(temp, abun_frb$f_break)
+# plotResiduals(temp, abun_frb$f_one_yr)  # levene
+# plotResiduals(temp, abun_frb$f_two_yr)
+# plotResiduals(temp, abun_frb$f_new)
+# plotResiduals(temp, abun_frb$grazer) # levene
+# testUniformity(temp)
+
+#   Identify best fixed model ----
+model_abun_frb_fix <- lmer(value_log ~ treatment + (1 + treatment | plot_name) + f_year + plot_type,
+                           data = abun, subset = met_sub == "abun_frb", REML = FALSE
+)
+
+plotResiduals(model_abun_frb_fix, abun_frb$treatment)
+plotResiduals(model_abun_frb_fix, abun_frb$f_year) # levene
+plotResiduals(model_abun_frb_fix, abun_frb$f_break)
+plotResiduals(model_abun_frb_fix, abun_frb$f_one_yr) # levene
+plotResiduals(model_abun_frb_fix, abun_frb$f_two_yr)
+plotResiduals(model_abun_frb_fix, abun_frb$f_new)
+testUniformity(model_abun_frb_fix)
+
+# Fit random effects  ----
+#   initial model with random effects ----
+abun_frb_init_tbl_ran <- fxn_random(index_model = model_abun_frb_init)
+#   Fixed effects model(s) with random effects ----
+abun_frb_fix_tbl_ran <- fxn_random(index_model = model_abun_frb_fix)
+
+model_abun_frb_ran <- lmer(value_log ~ treatment + (1 + treatment | plot_name) + f_year + plot_type,
+                           data = abun, subset = met_sub == "abun_frb", REML = FALSE
+)
+
+#   Review ramdom model performance ----
+mod_a_check <- lmer(
+  value_log ~ treatment + (1 + treatment | plot_name) +
+    f_year +
+    plot_type,
+  data = abun_frb, REML = FALSE
+)
+temp_model <- mod_a_check
+
+testDispersion(temp_model)
+
+check_singularity(temp_model)
+testUniformity(temp_model)
+testOutliers(temp_model) # one outlier near 0
+
+plotResiduals(temp_model, abun_frb$treatment)
+plotResiduals(temp_model, abun_frb$f_year) # levene
+plotResiduals(temp_model, abun_frb$f_break)
+plotResiduals(temp_model, abun_frb$f_one_yr) # levene
+plotResiduals(temp_model, abun_frb$f_two_yr)
+plotResiduals(temp_model, abun_frb$f_new)
+# plotResiduals(temp_model, abun_frb$grazer)
+
+#   Final model ----
+model_abun_frb_final <-
+  lmer(value_log ~ treatment + (1 + treatment | plot_name) + f_year + plot_type,
+       data = abun_frb, REML = FALSE
+  )
+
+model_abun_frb_final_2 <-
+  lmer(value_log ~ treatment + (1 + treatment | plot_name) + f_year + (1 | plot_type),
+       data = abun_frb, REML = FALSE
+  )
+
+plotResiduals(model_abun_frb_final, abun_frb$treatment)
+plotResiduals(model_abun_frb_final, abun_frb$f_year) #
+plotResiduals(model_abun_frb_final, abun_frb$f_break)
+plotResiduals(model_abun_frb_final, abun_frb$f_new)
+plotResiduals(model_abun_frb_final, abun_frb$grazer) #
+plotResiduals(model_abun_frb_final, abun_frb$f_one_yr) #
+plotResiduals(model_abun_frb_final, abun_frb$f_two_yr)
+
+plotResiduals(model_abun_frb_final_2, abun_frb$treatment)
+plotResiduals(model_abun_frb_final_2, abun_frb$f_year) #
+plotResiduals(model_abun_frb_final_2, abun_frb$f_break)
+plotResiduals(model_abun_frb_final_2, abun_frb$f_new)
+plotResiduals(model_abun_frb_final_2, abun_frb$grazer) #
+plotResiduals(model_abun_frb_final_2, abun_frb$f_one_yr) #
+plotResiduals(model_abun_frb_final_2, abun_frb$f_two_yr)
+
+
+# ========================================================== -----
+# NON-NATIVE SPECIES  ----
+# ---------------------------------------------------------- -----
+
+# Fit initial models  -----
+# Create a bunch of potential models: glm, glmer, glm.nb, glmmTMB, lmer
+#   value_std: normal (no random effect)
+n0 <- lm(value_std ~ treatment, data = a_non)
+n0n <- lm(value_std ~ 1, data = a_non)
+#   value: normal
+n1 <- lmer(value_std ~ treatment + (1 | plot_name), data = a_non, REML = FALSE)
+n2 <- lmer(value_std ~ treatment + (1 + treatment | plot_name), data = a_non, REML = FALSE)
+n1n <- lmer(value_std ~ 1 + (1 | plot_name), data = a_non, REML = FALSE)
+n2n <- lmer(value_std ~ 1 + (1 + treatment | plot_name), data = a_non, REML = FALSE)
+
+#   value_log: normal
+n3 <- lmer(value_log ~ treatment + (1 | plot_name), data = a_non, REML = FALSE)
+n4 <- lmer(value_log ~ treatment + (1 + treatment | plot_name), data = a_non, REML = FALSE)
+n3n <- lmer(value_log ~ 1 + (1 | plot_name), data = a_non, REML = FALSE)
+n4n <- lmer(value_log ~ 1 + (1 + treatment | plot_name), data = a_non, REML = FALSE)
+
+#   value_sqrt: normal
+n5 <- lmer(value_sqrt ~ treatment + (1 | plot_name), data = a_non, REML = FALSE)
+n6 <- lmer(value_sqrt ~ treatment + (1 + treatment | plot_name), data = a_non, REML = FALSE)
+n5n <- lmer(value_sqrt ~ 1 + (1 | plot_name), data = a_non, REML = FALSE)
+n6n <- lmer(value_sqrt ~ 1 + (1 + treatment | plot_name), data = a_non, REML = FALSE)
+
+# Review initial model performance ----
+AIC(n0, n0n) # n0
+model.sel(n1, n2, n1n, n2n) # n1n (then n1)
+model.sel(n3, n4, n3n, n4n) # n3n (then n4n)
+model.sel(n5, n6, n5n, n6n) # n5n (then n6n)
+
+plotQQunif(n0) # significant deviation for KS test
+plotQQunif(n1n) # significant deviation for KS test
+plotQQunif(n3n) # significant deviation for KS test
+plotQQunif(n4n) # significant deviation for KS test
+plotQQunif(n5n) # looks good
+# y4, y6; b0, b1; o0, o1; n0, n1; sheep, goat; levene for f_two_yr
+
+plotQQunif(n6n) # looks good
+# one outlier near 1.0
+# y4, y6; b0, b1; o0, o1; n0, n1; sheep, goat; levene for f_two_yr
+
+best_initial <- n6n
+
+testDispersion(best_initial)
+check_singularity(best_initial)
+testUniformity(best_initial)
+testOutliers(best_initial)
+
+plotResiduals(best_initial, a_non$treatment)
+plotResiduals(best_initial, a_non$f_year)
+plotResiduals(best_initial, a_non$f_break)
+plotResiduals(best_initial, a_non$f_one_yr)
+plotResiduals(best_initial, a_non$f_two_yr)
+plotResiduals(best_initial, a_non$f_new)
+plotResiduals(best_initial, a_non$grazer)
+
+# Best initial: n6n ----
+lmer(value_sqrt ~ 1 + (1 | plot_name), data = a_non, REML = FALSE)
+
+# Define subset and model ----
+# abun_non <- abun %>%
+#   filter(met_sub %in% "abun_non")
+
+model_abun_non_init <-
+  lmer(value_sqrt ~ 1 + (1 | plot_name),
+       data = abun, subset = met_sub == "abun_non", REML = FALSE
+  )
+
+# Fit fixed effects  ----
+abun_non_tbl_fix_dredge <- fxn_fixed_dredge_by_model(index_model = "abun_non")
+# Treatment not significant!
+
+abun_non_tbl_fix_one <- fxn_fixed_one(index_model = "abun_non")
+abun_non_tbl_fix_two <- fxn_fixed_two(index_model = "abun_non")
+
+abun_non_fix_yp <- update(model_abun_non_init, . ~ . + f_year + plot_type)
+abun_non_fix_yt <- update(model_abun_non_init, . ~ . + f_year + f_two_yr) # BEST
+abun_non_fix_ytp <- update(model_abun_non_init, . ~ . + f_year + f_two_yr + plot_type)
+abun_non_fix_yn <- update(model_abun_non_init, . ~ . + f_year + f_new) # VERY BAD
+abun_non_fix_y <- update(model_abun_non_init, . ~ . + f_year)
+
+plotResiduals(abun_non_fix_yp, abun_non$treatment)
+plotResiduals(abun_non_fix_yp, abun_non$f_year) # y4
+plotResiduals(abun_non_fix_yp, abun_non$f_break) # b2
+plotResiduals(abun_non_fix_yp, abun_non$f_one_yr) # o0
+plotResiduals(abun_non_fix_yp, abun_non$f_two_yr) # t1
+testUniformity(abun_non_fix_yp)
+
+plotResiduals(abun_non_fix_y, abun_non$treatment)
+plotResiduals(abun_non_fix_y, abun_non$f_year) # y4
+plotResiduals(abun_non_fix_y, abun_non$f_break) # b2
+plotResiduals(abun_non_fix_y, abun_non$f_one_yr) # o0, o1
+plotResiduals(abun_non_fix_y, abun_non$f_two_yr) # t1
+testUniformity(abun_non_fix_y)
+
+plotResiduals(abun_non_fix_yt, abun_non$treatment)
+plotResiduals(abun_non_fix_yt, abun_non$f_year) # levene
+plotResiduals(abun_non_fix_yt, abun_non$f_break)
+plotResiduals(abun_non_fix_yt, abun_non$f_one_yr)
+plotResiduals(abun_non_fix_yt, abun_non$f_two_yr)
+testUniformity(abun_non_fix_yt)
+
+# plotResiduals(abun_non_fix_yn, abun_non$treatment)  # VERY BAD all metrics
+# plotResiduals(abun_non_fix_yn, abun_non$f_year)  # y5
+# plotResiduals(abun_non_fix_yn, abun_non$f_break)
+# plotResiduals(abun_non_fix_yn, abun_non$f_one_yr)
+# plotResiduals(abun_non_fix_yn, abun_non$f_two_yr)
+# testUniformity(abun_non_fix_yn)
+
+#   Identify best fixed model ----
+model_abun_non_fix <- lmer(value_sqrt ~ 1 + (1 | plot_name) + f_year + f_two_yr,
+                           data = abun_non, REML = FALSE
+)
+
+# Fit random effects  ----
+#   initial model with random effects ----
+abun_non_init_tbl_ran <- fxn_random(index_model = model_abun_non_init)
+#   Fixed effects model(s) with random effects ----
+abun_non_fix_tbl_ran <- fxn_random(index_model = model_abun_non_fix)
+
+model_abun_non_ran <- lmer(value_sqrt ~ 1 + (1 | plot_name) + f_year + f_two_yr,
+                           data = abun_non, REML = FALSE
+)
+
+#   Review ramdom model performance ----
+mod_a_check <- lmer(
+  value_log ~ treatment + (1 + treatment | plot_name) +
+    f_year +
+    plot_type,
+  data = abun_non, REML = FALSE
+)
+temp_model <- mod_a_check
+
+testDispersion(temp_model)
+
+check_singularity(temp_model)
+testUniformity(temp_model)
+testOutliers(temp_model) # one outlier near 0
+
+plotResiduals(temp_model, abun_non$treatment)
+plotResiduals(temp_model, abun_non$f_year) # levene
+plotResiduals(temp_model, abun_non$f_break)
+plotResiduals(temp_model, abun_non$f_one_yr) # levene
+plotResiduals(temp_model, abun_non$f_two_yr)
+plotResiduals(temp_model, abun_non$f_new)
+# plotResiduals(temp_model, abun_non$grazer)
+
+#   Final model ----
+model_abun_non_final <- lmer(value_sqrt ~ 1 + (1 | plot_name) + f_year + f_two_yr,
+                             data = abun_non, REML = FALSE
+)
 
 # ========================================================== -----

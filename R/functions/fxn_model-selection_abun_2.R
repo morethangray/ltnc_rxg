@@ -1,0 +1,328 @@
+# Load required packages ----
+library(lme4)      # For mixed-effects models
+library(MuMIn)     # For model selection
+library(dplyr)     # For data manipulation
+library(ggplot2)   # For visualization
+
+# Function to fit initial models ----
+fxn_initial_model <- function(data) {
+  responses <- c("value_std", "value_log", "value_sqrt")
+  best_models <- list()
+  
+  # Create empty data frame for summary of all models
+  summary_df <- data.frame(
+    response = character(),
+    model_name = character(),
+    aic = numeric(),
+    stringsAsFactors = FALSE
+  )
+  
+  for (response in responses) {
+    models <- list(
+      lm = lm(as.formula(paste(response, "~ treatment")), data = data),
+      lm_null = lm(as.formula(paste(response, "~ 1")), data = data),
+      lmer_1 = lmer(as.formula(paste(response, "~ treatment + (1 | plot_name)")), data = data, REML = FALSE),
+      lmer_2 = lmer(as.formula(paste(response, "~ treatment + (1 + treatment | plot_name)")), data = data, REML = FALSE),
+      lmer_null_1 = lmer(as.formula(paste(response, "~ 1 + (1 | plot_name)")), data = data, REML = FALSE),
+      lmer_null_2 = lmer(as.formula(paste(response, "~ 1 + (1 + treatment | plot_name)")), data = data, REML = FALSE)
+    )
+    
+    # Calculate AIC values for all models
+    aic_values <- AIC(models$lm, models$lm_null)
+    rownames(aic_values) <- c("lm", "lm_null")
+    mixed_model_selection <- model.sel(lmer_1 = models$lmer_1, 
+                                       lmer_2 = models$lmer_2,
+                                       lmer_null_1 = models$lmer_null_1,
+                                       lmer_null_2 = models$lmer_null_2) 
+    
+    # Add linear models to summary
+    lm_summary <- data.frame(
+      response = response,
+      model_name = rownames(aic_values),
+      aic = aic_values$AIC,
+      stringsAsFactors = FALSE
+    )
+    
+    # Add mixed models to summary
+    mixed_summary <- data.frame(
+      response = response,
+      model_name = rownames(mixed_model_selection),
+      aic = mixed_model_selection$AICc,
+      stringsAsFactors = FALSE
+    )
+    
+    # Combine all models for this response
+    response_summary <- rbind(lm_summary, mixed_summary)
+    summary_df <- rbind(summary_df, response_summary)
+    
+    # Find best model for this response
+    if (min(aic_values$AIC) < min(mixed_model_selection$AICc)) {
+      best_model_name <- names(models)[which.min(aic_values$AIC)]
+      best_model <- models[[best_model_name]]
+      best_aic <- min(aic_values$AIC)
+    } else {
+      best_model_name <- rownames(mixed_model_selection)[which.min(mixed_model_selection$AICc)]
+      best_model <- models[[best_model_name]]
+      best_aic <- min(mixed_model_selection$AICc)
+    }
+    
+    best_models[[response]] <- list(
+      response = response,
+      model = best_model,
+      model_name = best_model_name,
+      formula = formula(best_model),
+      aic = best_aic
+    )
+  }
+  
+  best_response <- names(best_models)[which.min(sapply(best_models, function(x) x$aic))]
+  best_overall <- best_models[[best_response]]
+  
+  # Return both the best model and the complete summary table
+  return(list(
+    best_model = best_overall,
+    summary_table = summary_df %>%
+      arrange(aic)
+  ))
+}
+
+# Function to review model performance ----
+fxn_model_review <- function(model, data) {
+  model_terms <- attr(terms(model), "term.labels")
+  
+  # Diagnostic checks
+  testDispersion(model)
+  check_singularity(model)
+  testUniformity(model)
+  testOutliers(model)
+  
+  # Residual plots only for included terms
+  for (term in model_terms) {
+    if (term %in% names(data)) {
+      plotResiduals(model, data[[term]])
+    }
+  }
+}
+
+# Function to fit and select fixed effects models ----
+fxn_fixed_effects <- function(index_model, method = c("dredge", "one", "two")) {
+  method <- match.arg(method)
+  input_model <- get(index_model)
+  
+  if (method == "dredge") {
+    f0 <- update(input_model, . ~ . + plot_type + f_year + f_break + f_new + f_one_yr + f_two_yr)
+    dd <- dredge(f0)
+    results <- subset(dd, delta < 6) %>% as_tibble(rownames = "model_name")
+  } else {
+    model_terms <- list(
+      one = c("plot_type", "f_break", "f_new", "f_one_yr", "f_two_yr", "f_year"),
+      two = list(
+        c("f_year", "plot_type"), c("f_year", "f_break"), c("f_year", "f_new"),
+        c("f_year", "f_one_yr"), c("f_year", "f_two_yr")
+      )
+    )
+    
+    models <- if (method == "one") {
+      lapply(model_terms$one, function(term) update(input_model, as.formula(paste(". ~ . +", term))))
+    } else {
+      lapply(model_terms$two, function(terms) update(input_model, as.formula(paste(". ~ . +", paste(terms, collapse = " + ")))))
+    }
+    
+    results <- model.sel(models) %>% as_tibble(rownames = "model_name")
+  }
+  
+  results %>%
+    janitor::clean_names() %>%
+    mutate(input_model = index_model, rank = row_number()) %>%
+    relocate(input_model, rank, treatment, f_one_yr, f_two_yr, f_break, f_new, plot_type, f_year, delta, weight, aicc = ai_cc, df, model_name)
+}
+
+# Function to fit and select random effects models ----
+fxn_random_effects <- function(best_fixed_model) {
+  random_terms <- c(
+    "(1 | plot_type)", "(1 | f_year)", "(1 | f_year / grazer)", "(1 | grazer)",
+    "(1 | f_break)", "(1 | f_one_yr)", "(1 | f_two_yr)", "(1 | f_new)",
+    "(1 + f_year | plot_type)", "(1 + treatment | f_year)", "(1 + treatment | f_year / grazer)",
+    "(1 + treatment | grazer)", "(1 + treatment | f_break)", "(1 + treatment | f_one_yr)",
+    "(1 + treatment | f_two_yr)", "(1 + treatment | f_new)"
+  )
+  
+  models <- lapply(random_terms, function(term) update(best_fixed_model, as.formula(paste(". ~ . +", term))))
+  model.sel(best_fixed_model, models)
+}
+
+# Function to fit final model ----
+fit_final_model <- function(data, response) {
+  lmer(
+    as.formula(paste(response, "~ treatment + (1 + treatment | plot_name) + f_year + plot_type")), 
+    data = data, REML = FALSE
+  )
+}
+
+
+# ========================================================== -----
+
+
+
+fxn_select_fixed_effects <- function(index_model, data) {
+  # Fit models
+  fix_dredge <- fxn_fixed_dredge_by_model(index_model)
+  fix_one <- fxn_fixed_one(index_model)
+  fix_two <- fxn_fixed_two(index_model)
+  
+  # Combine and select the best model
+  best_fixed <- bind_rows(fix_dredge, fix_one, fix_two) %>%
+    arrange(aicc) %>%
+    slice(1)  # Select best model based on AICc
+  
+  # Fit the best fixed model
+  model <- lmer(
+    value_log ~ treatment + (1 + treatment | plot_name) + f_year,
+    data = data, subset = met_sub == "abun_nat", REML = FALSE
+  )
+  
+  # Residual analysis for included terms
+  included_terms <- names(fixef(model))
+  lapply(included_terms, function(term) plotResiduals(model, data[[term]]))
+  
+  testUniformity(model)
+  
+  return(model)
+}
+
+# Function to fit and assess random effects  ----
+fxn_random_effects <- function(best_fixed_model) {
+  random_terms <- list(
+    "(1 | plot_type)", "(1 | f_year)", "(1 | f_year / grazer)",
+    "(1 | grazer)", "(1 | f_break)", "(1 | f_one_yr)",
+    "(1 | f_two_yr)", "(1 | f_new)",
+    "(1 + f_year | plot_type)", "(1 + treatment | f_year)",
+    "(1 + treatment | f_year / grazer)", "(1 + treatment | grazer)",
+    "(1 + treatment | f_break)", "(1 + treatment | f_one_yr)",
+    "(1 + treatment | f_two_yr)", "(1 + treatment | f_new)"
+  )
+  
+  models <- lapply(random_terms, function(term) update(best_fixed_model, as.formula(paste(". ~ . +", term))))
+  
+  model.sel(best_fixed_model, models)
+}
+
+fxn_select_random_effects <- function(model, data) {
+  # Fit models with random effects
+  ran_init <- fxn_random(index_model = model)
+  ran_fix <- fxn_random(index_model = model)
+  
+  # Fit the best random effects model (assumed same formula as input)
+  model_ran <- update(model, REML = FALSE)
+  
+  # Assess model diagnostics
+  testDispersion(model_ran)
+  check_singularity(model_ran)
+  testUniformity(model_ran)
+  testOutliers(model_ran)
+  
+  # Residual analysis for included terms
+  included_terms <- names(fixef(model_ran))
+  lapply(included_terms, function(term) plotResiduals(model_ran, data[[term]]))
+  
+  return(model_ran)
+}
+
+# Function to finalize model selection and review residuals  ----
+fxn_final_model_review <- function(model, data) {
+  # Fit the final model (assumed same formula as input)
+  final_model <- update(model, REML = FALSE)
+  
+  # Residual analysis for included terms
+  included_terms <- names(fixef(final_model))
+  lapply(included_terms, function(term) plotResiduals(final_model, data[[term]]))
+  
+  return(final_model)
+}
+
+# Function to fit final model ----
+fit_final_model <- function(data, response) {
+  lmer(as.formula(paste(response, "~ treatment + (1 + treatment | plot_name) + f_year + plot_type")), 
+       data = data, REML = FALSE)
+}
+# --- Running the workflow ---- 
+# Apply functions to native species ----
+# Define models
+model_init_abun_nat <- fxn_initial_model(abun_nat)
+
+# Get the best overall model
+best_model_init_abun_nat <- model_init_abun_nat$best_model
+
+# View the summary table
+print(model_init_abun_nat$summary_table)
+
+best_model_init_abun_nat_2 <- lmer(
+  value_sqrt ~ treatment + (1 + treatment | plot_name),
+  data = abun, subset = met_sub == "abun_nat", REML = FALSE
+)
+best_model_init_abun_nat_1 <- lmer(
+  value_sqrt ~ treatment + (1 | plot_name),
+  data = abun, subset = met_sub == "abun_nat", REML = FALSE
+)
+
+# Review model diagnostics
+fxn_model_review(best_model_init_abun_nat_1, abun_nat)
+fxn_model_review(best_model_init_abun_nat_2, abun_nat)
+
+fxn_model_review(model_init_abun_nat$best_model$model, abun_nat)
+
+# Based on AIC the standardized values had a better fit
+# However, model diagnostics for this response didn't look good
+# Next best AIC set was value_log, These model diagnostics looked better but not perfect
+# Also looked at square root transformed diagnostics; super skewed
+# After comparing model diagnostics for the three transformations I used log-transformed values for subsequent model selection
+
+# Fit and select fixed effects model
+best_fixed_abun_nat_dredge <- fxn_fixed_effects("best_model_abun_nat", method = "dredge")  # Choose "one" or "two" as needed
+best_fixed_abun_nat_one <- fxn_fixed_effects("best_model_abun_nat", method = "one")  # Choose "one" or "two" as needed
+best_fixed_abun_nat_two <- fxn_fixed_effects("best_model_abun_nat", method = "two")  # Choose "one" or "two" as needed
+
+best_fixed_abun_nat
+
+# Review model diagnostics
+fxn_model_review(best_fixed_abun_nat$mixed_model_selection, abun_nat)
+
+# Fit and select random effects model
+best_random_abun_nat <- fxn_random_effects(best_fixed_abun_nat)
+# Review model diagnostics
+fxn_model_review(best_random_abun_nat$mixed_model_selection, abun_nat)
+
+# Fit final model
+final_model_abun_nat <- fit_final_model(abun_nat, response = "abun_nat")
+# Review model diagnostics
+fxn_model_review(final_model_abun_nat$mixed_model_selection, abun_nat)
+
+
+
+nat_models <- define_models(abun_nat, "value_log")
+
+# Initial model selection
+nat_selection <- select_best_model(nat_models)
+best_model_nat <- nat_models$lmer_2   
+nat_assessment <- assess_model(best_model_nat, abun_nat)
+
+model_abun_nat_fix <- fxn_select_fixed_effects(index_model = "model_abun_nat_init", data = abun)
+model_abun_nat_ran <- fxn_select_random_effects(model = model_abun_nat_fix, data = abun)
+model_abun_nat_final <- fxn_final_model_review(model = model_abun_nat_ran, data = abun)
+
+final_model_nat <- fit_final_model(data_nat, "value_log")
+
+
+# Apply functions to native forb species ----
+frb_models <- define_models(abun_frb, "value_log")
+frb_selection <- select_best_model(frb_models)
+best_model_frb <- frb_models$lmer_2   
+frb_assessment <- assess_model(best_model_frb, data_frb)
+final_model_frb <- fit_final_model(data_frb, "value_log")
+ 
+# Apply functions to non-native species ----
+non_models <- define_models(abun_non, "value_log")
+non_selection <- select_best_model(non_models)
+best_model_non <- non_models$lmer_2   
+non_assessment <- assess_model(best_model_non, data_non)
+final_model_non <- fit_final_model(data_non, "value_log")
