@@ -1,0 +1,117 @@
+---
+title: "Model selection for abundance"
+author: "Morgan Gray"
+format: 
+  html:
+    toc: true
+    toc-title: Contents
+    number-sections: TRUE
+editor: visual
+execute:
+  echo: false
+  warning: false
+---
+
+```{r setup}
+# Load libraries, functions, workflows -----
+rm(list = ls())
+#
+# library(tidyverse) ## To manipulate data frames
+library(here) ## To manage directories
+library(readr)
+library(dplyr) ## Data manipulation 
+library(forcats)
+# library(vcd)
+# library(fitdistrplus)
+# library(MASS)
+# library(pscl)
+# library(car)
+# library(kableExtra)
+library(sessioninfo)
+
+#
+source(here("R/functions/fxn_utilities.R"))
+# Read the richness and abundance data tables
+source(here("R/functions/fxn_load_rich_abun.R"))
+source(here("R/functions/fxn_model-selection.R"))
+
+
+```
+
+# Introduction
+
+The objective of this analysis was to select the best-fitting generalized linear mixed model (GLMM) for percent cover abundance of native plant species. Abundance was measured as a continuous variable ranging from 0 to 1, representing the percent plot cover.
+
+# Methods
+
+I used a systematic, three-stage approach to identify the optimal model structure for analyzing plant abundance data: initial model assessment, fixed effects selection, and random effects selection. Modular functions were developed to automate portions of the model selection process. All models were fit using restricted maximum likelihood (REML) via the `lmer` function from the `lme4` package (Bates et al. 2015). Model comparison was primarily based on Akaike's Information Criterion corrected for small sample size (AICc), calculated using the `MuMIn` package (Barton 2022). Models within a delta AICc of 6 were considered for further evaluation.Formal tests for uniform residual distribution (`testUniformity`), dispersion (`testDispersion`), and outlier detection (`testOutliers`) were performed using the `DHARMa` package (Hartig 2022). Diagnostic plots, including quantile-quantile plots (`DHARMa::plotQQunif`) and residual plots (`DHARMa::plotResiduals`), were visually inspected. Model singularity was assessed using the `performance` package (Lüdecke et al., 2021), specifically the `check_singularity` function. The `janitor` package (Firshman, 2023) was used for data cleaning and table formatting.
+
+## Initial model assessment 
+
+I began by fitting several initial models to explore the influence of response variable transformation. These models included a simple linear model with untransformed abundance, and linear mixed-effects models with log-transformed and square-root transformed abundance. For each transformation, four model structures were compared:
+
+-   A mixed-effects model with a random intercept for plot name (intercept-only): `lmer(abundance ~ 1 + (1 | plot_name))`
+-   A mixed-effects model with a random intercept and a random slope for treatment within plot name (without treatment as a fixed effect): `lmer(abundance ~ 1 + (1 + treatment | plot_name))`
+-   A mixed-effects model with treatment as a fixed effect and a random intercept for plot name: `lmer(abundance ~ treatment + (1 | plot_name))`
+-   A mixed-effects model with treatment as a fixed effect, and a random intercept and a random slope for treatment within plot name: `lmer(abundance ~ treatment + (1 + treatment | plot_name))`
+
+AICc values were compared to identify the most promising transformation. QQ plots were used to assess residual normality for each transformation.
+
+## Fixed effects selection
+
+Based on the best-performing transformation from the initial model assessment, I then fit a series of models with different combinations of fixed effects. Starting with the best performing initial model, I iteratively added or removed fixed effects: `plot_type`, `f_year`, `f_break`, `f_new`, `f_one_yr`, and `f_two_yr`.
+
+An initial exploration was conducted using automated model dredging (via the `dredge` function from the `MuMIn` package), followed by manual model comparisons. The `dredge` function explores all possible predictor combinations and ranks them by AICc. While dredge results provided a comprehensive overview of potential variable influences and informed subsequent model selection, the dredge results themselves were not used to identify the final best-fit model.
+
+I developed functions to streamline the fixed effect selection process. First, a function individually added each potential fixed effect to the best initial model and compared AICc values to identify the best single-term model. Next, a separate function added a second term to the best single-term model and compared AICc values to identify the best two-term model. Models with a delta AICc less than 6 were retained. Residual plots were examined for each model to assess model assumptions.
+
+## Random effects selection
+
+After identifying a set of best-performing fixed effects models, I explored the inclusion of additional random effects. I tested the addition of random intercepts for other variables individually. I also tested the addition of random slopes for treatment within each predictor variable.
+
+Model comparisons were again based on AICc, and models within a delta AICc of 6 were retained. Singularity checks were performed using the `lme4::check_singularity` function to ensure model convergence.
+
+## Final model selection
+
+The final model was selected based on AICc, diagnostic plot review, and ecological interpretability. The model with the lowest AICc that met model assumptions and had a biologically plausible structure was chosen. Final model performance was assessed by examining residual plots, testing for uniform residual distribution using `testUniformity` (from `DHARMa`), and assessing for outliers. The rationale for each predictor's inclusion in the final model was documented.
+
+# Results
+
+## Native species
+
+The log-transformed response with random slopes and intercepts for treatment by plot emerged as the best initial model based on AIC values and diagnostic plots.
+
+The final selected model included log-transformed abundance as the response variable, treatment, year, and plot type as fixed effects, and random slopes and intercepts for treatment by plot. This model satisfied assumptions of uniform residual distribution and proper dispersion, showed no significant outliers, and maintained convergence without singularity issues.
+
+## Native forb species
+
+## Non-native species
+
+# References
+
+-   Barton, K. (2022). *MuMIn: Multi-Model Inference*. R package version 1.46.0.
+-   Bates, D., Mächler, M., Bolker, B. M., & Walker, S. C. (2015). Fitting Linear Mixed-Effects Models Using lme4. *Journal of Statistical Software*, *67*(1), 1–48.
+-   Firshman, T. (2023). *janitor: Simple Data Frame Cleaning Functions*. R package version 2.2.0.
+-   Hartig, F. (2022). *DHARMa: Residual Diagnostics for Hierarchical (Multi-Level / Mixed) Regression Models*. R package version 0.4.6.
+-   Lüdecke, D., Ben-Shachar, M., Patil, I., Waggoner, P., & Makowski, D. (2021). performance: Assessing and Comparing Statistical Models. *Journal of Open Source Software*, *6*(60), 3139.
+
+## Required R packages:
+
+lme4: Model fitting
+
+MuMIn: Model selection and multi-model inference
+
+DHARMa: Model diagnostics and residual checks
+
+dplyr: Data manipulation
+
+janitor: Name cleaning
+
+------------------------------------------------------------------------
+
+# Session info
+
+```{r}
+## Packages and environment
+sessioninfo::session_info()
+```
