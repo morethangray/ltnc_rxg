@@ -1,9 +1,3 @@
-# Load required packages ----
-library(lme4)      # For mixed-effects models
-library(MuMIn)     # For model selection
-library(dplyr)     # For data manipulation
-library(ggplot2)   # For visualization
-
 # Function to fit initial models ----
 fxn_initial_model <- function(data) {
   responses <- c("value_std", "value_log", "value_sqrt")
@@ -104,38 +98,121 @@ fxn_model_review <- function(model, data) {
   }
 }
 
-# Function to fit and select fixed effects models ----
-fxn_fixed_effects <- function(index_model, method = c("dredge", "one", "two")) {
-  method <- match.arg(method)
-  input_model <- get(index_model)
+
+# Function to review model performance with combined plots [NOT WORKING]----
+fxn_model_review_grid <- function(model, data) {
+  # Simulated residuals
+  sim_res <- simulateResiduals(model)
   
-  if (method == "dredge") {
-    f0 <- update(input_model, . ~ . + plot_type + f_year + f_break + f_new + f_one_yr + f_two_yr)
-    dd <- dredge(f0)
-    results <- subset(dd, delta < 6) %>% as_tibble(rownames = "model_name")
-  } else {
-    model_terms <- list(
-      one = c("plot_type", "f_break", "f_new", "f_one_yr", "f_two_yr", "f_year"),
-      two = list(
-        c("f_year", "plot_type"), c("f_year", "f_break"), c("f_year", "f_new"),
-        c("f_year", "f_one_yr"), c("f_year", "f_two_yr")
-      )
-    )
-    
-    models <- if (method == "one") {
-      lapply(model_terms$one, function(term) update(input_model, as.formula(paste(". ~ . +", term))))
-    } else {
-      lapply(model_terms$two, function(terms) update(input_model, as.formula(paste(". ~ . +", paste(terms, collapse = " + ")))))
+  # Generate diagnostic plots (using as.ggplot to convert base R plots)
+  p1 <- ggplotify::as.ggplot(function() plot(sim_res) + ggtitle("Simulated Residuals"))
+  p2 <- ggplotify::as.ggplot(function() plotResiduals(sim_res, rank = TRUE)) + ggtitle("Ranked Residuals") # Convert to ggplot
+  p3 <- ggplotify::as.ggplot(function() plotResiduals(sim_res)) + ggtitle("Residuals vs Predicted") # Convert to ggplot
+  p4 <- ggplotify::as.ggplot(function() qqnorm(residuals(model)) + qqline()) + ggtitle("Normal Q-Q") # Convert to ggplot
+  
+  # Combine main diagnostic plots (2x2 layout)
+  diagnostic_plot <- p1 + p2 + p3 + p4 + patchwork::plot_layout(ncol = 2)
+  
+  # Print combined diagnostic plots
+  print(diagnostic_plot)
+  
+  # Residual plots for included terms (using as.ggplot here too)
+  model_terms <- attr(terms(model), "term.labels")
+  residual_plots <- list()
+  for (term in model_terms) {
+    if (term %in% names(data)) {
+      residual_plots[[term]] <- ggplotify::as.ggplot(function() plotResiduals(sim_res, data[[term]])) + 
+        ggtitle(paste("Residuals vs", term)) # Convert to ggplot
     }
-    
-    results <- model.sel(models) %>% as_tibble(rownames = "model_name")
   }
   
-  results %>%
-    janitor::clean_names() %>%
-    mutate(input_model = index_model, rank = row_number()) %>%
-    relocate(input_model, rank, treatment, f_one_yr, f_two_yr, f_break, f_new, plot_type, f_year, delta, weight, aicc = ai_cc, df, model_name)
+  # Print residual plots if available, also in a 2x2 grid
+  if (length(residual_plots) > 0) {
+    print(patchwork::wrap_plots(residual_plots, ncol = 2))
+  }
 }
+
+
+
+# Function to fit and select fixed effects models ----
+input_model <- lmer(
+  value_log ~ treatment + (1 + treatment | plot_name),
+  data = abun, subset = met_sub == "abun_nat", REML = FALSE
+)
+
+fxn_fixed_effects <- function(input_model) {
+  # Create empty data frame for summary of all models
+  summary_df <- data.frame(
+    model_name = character(),
+    terms_count = integer(), # Number of terms
+    terms = character(),
+    aic = numeric(),
+    model = I(list()) # Store model as a list column
+  )
+  # Create an empty list to store summary information
+  model_summaries <- list()
+  
+  # One-term models
+  model_terms_one <- c("plot_type", "f_break", "f_new", "f_one_yr", "f_two_yr", "f_year")
+  fix_one <- lapply(model_terms_one, function(term) {
+    model <- update(input_model, as.formula(paste(". ~ . +", term)))
+    aic <- AIC(model)
+    data.frame(
+      model_name = term,
+      terms_count = 1,
+      terms = term,
+      aic = aic,
+      model = I(list(model))
+    )
+  }) %>% bind_rows()
+  
+  # Two-term models
+  model_terms_two <- list(
+    c("f_year", "plot_type"), c("f_year", "f_break"), c("f_year", "f_new"),
+    c("f_year", "f_one_yr"), c("f_year", "f_two_yr")
+  )
+  
+  fix_two <- lapply(model_terms_two, function(terms) {
+    model <- update(input_model, as.formula(paste(". ~ . +", paste(terms, collapse = " + "))))
+    aic <- AIC(model)
+    model_name <- paste(terms, collapse = " + ")
+    data.frame(
+      model_name = model_name,
+      terms_count = 2,
+      terms = model_name, # Store combined term name
+      aic = aic,
+      model = I(list(model))
+    )
+  }) %>% bind_rows()
+  
+  # Combine all models
+  all_models <- bind_rows(fix_one, fix_two)
+  
+  # Best overall model
+  best_model_row <- all_models %>%
+    arrange(aic) %>%
+    slice(1)
+  
+  best_model <- best_model_row$model[[1]]
+  best_model_name <- best_model_row$model_name
+  best_aic <- best_model_row$aic
+  best_terms <- best_model_row$terms
+  best_terms_count <- best_model_row$terms_count
+  
+  # Return both the best model and the complete summary table
+  return(list(
+    best_model = list(
+      model = best_model,
+      model_name = best_model_name,
+      terms = best_terms,
+      terms_count = best_terms_count,
+      formula = formula(best_model),
+      aic = best_aic
+    ),
+    summary_table = all_models %>% arrange(aic) # Sort summary table by AIC
+  ))
+}
+
 
 # Function to fit and select random effects models ----
 fxn_random_effects <- function(best_fixed_model) {
@@ -247,35 +324,58 @@ fit_final_model <- function(data, response) {
 }
 # --- Running the workflow ---- 
 # Apply functions to native species ----
-# Define models
+# Fit the models with transformations
 model_init_abun_nat <- fxn_initial_model(abun_nat)
 
-# Get the best overall model
-best_model_init_abun_nat <- model_init_abun_nat$best_model
+# lm: lm(abundance ~ treatment)
+# lm_null: lm(abundance ~ 1)
+# lmer_1: lmer(abundance ~ treatment + (1 | plot_name))
+# lmer_2: lmer(abundance ~ treatment + (1 + treatment | plot_name))
+# lmer_null_1: lmer(abundance ~ 1 + (1 | plot_name))
+# lmer_null_2: lmer(abundance ~ 1 + (1 + treatment | plot_name))
 
 # View the summary table
 print(model_init_abun_nat$summary_table)
 
-best_model_init_abun_nat_2 <- lmer(
+# Review model diagnostics
+# Based on AIC the standardized values had a better fit
+# However, model diagnostics for this response didn't look good
+fxn_model_review(model_init_abun_nat$best_model$model, abun_nat)
+
+# Next best AIC set was value_log, These model diagnostics looked better but not perfect
+best_model_init_abun_nat_log_2 <- lmer(
+  value_log ~ treatment + (1 + treatment | plot_name),
+  data = abun, subset = met_sub == "abun_nat", REML = FALSE
+)
+best_model_init_abun_nat_log_1 <- lmer(
+  value_log ~ treatment + (1 | plot_name),
+  data = abun, subset = met_sub == "abun_nat", REML = FALSE
+)
+fxn_model_review(best_model_init_abun_nat_log_1, abun_nat)
+fxn_model_review(best_model_init_abun_nat_log_2, abun_nat)
+
+# Also looked at square root transformed diagnostics; super skewed
+
+best_model_init_abun_nat_sqrt_2 <- lmer(
   value_sqrt ~ treatment + (1 + treatment | plot_name),
   data = abun, subset = met_sub == "abun_nat", REML = FALSE
 )
-best_model_init_abun_nat_1 <- lmer(
+best_model_init_abun_nat_sqrt_1 <- lmer(
   value_sqrt ~ treatment + (1 | plot_name),
   data = abun, subset = met_sub == "abun_nat", REML = FALSE
 )
+fxn_model_review(best_model_init_abun_nat_sqrt_1, abun_nat)
+fxn_model_review(best_model_init_abun_nat_sqrt_2, abun_nat)
 
-# Review model diagnostics
-fxn_model_review(best_model_init_abun_nat_1, abun_nat)
-fxn_model_review(best_model_init_abun_nat_2, abun_nat)
-
-fxn_model_review(model_init_abun_nat$best_model$model, abun_nat)
-
-# Based on AIC the standardized values had a better fit
-# However, model diagnostics for this response didn't look good
-# Next best AIC set was value_log, These model diagnostics looked better but not perfect
-# Also looked at square root transformed diagnostics; super skewed
 # After comparing model diagnostics for the three transformations I used log-transformed values for subsequent model selection
+# Get the best overall model
+best_model_init_abun_nat <- lmer(
+  value_log ~ treatment + (1 + treatment | plot_name),
+  data = abun, subset = met_sub == "abun_nat", REML = FALSE
+)
+
+
+
 
 # Fit and select fixed effects model
 best_fixed_abun_nat_dredge <- fxn_fixed_effects("best_model_abun_nat", method = "dredge")  # Choose "one" or "two" as needed
