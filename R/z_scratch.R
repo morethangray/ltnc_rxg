@@ -266,3 +266,19 @@ fxn_qq_plot <- function(data, data_name) {
     qqp(data$value_1, "gamma", shape = gamma$estimate[[1]], rate = gamma$estimate[[2]], main = paste("Gamma QQ plot for", data_name))
   }
 }
+
+
+tools::package_dependencies(c("here", 
+                            "readr", 
+                            "dplyr", 
+                            "forcats", 
+                            "vcd", 
+                            "fitdistrplus", 
+                            "MASS", 
+                            "bbmle", 
+                            "pscl", 
+                            "car", 
+                            "kableExtra", 
+                            "sessioninfo", 
+                            "glue", 
+                            "readxl"))

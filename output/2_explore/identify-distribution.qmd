@@ -154,7 +154,7 @@ The subsequent model fitting, selection, and performance assessments are not des
 
 # Methods
 
-We conducted a systematic analysis combining visual inspection, statistical tests, and model comparisons to identify the most suitable probability distributions for count and continuous data. Modular functions were developed to handle each assessment component, including visualization generation and statistical testing. This approach provided multiple lines of evidence for selecting the most appropriate distribution for subsequent analyses.
+I conducted a systematic analysis combining visual inspection, statistical tests, and model comparisons to identify the most suitable probability distributions for count and continuous data. Modular functions were developed to handle each assessment component, including visualization generation and statistical testing. This approach provided multiple lines of evidence for selecting the most appropriate distribution for subsequent analyses.
 
 The evaluation framework included:
 
@@ -195,7 +195,7 @@ For count data, Vuong tests were used to directly compare the fit of competing m
 
 ### Quantile-quantile plots
 
-QQ plots compared observed data against theoretical distributions. While not providing discrete test statistics, these visualizations supported statistical test results and offered insights when data failed to fit common distributions. We evaluated plot patterns focusing on:
+QQ plots compared observed data against theoretical distributions. While not providing discrete test statistics, these visualizations supported statistical test results and offered insights when data failed to fit common distributions. I evaluated plot patterns focusing on:
 
 -   Overall adherence to the diagonal reference line
 
