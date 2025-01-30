@@ -239,50 +239,114 @@ fit_final_model <- function(data, response) {
 
 # ========================================================== -----
 
-
-
-fxn_select_fixed_effects <- function(index_model, data) {
-  # Fit models
-  fix_dredge <- fxn_fixed_dredge_by_model(index_model)
-  fix_one <- fxn_fixed_one(index_model)
-  fix_two <- fxn_fixed_two(index_model)
-  
-  # Combine and select the best model
-  best_fixed <- bind_rows(fix_dredge, fix_one, fix_two) %>%
-    arrange(aicc) %>%
-    slice(1)  # Select best model based on AICc
-  
-  # Fit the best fixed model
-  model <- lmer(
-    value_log ~ treatment + (1 + treatment | plot_name) + f_year,
-    data = data, subset = met_sub == "abun_nat", REML = FALSE
-  )
-  
-  # Residual analysis for included terms
-  included_terms <- names(fixef(model))
-  lapply(included_terms, function(term) plotResiduals(model, data[[term]]))
-  
-  testUniformity(model)
-  
-  return(model)
-}
-
 # Function to fit and assess random effects  ----
+best_fixed_model = best_model_fixed_abun_nat
 fxn_random_effects <- function(best_fixed_model) {
-  random_terms <- list(
-    "(1 | plot_type)", "(1 | f_year)", "(1 | f_year / grazer)",
-    "(1 | grazer)", "(1 | f_break)", "(1 | f_one_yr)",
-    "(1 | f_two_yr)", "(1 | f_new)",
-    "(1 + f_year | plot_type)", "(1 + treatment | f_year)",
-    "(1 + treatment | f_year / grazer)", "(1 + treatment | grazer)",
-    "(1 + treatment | f_break)", "(1 + treatment | f_one_yr)",
-    "(1 + treatment | f_two_yr)", "(1 + treatment | f_new)"
-  )
   
-  models <- lapply(random_terms, function(term) update(best_fixed_model, as.formula(paste(". ~ . +", term))))
+  # Add each random intercept one at a time
+  plot_type <- update(best_fixed_model, . ~ . + (1 | plot_type))
+  f_year <- update(best_fixed_model, . ~ . + (1 | f_year))
+  f_year_grazer <- update(best_fixed_model, . ~ . + (1 | f_year/grazer))
+  grazer <- update(best_fixed_model, . ~ . + (1 | grazer))
+  f_break <- update(best_fixed_model, . ~ . + (1 | f_break))
+  f_one_yr <- update(best_fixed_model, . ~ . + (1 | f_one_yr))
+  f_two_yr <- update(best_fixed_model, . ~ . + (1 | f_two_yr))
+  f_new <- update(best_fixed_model, . ~ . + (1 | f_new))
+  # 
+  # # Add each random slope one at a time
+  f_year_plot_type <- update(best_fixed_model, . ~ . + (1 + f_year | plot_type))
+  treatment_f_year <- update(best_fixed_model, . ~ . + (1 + treatment | f_year))
+  treatment_f_year_grazer <- update(best_fixed_model, . ~ . + (1 + treatment | f_year/grazer))
+  treatment_grazer <- update(best_fixed_model, . ~ . + (1 + treatment | grazer))
+  treatment_f_break <- update(best_fixed_model, . ~ . + (1 + treatment | f_break))
+  treatment_f_one_yr <- update(best_fixed_model, . ~ . + (1 + treatment | f_one_yr))
+  treatment_f_two_yr  <- update(best_fixed_model, . ~ . + (1 + treatment | f_two_yr))
+  treatment_f_new <- update(best_fixed_model, . ~ . + (1 + treatment | f_new))
+   
   
-  model.sel(best_fixed_model, models)
+  # Check for singularity using a robust method 
+  list_model_names <- c("best_fixed_model", 
+                  "plot_type", 
+                  "f_year", 
+                  "f_year_grazer", 
+                  "grazer", 
+                  "f_break", 
+                  "f_one_yr",
+                  "f_two_yr",
+                  "f_new",
+                  "f_year_plot_type",
+                  "treatment_f_year",
+                  "treatment_f_year_grazer",
+                  "treatment_grazer",
+                  "treatment_f_break",
+                  "treatment_f_one_yr",
+                  "treatment_f_two_yr",
+                  "treatment_f_new")
+
+  datalist <- list()
+  for(n in list_model_names){
+    
+    model <- get(n)
+    
+    datalist[[n]] <- tibble(
+      model_name = n, 
+      is_singular = isSingular(model)
+    )
+  }
+  
+  bind_datalist <- do.call(bind_rows, datalist)
+  
+  not_singular <-  bind_datalist %>%
+    filter(is_singular == FALSE) %>%
+    filter(model_name != "best_fixed_model") 
+  
+  if(nrow(not_singular) == 0){
+    print("All random effect models are singular")
+  }else{
+    print(not_singular)
+  }
+  
+  
+  all_models <- model.sel(best_fixed_model, 
+            plot_type, 
+            f_year, 
+            f_year_grazer, 
+            grazer, 
+            f_break, 
+            f_one_yr,
+            f_two_yr,
+            f_new,
+            f_year_plot_type,
+            treatment_f_year,
+            treatment_f_year_grazer,
+            treatment_grazer,
+            treatment_f_break,
+            treatment_f_one_yr,
+            treatment_f_two_yr,
+            treatment_f_new)  
+  
+  names(all_models)
+  
+  all_models_tbl <-   all_models %>%
+    as_tibble() %>%
+    # Add rownames as a column since they often contain model names
+    tibble::rownames_to_column("model")
+  
+  # To see what columns are being dropped:
+  dropped_cols <- setdiff(names(all_models), names(all_models_tbl))
+  
+  summary_table <- tibble(
+    model_name = rownames(all_models),
+    AICc = all_models$AICc,
+    delta_AICc = all_models$delta,
+    weight = round(all_models$weight, 4),
+    df = all_models$df
+  ) %>%
+    arrange(AICc) %>%
+    left_join(bind_datalist, "model_name")
 }
+
+
 
 fxn_select_random_effects <- function(model, data) {
   # Fit models with random effects

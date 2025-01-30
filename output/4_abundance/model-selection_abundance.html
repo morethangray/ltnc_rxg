@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.57">
+<meta name="generator" content="quarto-1.7.13">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -25,15 +25,16 @@ ul.task-list li input[type="checkbox"] {
 
 
 <script src="model-selection_abundance_files/libs/clipboard/clipboard.min.js"></script>
-<script src="model-selection_abundance_files/libs/quarto-html/quarto.js"></script>
+<script src="model-selection_abundance_files/libs/quarto-html/quarto.js" type="module"></script>
+<script src="model-selection_abundance_files/libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="model-selection_abundance_files/libs/quarto-html/popper.min.js"></script>
 <script src="model-selection_abundance_files/libs/quarto-html/tippy.umd.min.js"></script>
 <script src="model-selection_abundance_files/libs/quarto-html/anchor.min.js"></script>
 <link href="model-selection_abundance_files/libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="model-selection_abundance_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="model-selection_abundance_files/libs/quarto-html/quarto-syntax-highlighting-66ab7fd5e73b7f0a764e0d49b3e29ab1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="model-selection_abundance_files/libs/bootstrap/bootstrap.min.js"></script>
 <link href="model-selection_abundance_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="model-selection_abundance_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="model-selection_abundance_files/libs/bootstrap/bootstrap-c0367b04c37547644fece4185067e4a7.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script src="model-selection_abundance_files/libs/kePrint-0.0.1/kePrint.js"></script>
 <link href="model-selection_abundance_files/libs/lightable-0.0.1/lightable.css" rel="stylesheet">
 
@@ -65,11 +66,24 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#random-effects-selection-1" id="toc-random-effects-selection-1" class="nav-link" data-scroll-target="#random-effects-selection-1"><span class="header-section-number">3.1.3</span> Random effects selection</a></li>
   <li><a href="#final-model-selection-1" id="toc-final-model-selection-1" class="nav-link" data-scroll-target="#final-model-selection-1"><span class="header-section-number">3.1.4</span> Final model selection</a></li>
   </ul></li>
-  <li><a href="#native-forb-species" id="toc-native-forb-species" class="nav-link" data-scroll-target="#native-forb-species"><span class="header-section-number">3.2</span> Native forb species</a></li>
-  <li><a href="#non-native-species" id="toc-non-native-species" class="nav-link" data-scroll-target="#non-native-species"><span class="header-section-number">3.3</span> Non-native species</a></li>
+  <li><a href="#native-forb-species" id="toc-native-forb-species" class="nav-link" data-scroll-target="#native-forb-species"><span class="header-section-number">3.2</span> Native forb species</a>
+  <ul class="collapse">
+  <li><a href="#initial-model-assessment-2" id="toc-initial-model-assessment-2" class="nav-link" data-scroll-target="#initial-model-assessment-2"><span class="header-section-number">3.2.1</span> Initial model assessment</a></li>
+  <li><a href="#fixed-effects-selection-2" id="toc-fixed-effects-selection-2" class="nav-link" data-scroll-target="#fixed-effects-selection-2"><span class="header-section-number">3.2.2</span> Fixed effects selection</a></li>
+  <li><a href="#random-effects-selection-2" id="toc-random-effects-selection-2" class="nav-link" data-scroll-target="#random-effects-selection-2"><span class="header-section-number">3.2.3</span> Random effects selection</a></li>
+  <li><a href="#final-model-selection-2" id="toc-final-model-selection-2" class="nav-link" data-scroll-target="#final-model-selection-2"><span class="header-section-number">3.2.4</span> Final model selection</a></li>
+  </ul></li>
+  <li><a href="#non-native-species" id="toc-non-native-species" class="nav-link" data-scroll-target="#non-native-species"><span class="header-section-number">3.3</span> Non-native species</a>
+  <ul class="collapse">
+  <li><a href="#initial-model-assessment-3" id="toc-initial-model-assessment-3" class="nav-link" data-scroll-target="#initial-model-assessment-3"><span class="header-section-number">3.3.1</span> Initial model assessment</a></li>
+  <li><a href="#fixed-effects-selection-3" id="toc-fixed-effects-selection-3" class="nav-link" data-scroll-target="#fixed-effects-selection-3"><span class="header-section-number">3.3.2</span> Fixed effects selection</a></li>
+  <li><a href="#random-effects-selection-3" id="toc-random-effects-selection-3" class="nav-link" data-scroll-target="#random-effects-selection-3"><span class="header-section-number">3.3.3</span> Random effects selection</a></li>
+  <li><a href="#final-model-selection-3" id="toc-final-model-selection-3" class="nav-link" data-scroll-target="#final-model-selection-3"><span class="header-section-number">3.3.4</span> Final model selection</a></li>
+  </ul></li>
   </ul></li>
   <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="header-section-number">4</span> References</a></li>
-  <li><a href="#session-info" id="toc-session-info" class="nav-link" data-scroll-target="#session-info"><span class="header-section-number">5</span> Session info</a></li>
+  <li><a href="#sec-Appendix" id="toc-sec-Appendix" class="nav-link" data-scroll-target="#sec-Appendix"><span class="header-section-number">5</span> Appendix</a></li>
+  <li><a href="#session-info" id="toc-session-info" class="nav-link" data-scroll-target="#session-info"><span class="header-section-number">6</span> Session info</a></li>
   </ul>
 </nav>
 </div>
@@ -133,6 +147,84 @@ ul.task-list li input[type="checkbox"] {
 <h2 data-number="2.3" class="anchored" data-anchor-id="random-effects-selection"><span class="header-section-number">2.3</span> Random effects selection</h2>
 <p>After identifying a set of best-performing fixed effects models, I explored the inclusion of additional random effects. I tested the addition of random intercepts for other variables individually. I also tested the addition of random slopes for treatment within each predictor variable.</p>
 <p>Model comparisons were again based on AICc, and models within a delta AICc of 6 were retained. Singularity checks were performed using the <code>lme4::check_singularity</code> function to ensure model convergence.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 29%">
+<col style="width: 70%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Abbreviation</th>
+<th>Model specification</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>plot_type</td>
+<td>best_fixed_model, . ~ . + (1 | plot_type)</td>
+</tr>
+<tr class="even">
+<td>f_year</td>
+<td>best_fixed_model, . ~ . + (1 | f_year)</td>
+</tr>
+<tr class="odd">
+<td>f_year_grazer</td>
+<td>best_fixed_model, . ~ . + (1 | f_year/grazer)</td>
+</tr>
+<tr class="even">
+<td>grazer</td>
+<td>best_fixed_model, . ~ . + (1 | grazer)</td>
+</tr>
+<tr class="odd">
+<td>f_break</td>
+<td>best_fixed_model, . ~ . + (1 | f_break)</td>
+</tr>
+<tr class="even">
+<td>f_one_yr</td>
+<td>best_fixed_model, . ~ . + (1 | f_one_yr)</td>
+</tr>
+<tr class="odd">
+<td>f_two_yr</td>
+<td>best_fixed_model, . ~ . + (1 | f_two_yr)</td>
+</tr>
+<tr class="even">
+<td>f_new</td>
+<td>best_fixed_model, . ~ . + (1 | f_new)</td>
+</tr>
+<tr class="odd">
+<td>f_year_plot_type</td>
+<td>best_fixed_model, . ~ . + (1 + f_year | plot_type)</td>
+</tr>
+<tr class="even">
+<td>treatment_f_year</td>
+<td>best_fixed_model, . ~ . + (1 + treatment | f_year)</td>
+</tr>
+<tr class="odd">
+<td>treatment_f_year_grazer</td>
+<td>best_fixed_model, . ~ . + (1 + treatment | f_year/grazer)</td>
+</tr>
+<tr class="even">
+<td>treatment_grazer</td>
+<td>best_fixed_model, . ~ . + (1 + treatment | grazer)</td>
+</tr>
+<tr class="odd">
+<td>treatment_f_break</td>
+<td>best_fixed_model, . ~ . + (1 + treatment | f_break)</td>
+</tr>
+<tr class="even">
+<td>treatment_f_one_yr</td>
+<td>best_fixed_model, . ~ . + (1 + treatment | f_one_yr)</td>
+</tr>
+<tr class="odd">
+<td>treatment_f_two_yr</td>
+<td>best_fixed_model, . ~ . + (1 + treatment | f_two_yr)</td>
+</tr>
+<tr class="even">
+<td>treatment_f_new</td>
+<td>best_fixed_model, . ~ . + (1 + treatment | f_new)</td>
+</tr>
+</tbody>
+</table>
 </section>
 <section id="final-model-selection" class="level2" data-number="2.4">
 <h2 data-number="2.4" class="anchored" data-anchor-id="final-model-selection"><span class="header-section-number">2.4</span> Final model selection</h2>
@@ -143,30 +235,140 @@ ul.task-list li input[type="checkbox"] {
 <h1 data-number="3"><span class="header-section-number">3</span> Results</h1>
 <section id="native-species" class="level2" data-number="3.1">
 <h2 data-number="3.1" class="anchored" data-anchor-id="native-species"><span class="header-section-number">3.1</span> Native species</h2>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Final model for native species abundance
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>log(abundance) ~ treatment + f_year + (1 + treatment | plot_name)</p>
+</div>
+</div>
 <section id="initial-model-assessment-1" class="level3" data-number="3.1.1">
 <h3 data-number="3.1.1" class="anchored" data-anchor-id="initial-model-assessment-1"><span class="header-section-number">3.1.1</span> Initial model assessment</h3>
-<p>The log-transformed response with treatment as a fixed effect, and a random intercept and a random slope for treatment within plot name emerged as the best initial model based on AIC values and diagnostic plots: <code>lmer(log(abundance) ~ treatment + (1 + treatment | plot_name))</code></p>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Best initial model
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>log(abundance) ~ treatment + (1 + treatment | plot_name)</p>
+</div>
+</div>
+<p>The log-transformed response with treatment as a fixed effect, and a random intercept and a random slope for treatment within plot name emerged as the best initial model based on AIC values and diagnostic plots.</p>
 <div class="cell">
-<div class="cell-output cell-output-stdout">
-<pre><code>     response  model_name       aic
-1   value_std      lmer_2  790.2535
-2   value_std      lmer_1  804.8738
-3   value_std lmer_null_2  807.0242
-4   value_std lmer_null_1  834.8334
-5   value_std          lm  984.6041
-6   value_std     lm_null  996.2555
-7   value_log      lmer_2 1276.1264
-8   value_log lmer_null_2 1286.7964
-9   value_log      lmer_1 1293.2231
-10  value_log lmer_null_1 1313.3551
-11  value_log          lm 1367.5567
-12  value_log     lm_null 1379.6452
-13 value_sqrt      lmer_2 1388.6144
-14 value_sqrt      lmer_1 1398.9303
-15 value_sqrt lmer_null_2 1407.9528
-16 value_sqrt lmer_null_1 1438.0560
-17 value_sqrt          lm 1597.7129
-18 value_sqrt     lm_null 1612.2019</code></pre>
+<div class="cell-output-display">
+<table class="table table-striped table-hover table-condensed caption-top table-sm small" data-quarto-postprocess="true">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th" style="text-align: left; position: sticky; top: 0; background-color: #FFFFFF;">response</th>
+<th data-quarto-table-cell-role="th" style="text-align: left; position: sticky; top: 0; background-color: #FFFFFF;">model_name</th>
+<th data-quarto-table-cell-role="th" style="text-align: right; position: sticky; top: 0; background-color: #FFFFFF;">aic</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">value_std</td>
+<td style="text-align: left;">lmer_2</td>
+<td style="text-align: right;">790.2535</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">value_std</td>
+<td style="text-align: left;">lmer_1</td>
+<td style="text-align: right;">804.8738</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">value_std</td>
+<td style="text-align: left;">lmer_null_2</td>
+<td style="text-align: right;">807.0242</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">value_std</td>
+<td style="text-align: left;">lmer_null_1</td>
+<td style="text-align: right;">834.8334</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">value_std</td>
+<td style="text-align: left;">lm</td>
+<td style="text-align: right;">984.6041</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">value_std</td>
+<td style="text-align: left;">lm_null</td>
+<td style="text-align: right;">996.2555</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">value_log</td>
+<td style="text-align: left;">lmer_2</td>
+<td style="text-align: right;">1276.1264</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">value_log</td>
+<td style="text-align: left;">lmer_null_2</td>
+<td style="text-align: right;">1286.7964</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">value_log</td>
+<td style="text-align: left;">lmer_1</td>
+<td style="text-align: right;">1293.2231</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">value_log</td>
+<td style="text-align: left;">lmer_null_1</td>
+<td style="text-align: right;">1313.3551</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">value_log</td>
+<td style="text-align: left;">lm</td>
+<td style="text-align: right;">1367.5567</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">value_log</td>
+<td style="text-align: left;">lm_null</td>
+<td style="text-align: right;">1379.6452</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">value_sqrt</td>
+<td style="text-align: left;">lmer_2</td>
+<td style="text-align: right;">1388.6144</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">value_sqrt</td>
+<td style="text-align: left;">lmer_1</td>
+<td style="text-align: right;">1398.9303</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">value_sqrt</td>
+<td style="text-align: left;">lmer_null_2</td>
+<td style="text-align: right;">1407.9528</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">value_sqrt</td>
+<td style="text-align: left;">lmer_null_1</td>
+<td style="text-align: right;">1438.0560</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">value_sqrt</td>
+<td style="text-align: left;">lm</td>
+<td style="text-align: right;">1597.7129</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">value_sqrt</td>
+<td style="text-align: left;">lm_null</td>
+<td style="text-align: right;">1612.2019</td>
+</tr>
+</tbody>
+</table>
+
+
 </div>
 </div>
 <p>Based on AIC the standardized values had a better fit. However, model diagnostics for this response didn’t look good. Visual inspection of QQ plot showed marked deviation from reference; and the tests for deviation, outliers, and within-group deviations from uniformity were significant.</p>
@@ -271,96 +473,10 @@ ul.task-list li input[type="checkbox"] {
 </div>
 </div>
 <p>Because the model diagnostics for the log- and square root-transformed values were comparable, I elected to use the model with the lowest AIC.</p>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Best initial model
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>log(abundance) ~ treatment + (1 + treatment | plot_name)</p>
-</div>
-</div>
 <p><br></p>
 </section>
 <section id="fixed-effects-selection-1" class="level3" data-number="3.1.2">
 <h3 data-number="3.1.2" class="anchored" data-anchor-id="fixed-effects-selection-1"><span class="header-section-number">3.1.2</span> Fixed effects selection</h3>
-<p>The AIC results for the fixed effects models evaluated:</p>
-<div class="cell">
-<div class="cell-output-display">
-<table class="table table-striped table-hover table-condensed caption-top table-sm small" data-quarto-postprocess="true">
-<thead>
-<tr class="header">
-<th data-quarto-table-cell-role="th" style="text-align: left; position: sticky; top: 0; background-color: #FFFFFF;">model_name</th>
-<th data-quarto-table-cell-role="th" style="text-align: right; position: sticky; top: 0; background-color: #FFFFFF;">terms_count</th>
-<th data-quarto-table-cell-role="th" style="text-align: right; position: sticky; top: 0; background-color: #FFFFFF;">aic</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">f_one_yr</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">1272.014</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">f_break</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">1273.927</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">f_new</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">1274.799</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">plot_type</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">1276.207</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">f_year</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">1276.343</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">f_year + plot_type</td>
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">1276.413</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">f_two_yr</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">1277.003</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">f_year + f_one_yr</td>
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">1277.417</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">f_year + f_two_yr</td>
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">1277.790</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">f_year + f_new</td>
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">1278.266</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">f_year + f_break</td>
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">1279.404</td>
-</tr>
-</tbody>
-</table>
-
-
-</div>
-</div>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -371,26 +487,1330 @@ Best model after fixed effects selection
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>value_log ~ treatment + (1 + treatment | plot_name) + f_one_yr</p>
+<p>log(abundance) ~ treatment + f_year + (1 + treatment | plot_name)</p>
 </div>
 </div>
+<p>The addition of sampling year as a fixed effect emerged as the best model after fixed effects selection based on AIC values and diagnostic plots.</p>
+<p>The AIC results for the fixed effects models showed the model with a fixed effect for f_one_year to be the best fit for the data. The models that included f_break and f_new were within 3 AIC of the minimum. These models all related to sampling timing (i.e., 1-year gaps between surveys, a survey after a prolonged break, or the first survey year).</p>
+<p>All models with one additional fixed effect were within 6 AIC of the minimum.</p>
+<div class="cell">
+<div class="cell-output-display">
+<table class="table table-striped table-hover table-condensed caption-top table-sm small" data-quarto-postprocess="true">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th" style="text-align: left; position: sticky; top: 0; background-color: #FFFFFF;">model_name</th>
+<th data-quarto-table-cell-role="th" style="text-align: right; position: sticky; top: 0; background-color: #FFFFFF;">terms_count</th>
+<th data-quarto-table-cell-role="th" style="text-align: right; position: sticky; top: 0; background-color: #FFFFFF;">aic</th>
+<th data-quarto-table-cell-role="th" style="text-align: right; position: sticky; top: 0; background-color: #FFFFFF;">delta</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">f_one_yr</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1272.014</td>
+<td style="text-align: right;">0.0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">f_break</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1273.927</td>
+<td style="text-align: right;">1.9</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">f_new</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1274.799</td>
+<td style="text-align: right;">2.8</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">plot_type</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1276.207</td>
+<td style="text-align: right;">4.2</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">f_year</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1276.343</td>
+<td style="text-align: right;">4.3</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">f_year + plot_type</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1276.413</td>
+<td style="text-align: right;">4.4</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">f_two_yr</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1277.003</td>
+<td style="text-align: right;">5.0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">f_year + f_one_yr</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1277.417</td>
+<td style="text-align: right;">5.4</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">f_year + f_two_yr</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1277.790</td>
+<td style="text-align: right;">5.8</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">f_year + f_new</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1278.266</td>
+<td style="text-align: right;">6.3</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">f_year + f_break</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1279.404</td>
+<td style="text-align: right;">7.4</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+<p>The model diagnostics for the four top-performing models showed deviation consistent with the initial model (not worse, at least) and no significant outliers. However, tests for within-group deviations from uniformity were significant for treatment and for the fixed effect.</p>
+<p>After reviewing the model diagnostics for all the fixed effects selection models, I selected the model with a fixed term for sampling year (f_year). Although this model did not have the lowest AIC, it was within the pre-defined threshold of 6 AIC units for consideration (delta = 4.3). My decision was influenced by the lack of within-group deviations from uniformity. Specifically, the effect of year was uniform with homogenous variance. The inclusion of a fixed effect for year also improved the uniformity for grazed plots.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="model-selection_abundance_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="model-selection_abundance_files/figure-html/unnamed-chunk-6-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="model-selection_abundance_files/figure-html/unnamed-chunk-6-3.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="model-selection_abundance_files/figure-html/unnamed-chunk-6-4.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="model-selection_abundance_files/figure-html/unnamed-chunk-6-5.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The diagnostic plots for excluded fixed effect models fit to native species abundance are included in the Appendix for reference.</p>
+</div>
+</div>
+<p><br></p>
 </section>
 <section id="random-effects-selection-1" class="level3" data-number="3.1.3">
 <h3 data-number="3.1.3" class="anchored" data-anchor-id="random-effects-selection-1"><span class="header-section-number">3.1.3</span> Random effects selection</h3>
+<p>The addition of random effects resulted in singular fit for all combinations. No random effects were added to the model.</p>
+<div class="cell">
+<div class="cell-output-display">
+<table class="table table-striped table-hover table-condensed caption-top table-sm small" data-quarto-postprocess="true">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th" style="text-align: left; position: sticky; top: 0; background-color: #FFFFFF;">model_name</th>
+<th data-quarto-table-cell-role="th" style="text-align: right; position: sticky; top: 0; background-color: #FFFFFF;">AICc</th>
+<th data-quarto-table-cell-role="th" style="text-align: right; position: sticky; top: 0; background-color: #FFFFFF;">delta_AICc</th>
+<th data-quarto-table-cell-role="th" style="text-align: right; position: sticky; top: 0; background-color: #FFFFFF;">weight</th>
+<th data-quarto-table-cell-role="th" style="text-align: right; position: sticky; top: 0; background-color: #FFFFFF;">df</th>
+<th data-quarto-table-cell-role="th" style="text-align: left; position: sticky; top: 0; background-color: #FFFFFF;">is_singular</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">best_fixed_model</td>
+<td style="text-align: right;">1276.872</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">0.2637</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: left;">FALSE</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">f_two_yr</td>
+<td style="text-align: right;">1278.992</td>
+<td style="text-align: right;">2.12</td>
+<td style="text-align: right;">0.0914</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: left;">TRUE</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">plot_type</td>
+<td style="text-align: right;">1278.992</td>
+<td style="text-align: right;">2.12</td>
+<td style="text-align: right;">0.0914</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: left;">TRUE</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">f_one_yr</td>
+<td style="text-align: right;">1278.992</td>
+<td style="text-align: right;">2.12</td>
+<td style="text-align: right;">0.0914</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: left;">TRUE</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">f_new</td>
+<td style="text-align: right;">1278.992</td>
+<td style="text-align: right;">2.12</td>
+<td style="text-align: right;">0.0914</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: left;">TRUE</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">grazer</td>
+<td style="text-align: right;">1278.992</td>
+<td style="text-align: right;">2.12</td>
+<td style="text-align: right;">0.0914</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: left;">TRUE</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">f_year</td>
+<td style="text-align: right;">1278.992</td>
+<td style="text-align: right;">2.12</td>
+<td style="text-align: right;">0.0914</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: left;">TRUE</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">f_break</td>
+<td style="text-align: right;">1278.992</td>
+<td style="text-align: right;">2.12</td>
+<td style="text-align: right;">0.0914</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: left;">TRUE</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">f_year_grazer</td>
+<td style="text-align: right;">1281.124</td>
+<td style="text-align: right;">4.25</td>
+<td style="text-align: right;">0.0315</td>
+<td style="text-align: right;">11</td>
+<td style="text-align: left;">TRUE</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">treatment_grazer</td>
+<td style="text-align: right;">1283.268</td>
+<td style="text-align: right;">6.40</td>
+<td style="text-align: right;">0.0108</td>
+<td style="text-align: right;">12</td>
+<td style="text-align: left;">TRUE</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">treatment_f_break</td>
+<td style="text-align: right;">1283.268</td>
+<td style="text-align: right;">6.40</td>
+<td style="text-align: right;">0.0108</td>
+<td style="text-align: right;">12</td>
+<td style="text-align: left;">TRUE</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">treatment_f_new</td>
+<td style="text-align: right;">1283.268</td>
+<td style="text-align: right;">6.40</td>
+<td style="text-align: right;">0.0108</td>
+<td style="text-align: right;">12</td>
+<td style="text-align: left;">TRUE</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">treatment_f_one_yr</td>
+<td style="text-align: right;">1283.268</td>
+<td style="text-align: right;">6.40</td>
+<td style="text-align: right;">0.0108</td>
+<td style="text-align: right;">12</td>
+<td style="text-align: left;">TRUE</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">treatment_f_year</td>
+<td style="text-align: right;">1283.268</td>
+<td style="text-align: right;">6.40</td>
+<td style="text-align: right;">0.0108</td>
+<td style="text-align: right;">12</td>
+<td style="text-align: left;">TRUE</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">treatment_f_two_yr</td>
+<td style="text-align: right;">1283.268</td>
+<td style="text-align: right;">6.40</td>
+<td style="text-align: right;">0.0108</td>
+<td style="text-align: right;">12</td>
+<td style="text-align: left;">TRUE</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">treatment_f_year_grazer</td>
+<td style="text-align: right;">1289.780</td>
+<td style="text-align: right;">12.91</td>
+<td style="text-align: right;">0.0004</td>
+<td style="text-align: right;">15</td>
+<td style="text-align: left;">TRUE</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">f_year_plot_type</td>
+<td style="text-align: right;">1298.646</td>
+<td style="text-align: right;">21.77</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">19</td>
+<td style="text-align: left;">TRUE</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+<p><br></p>
 </section>
 <section id="final-model-selection-1" class="level3" data-number="3.1.4">
 <h3 data-number="3.1.4" class="anchored" data-anchor-id="final-model-selection-1"><span class="header-section-number">3.1.4</span> Final model selection</h3>
 <p>The final selected model included log-transformed abundance as the response variable, treatment, year, and plot type as fixed effects, and random slopes and intercepts for treatment by plot. This model satisfied assumptions of uniform residual distribution and proper dispersion, showed no significant outliers, and maintained convergence without singularity issues.</p>
+<p>This model and the diagnostics were previously described in the <em>Fixed effects selection</em> section.</p>
 <hr>
 </section>
 </section>
 <section id="native-forb-species" class="level2" data-number="3.2">
 <h2 data-number="3.2" class="anchored" data-anchor-id="native-forb-species"><span class="header-section-number">3.2</span> Native forb species</h2>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Final model for native forb species abundance
+</div>
+</div>
+<div class="callout-body-container callout-body">
+
+</div>
+</div>
+<section id="initial-model-assessment-2" class="level3" data-number="3.2.1">
+<h3 data-number="3.2.1" class="anchored" data-anchor-id="initial-model-assessment-2"><span class="header-section-number">3.2.1</span> Initial model assessment</h3>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Best initial model
+</div>
+</div>
+<div class="callout-body-container callout-body">
+
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<table class="table table-striped table-hover table-condensed caption-top table-sm small" data-quarto-postprocess="true">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th" style="text-align: left; position: sticky; top: 0; background-color: #FFFFFF;">response</th>
+<th data-quarto-table-cell-role="th" style="text-align: left; position: sticky; top: 0; background-color: #FFFFFF;">model_name</th>
+<th data-quarto-table-cell-role="th" style="text-align: right; position: sticky; top: 0; background-color: #FFFFFF;">aic</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">value_std</td>
+<td style="text-align: left;">lmer_2</td>
+<td style="text-align: right;">761.9464</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">value_std</td>
+<td style="text-align: left;">lmer_1</td>
+<td style="text-align: right;">778.0592</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">value_std</td>
+<td style="text-align: left;">lmer_null_2</td>
+<td style="text-align: right;">786.4006</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">value_std</td>
+<td style="text-align: left;">lmer_null_1</td>
+<td style="text-align: right;">820.5579</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">value_std</td>
+<td style="text-align: left;">lm</td>
+<td style="text-align: right;">980.5236</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">value_std</td>
+<td style="text-align: left;">lm_null</td>
+<td style="text-align: right;">996.2555</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">value_sqrt</td>
+<td style="text-align: left;">lmer_2</td>
+<td style="text-align: right;">1362.8952</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">value_log</td>
+<td style="text-align: left;">lmer_2</td>
+<td style="text-align: right;">1363.5174</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">value_log</td>
+<td style="text-align: left;">lmer_1</td>
+<td style="text-align: right;">1370.8178</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">value_sqrt</td>
+<td style="text-align: left;">lmer_1</td>
+<td style="text-align: right;">1372.2004</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">value_log</td>
+<td style="text-align: left;">lmer_null_2</td>
+<td style="text-align: right;">1378.1835</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">value_sqrt</td>
+<td style="text-align: left;">lmer_null_2</td>
+<td style="text-align: right;">1391.1299</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">value_log</td>
+<td style="text-align: left;">lmer_null_1</td>
+<td style="text-align: right;">1399.3669</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">value_sqrt</td>
+<td style="text-align: left;">lmer_null_1</td>
+<td style="text-align: right;">1429.9384</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">value_sqrt</td>
+<td style="text-align: left;">lm</td>
+<td style="text-align: right;">1600.2666</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">value_sqrt</td>
+<td style="text-align: left;">lm_null</td>
+<td style="text-align: right;">1620.2919</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">value_log</td>
+<td style="text-align: left;">lm</td>
+<td style="text-align: right;">1690.4257</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">value_log</td>
+<td style="text-align: left;">lm_null</td>
+<td style="text-align: right;">1696.2229</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="model-selection_abundance_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="model-selection_abundance_files/figure-html/unnamed-chunk-9-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="model-selection_abundance_files/figure-html/unnamed-chunk-9-3.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="model-selection_abundance_files/figure-html/unnamed-chunk-9-4.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 3
+  response   model_name   aic
+  &lt;chr&gt;      &lt;chr&gt;      &lt;dbl&gt;
+1 value_std  lmer_2      762.
+2 value_sqrt lmer_2     1363.
+3 value_log  lmer_2     1364.</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="model-selection_abundance_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="model-selection_abundance_files/figure-html/unnamed-chunk-10-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="model-selection_abundance_files/figure-html/unnamed-chunk-10-3.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="model-selection_abundance_files/figure-html/unnamed-chunk-10-4.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><br></p>
+</section>
+<section id="fixed-effects-selection-2" class="level3" data-number="3.2.2">
+<h3 data-number="3.2.2" class="anchored" data-anchor-id="fixed-effects-selection-2"><span class="header-section-number">3.2.2</span> Fixed effects selection</h3>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Best model after fixed effects selection
+</div>
+</div>
+<div class="callout-body-container callout-body">
+
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<table class="table table-striped table-hover table-condensed caption-top table-sm small" data-quarto-postprocess="true">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th" style="text-align: left; position: sticky; top: 0; background-color: #FFFFFF;">model_name</th>
+<th data-quarto-table-cell-role="th" style="text-align: right; position: sticky; top: 0; background-color: #FFFFFF;">terms_count</th>
+<th data-quarto-table-cell-role="th" style="text-align: right; position: sticky; top: 0; background-color: #FFFFFF;">aic</th>
+<th data-quarto-table-cell-role="th" style="text-align: right; position: sticky; top: 0; background-color: #FFFFFF;">delta</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">f_one_yr</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1358.060</td>
+<td style="text-align: right;">0.0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">f_year</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1359.013</td>
+<td style="text-align: right;">1.0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">f_break</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1359.392</td>
+<td style="text-align: right;">1.3</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">f_year + plot_type</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1359.681</td>
+<td style="text-align: right;">1.6</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">f_new</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1359.807</td>
+<td style="text-align: right;">1.7</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">f_year + f_one_yr</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1360.953</td>
+<td style="text-align: right;">2.9</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">f_year + f_two_yr</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1360.989</td>
+<td style="text-align: right;">2.9</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">f_year + f_new</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1361.003</td>
+<td style="text-align: right;">2.9</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">f_year + f_break</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1362.953</td>
+<td style="text-align: right;">4.9</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">plot_type</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1364.064</td>
+<td style="text-align: right;">6.0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">f_two_yr</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1364.963</td>
+<td style="text-align: right;">6.9</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="model-selection_abundance_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="model-selection_abundance_files/figure-html/unnamed-chunk-13-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="model-selection_abundance_files/figure-html/unnamed-chunk-13-3.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="model-selection_abundance_files/figure-html/unnamed-chunk-13-4.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="model-selection_abundance_files/figure-html/unnamed-chunk-13-5.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><br></p>
+</section>
+<section id="random-effects-selection-2" class="level3" data-number="3.2.3">
+<h3 data-number="3.2.3" class="anchored" data-anchor-id="random-effects-selection-2"><span class="header-section-number">3.2.3</span> Random effects selection</h3>
+<div class="cell">
+<div class="cell-output-display">
+<table class="table table-striped table-hover table-condensed caption-top table-sm small" data-quarto-postprocess="true">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th" style="text-align: left; position: sticky; top: 0; background-color: #FFFFFF;">model_name</th>
+<th data-quarto-table-cell-role="th" style="text-align: right; position: sticky; top: 0; background-color: #FFFFFF;">AICc</th>
+<th data-quarto-table-cell-role="th" style="text-align: right; position: sticky; top: 0; background-color: #FFFFFF;">delta_AICc</th>
+<th data-quarto-table-cell-role="th" style="text-align: right; position: sticky; top: 0; background-color: #FFFFFF;">weight</th>
+<th data-quarto-table-cell-role="th" style="text-align: right; position: sticky; top: 0; background-color: #FFFFFF;">df</th>
+<th data-quarto-table-cell-role="th" style="text-align: left; position: sticky; top: 0; background-color: #FFFFFF;">is_singular</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">best_fixed_model</td>
+<td style="text-align: right;">1359.542</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">0.2637</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: left;">FALSE</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">f_one_yr</td>
+<td style="text-align: right;">1361.662</td>
+<td style="text-align: right;">2.12</td>
+<td style="text-align: right;">0.0914</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: left;">TRUE</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">plot_type</td>
+<td style="text-align: right;">1361.662</td>
+<td style="text-align: right;">2.12</td>
+<td style="text-align: right;">0.0914</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: left;">TRUE</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">f_new</td>
+<td style="text-align: right;">1361.662</td>
+<td style="text-align: right;">2.12</td>
+<td style="text-align: right;">0.0914</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: left;">TRUE</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">f_year</td>
+<td style="text-align: right;">1361.662</td>
+<td style="text-align: right;">2.12</td>
+<td style="text-align: right;">0.0914</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: left;">TRUE</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">grazer</td>
+<td style="text-align: right;">1361.662</td>
+<td style="text-align: right;">2.12</td>
+<td style="text-align: right;">0.0914</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: left;">TRUE</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">f_break</td>
+<td style="text-align: right;">1361.662</td>
+<td style="text-align: right;">2.12</td>
+<td style="text-align: right;">0.0914</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: left;">TRUE</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">f_two_yr</td>
+<td style="text-align: right;">1361.662</td>
+<td style="text-align: right;">2.12</td>
+<td style="text-align: right;">0.0914</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: left;">TRUE</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">f_year_grazer</td>
+<td style="text-align: right;">1363.794</td>
+<td style="text-align: right;">4.25</td>
+<td style="text-align: right;">0.0315</td>
+<td style="text-align: right;">11</td>
+<td style="text-align: left;">TRUE</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">treatment_grazer</td>
+<td style="text-align: right;">1365.939</td>
+<td style="text-align: right;">6.40</td>
+<td style="text-align: right;">0.0108</td>
+<td style="text-align: right;">12</td>
+<td style="text-align: left;">TRUE</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">treatment_f_one_yr</td>
+<td style="text-align: right;">1365.939</td>
+<td style="text-align: right;">6.40</td>
+<td style="text-align: right;">0.0108</td>
+<td style="text-align: right;">12</td>
+<td style="text-align: left;">TRUE</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">treatment_f_new</td>
+<td style="text-align: right;">1365.939</td>
+<td style="text-align: right;">6.40</td>
+<td style="text-align: right;">0.0108</td>
+<td style="text-align: right;">12</td>
+<td style="text-align: left;">TRUE</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">treatment_f_year</td>
+<td style="text-align: right;">1365.939</td>
+<td style="text-align: right;">6.40</td>
+<td style="text-align: right;">0.0108</td>
+<td style="text-align: right;">12</td>
+<td style="text-align: left;">TRUE</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">treatment_f_break</td>
+<td style="text-align: right;">1365.939</td>
+<td style="text-align: right;">6.40</td>
+<td style="text-align: right;">0.0108</td>
+<td style="text-align: right;">12</td>
+<td style="text-align: left;">TRUE</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">treatment_f_two_yr</td>
+<td style="text-align: right;">1365.939</td>
+<td style="text-align: right;">6.40</td>
+<td style="text-align: right;">0.0108</td>
+<td style="text-align: right;">12</td>
+<td style="text-align: left;">TRUE</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">treatment_f_year_grazer</td>
+<td style="text-align: right;">1372.450</td>
+<td style="text-align: right;">12.91</td>
+<td style="text-align: right;">0.0004</td>
+<td style="text-align: right;">15</td>
+<td style="text-align: left;">TRUE</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">f_year_plot_type</td>
+<td style="text-align: right;">1381.316</td>
+<td style="text-align: right;">21.77</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">19</td>
+<td style="text-align: left;">TRUE</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+<p><br></p>
+</section>
+<section id="final-model-selection-2" class="level3" data-number="3.2.4">
+<h3 data-number="3.2.4" class="anchored" data-anchor-id="final-model-selection-2"><span class="header-section-number">3.2.4</span> Final model selection</h3>
 <hr>
+</section>
 </section>
 <section id="non-native-species" class="level2" data-number="3.3">
 <h2 data-number="3.3" class="anchored" data-anchor-id="non-native-species"><span class="header-section-number">3.3</span> Non-native species</h2>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Final model for non-native species abundance
+</div>
+</div>
+<div class="callout-body-container callout-body">
+
+</div>
+</div>
+<section id="initial-model-assessment-3" class="level3" data-number="3.3.1">
+<h3 data-number="3.3.1" class="anchored" data-anchor-id="initial-model-assessment-3"><span class="header-section-number">3.3.1</span> Initial model assessment</h3>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Best initial model
+</div>
+</div>
+<div class="callout-body-container callout-body">
+
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<table class="table table-striped table-hover table-condensed caption-top table-sm small" data-quarto-postprocess="true">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th" style="text-align: left; position: sticky; top: 0; background-color: #FFFFFF;">response</th>
+<th data-quarto-table-cell-role="th" style="text-align: left; position: sticky; top: 0; background-color: #FFFFFF;">model_name</th>
+<th data-quarto-table-cell-role="th" style="text-align: right; position: sticky; top: 0; background-color: #FFFFFF;">aic</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">value_log</td>
+<td style="text-align: left;">lmer_null_1</td>
+<td style="text-align: right;">775.6330</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">value_log</td>
+<td style="text-align: left;">lmer_null_2</td>
+<td style="text-align: right;">775.8460</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">value_log</td>
+<td style="text-align: left;">lmer_1</td>
+<td style="text-align: right;">777.5031</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">value_log</td>
+<td style="text-align: left;">lmer_2</td>
+<td style="text-align: right;">777.7965</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">value_log</td>
+<td style="text-align: left;">lm_null</td>
+<td style="text-align: right;">864.2420</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">value_log</td>
+<td style="text-align: left;">lm</td>
+<td style="text-align: right;">866.1383</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">value_std</td>
+<td style="text-align: left;">lmer_null_1</td>
+<td style="text-align: right;">952.8472</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">value_std</td>
+<td style="text-align: left;">lmer_1</td>
+<td style="text-align: right;">954.8280</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">value_std</td>
+<td style="text-align: left;">lmer_null_2</td>
+<td style="text-align: right;">955.4240</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">value_std</td>
+<td style="text-align: left;">lmer_2</td>
+<td style="text-align: right;">957.4030</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">value_std</td>
+<td style="text-align: left;">lm_null</td>
+<td style="text-align: right;">996.2555</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">value_std</td>
+<td style="text-align: left;">lm</td>
+<td style="text-align: right;">998.2084</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">value_sqrt</td>
+<td style="text-align: left;">lmer_null_1</td>
+<td style="text-align: right;">1528.0604</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">value_sqrt</td>
+<td style="text-align: left;">lmer_null_2</td>
+<td style="text-align: right;">1529.9277</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">value_sqrt</td>
+<td style="text-align: left;">lmer_1</td>
+<td style="text-align: right;">1530.1061</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">value_sqrt</td>
+<td style="text-align: left;">lmer_2</td>
+<td style="text-align: right;">1531.9975</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">value_sqrt</td>
+<td style="text-align: left;">lm_null</td>
+<td style="text-align: right;">1593.9127</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">value_sqrt</td>
+<td style="text-align: left;">lm</td>
+<td style="text-align: right;">1595.9122</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="model-selection_abundance_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="model-selection_abundance_files/figure-html/unnamed-chunk-17-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="model-selection_abundance_files/figure-html/unnamed-chunk-17-3.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 3
+  response   model_name    aic
+  &lt;chr&gt;      &lt;chr&gt;       &lt;dbl&gt;
+1 value_log  lmer_null_1  776.
+2 value_std  lmer_null_1  953.
+3 value_sqrt lmer_null_1 1528.</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="model-selection_abundance_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="model-selection_abundance_files/figure-html/unnamed-chunk-18-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="model-selection_abundance_files/figure-html/unnamed-chunk-18-3.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="model-selection_abundance_files/figure-html/unnamed-chunk-18-4.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><br></p>
+</section>
+<section id="fixed-effects-selection-3" class="level3" data-number="3.3.2">
+<h3 data-number="3.3.2" class="anchored" data-anchor-id="fixed-effects-selection-3"><span class="header-section-number">3.3.2</span> Fixed effects selection</h3>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Best model after fixed effects selection
+</div>
+</div>
+<div class="callout-body-container callout-body">
+
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<table class="table table-striped table-hover table-condensed caption-top table-sm small" data-quarto-postprocess="true">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th" style="text-align: left; position: sticky; top: 0; background-color: #FFFFFF;">model_name</th>
+<th data-quarto-table-cell-role="th" style="text-align: right; position: sticky; top: 0; background-color: #FFFFFF;">terms_count</th>
+<th data-quarto-table-cell-role="th" style="text-align: right; position: sticky; top: 0; background-color: #FFFFFF;">aic</th>
+<th data-quarto-table-cell-role="th" style="text-align: right; position: sticky; top: 0; background-color: #FFFFFF;">delta</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">f_year + f_two_yr</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">647.3099</td>
+<td style="text-align: right;">0.0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">f_year + f_new</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">647.9630</td>
+<td style="text-align: right;">0.7</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">f_year</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">648.4108</td>
+<td style="text-align: right;">1.1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">f_year + f_break</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">648.5500</td>
+<td style="text-align: right;">1.2</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">f_year + plot_type</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">649.7009</td>
+<td style="text-align: right;">2.4</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">f_year + f_one_yr</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">650.1396</td>
+<td style="text-align: right;">2.8</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">f_new</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">709.2929</td>
+<td style="text-align: right;">62.0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">f_break</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">710.8150</td>
+<td style="text-align: right;">63.5</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">f_one_yr</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">745.9373</td>
+<td style="text-align: right;">98.6</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">f_two_yr</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">774.8213</td>
+<td style="text-align: right;">127.5</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">plot_type</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">779.4025</td>
+<td style="text-align: right;">132.1</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="model-selection_abundance_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="model-selection_abundance_files/figure-html/unnamed-chunk-20-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="model-selection_abundance_files/figure-html/unnamed-chunk-20-3.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="model-selection_abundance_files/figure-html/unnamed-chunk-20-4.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="model-selection_abundance_files/figure-html/unnamed-chunk-20-5.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><br></p>
+</section>
+<section id="random-effects-selection-3" class="level3" data-number="3.3.3">
+<h3 data-number="3.3.3" class="anchored" data-anchor-id="random-effects-selection-3"><span class="header-section-number">3.3.3</span> Random effects selection</h3>
+<div class="cell">
+<div class="cell-output-display">
+<table class="table table-striped table-hover table-condensed caption-top table-sm small" data-quarto-postprocess="true">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th" style="text-align: left; position: sticky; top: 0; background-color: #FFFFFF;">model_name</th>
+<th data-quarto-table-cell-role="th" style="text-align: right; position: sticky; top: 0; background-color: #FFFFFF;">AICc</th>
+<th data-quarto-table-cell-role="th" style="text-align: right; position: sticky; top: 0; background-color: #FFFFFF;">delta_AICc</th>
+<th data-quarto-table-cell-role="th" style="text-align: right; position: sticky; top: 0; background-color: #FFFFFF;">weight</th>
+<th data-quarto-table-cell-role="th" style="text-align: right; position: sticky; top: 0; background-color: #FFFFFF;">df</th>
+<th data-quarto-table-cell-role="th" style="text-align: left; position: sticky; top: 0; background-color: #FFFFFF;">is_singular</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">best_fixed_model</td>
+<td style="text-align: right;">648.9402</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">0.2622</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: left;">TRUE</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">f_two_yr</td>
+<td style="text-align: right;">650.9428</td>
+<td style="text-align: right;">2.00</td>
+<td style="text-align: right;">0.0963</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: left;">TRUE</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">f_new</td>
+<td style="text-align: right;">651.0597</td>
+<td style="text-align: right;">2.12</td>
+<td style="text-align: right;">0.0909</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: left;">TRUE</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">f_break</td>
+<td style="text-align: right;">651.0597</td>
+<td style="text-align: right;">2.12</td>
+<td style="text-align: right;">0.0909</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: left;">TRUE</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">grazer</td>
+<td style="text-align: right;">651.0597</td>
+<td style="text-align: right;">2.12</td>
+<td style="text-align: right;">0.0909</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: left;">TRUE</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">f_one_yr</td>
+<td style="text-align: right;">651.0597</td>
+<td style="text-align: right;">2.12</td>
+<td style="text-align: right;">0.0909</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: left;">TRUE</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">f_year</td>
+<td style="text-align: right;">651.0597</td>
+<td style="text-align: right;">2.12</td>
+<td style="text-align: right;">0.0909</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: left;">TRUE</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">plot_type</td>
+<td style="text-align: right;">651.0597</td>
+<td style="text-align: right;">2.12</td>
+<td style="text-align: right;">0.0909</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: left;">TRUE</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">f_year_grazer</td>
+<td style="text-align: right;">653.1918</td>
+<td style="text-align: right;">4.25</td>
+<td style="text-align: right;">0.0313</td>
+<td style="text-align: right;">11</td>
+<td style="text-align: left;">TRUE</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">treatment_f_two_yr</td>
+<td style="text-align: right;">655.3049</td>
+<td style="text-align: right;">6.36</td>
+<td style="text-align: right;">0.0109</td>
+<td style="text-align: right;">12</td>
+<td style="text-align: left;">TRUE</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">treatment_f_new</td>
+<td style="text-align: right;">655.3366</td>
+<td style="text-align: right;">6.40</td>
+<td style="text-align: right;">0.0107</td>
+<td style="text-align: right;">12</td>
+<td style="text-align: left;">TRUE</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">treatment_f_break</td>
+<td style="text-align: right;">655.3366</td>
+<td style="text-align: right;">6.40</td>
+<td style="text-align: right;">0.0107</td>
+<td style="text-align: right;">12</td>
+<td style="text-align: left;">TRUE</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">treatment_f_one_yr</td>
+<td style="text-align: right;">655.3366</td>
+<td style="text-align: right;">6.40</td>
+<td style="text-align: right;">0.0107</td>
+<td style="text-align: right;">12</td>
+<td style="text-align: left;">TRUE</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">treatment_f_year</td>
+<td style="text-align: right;">655.3366</td>
+<td style="text-align: right;">6.40</td>
+<td style="text-align: right;">0.0107</td>
+<td style="text-align: right;">12</td>
+<td style="text-align: left;">TRUE</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">treatment_grazer</td>
+<td style="text-align: right;">655.3366</td>
+<td style="text-align: right;">6.40</td>
+<td style="text-align: right;">0.0107</td>
+<td style="text-align: right;">12</td>
+<td style="text-align: left;">TRUE</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">treatment_f_year_grazer</td>
+<td style="text-align: right;">661.8479</td>
+<td style="text-align: right;">12.91</td>
+<td style="text-align: right;">0.0004</td>
+<td style="text-align: right;">15</td>
+<td style="text-align: left;">TRUE</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">f_year_plot_type</td>
+<td style="text-align: right;">668.9721</td>
+<td style="text-align: right;">20.03</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">19</td>
+<td style="text-align: left;">TRUE</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+<p><br></p>
+</section>
+<section id="final-model-selection-3" class="level3" data-number="3.3.4">
+<h3 data-number="3.3.4" class="anchored" data-anchor-id="final-model-selection-3"><span class="header-section-number">3.3.4</span> Final model selection</h3>
 <hr>
+</section>
 </section>
 </section>
 <section id="references" class="level1" data-number="4">
@@ -400,12 +1820,173 @@ Best model after fixed effects selection
 <li><p>Bates, D., Mächler, M., Bolker, B. M., &amp; Walker, S. C. (2015). Fitting Linear Mixed-Effects Models Using lme4. <em>Journal of Statistical Software</em>, <em>67</em>(1), 1–48.</p></li>
 <li><p>Firshman, T. (2023). <em>janitor: Simple Data Frame Cleaning Functions</em>. R package version 2.2.0.</p></li>
 <li><p>Hartig, F. (2022). <em>DHARMa: Residual Diagnostics for Hierarchical (Multi-Level / Mixed) Regression Models</em>. R package version 0.4.6.</p></li>
-<li><p>Lüdecke, D., Ben-Shachar, M., Patil, I., Waggoner, P., &amp; Makowski, D. (2021). performance: Assessing and Comparing Statistical Models. <em>Journal of Open Source Software</em>, <em>6</em>(60), 3139.</p>
-<p>å</p></li>
+<li><p>Lüdecke, D., Ben-Shachar, M., Patil, I., Waggoner, P., &amp; Makowski, D. (2021). performance: Assessing and Comparing Statistical Models. <em>Journal of Open Source Software</em>, <em>6</em>(60), 3139.</p></li>
 </ul>
+<hr>
 </section>
-<section id="session-info" class="level1" data-number="5">
-<h1 data-number="5"><span class="header-section-number">5</span> Session info</h1>
+<section id="sec-Appendix" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> Appendix</h1>
+<p><strong>Diagnostic plots for excluded fixed effect models fit to native species abundance</strong></p>
+<p>The following are the diagnostic plots for models with lower AIC to illustrate their issues with uniformity.</p>
+<p>Model diagnostics for the model with the lowest AIC: f_one_yr</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="model-selection_abundance_files/figure-html/unnamed-chunk-23-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="model-selection_abundance_files/figure-html/unnamed-chunk-23-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="model-selection_abundance_files/figure-html/unnamed-chunk-23-3.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="model-selection_abundance_files/figure-html/unnamed-chunk-23-4.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="model-selection_abundance_files/figure-html/unnamed-chunk-23-5.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><br></p>
+<p>Model diagnostics for the model with the second lowest AIC: f_break</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="model-selection_abundance_files/figure-html/unnamed-chunk-24-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="model-selection_abundance_files/figure-html/unnamed-chunk-24-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="model-selection_abundance_files/figure-html/unnamed-chunk-24-3.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="model-selection_abundance_files/figure-html/unnamed-chunk-24-4.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="model-selection_abundance_files/figure-html/unnamed-chunk-24-5.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><br></p>
+<p>Model diagnostics for the model with the third lowest AIC: f_new</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="model-selection_abundance_files/figure-html/unnamed-chunk-25-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="model-selection_abundance_files/figure-html/unnamed-chunk-25-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="model-selection_abundance_files/figure-html/unnamed-chunk-25-3.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="model-selection_abundance_files/figure-html/unnamed-chunk-25-4.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="model-selection_abundance_files/figure-html/unnamed-chunk-25-5.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><br></p>
+<p>Model diagnostics for the model with the fourth lowest AIC: plot_type</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="model-selection_abundance_files/figure-html/unnamed-chunk-26-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="model-selection_abundance_files/figure-html/unnamed-chunk-26-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="model-selection_abundance_files/figure-html/unnamed-chunk-26-3.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="model-selection_abundance_files/figure-html/unnamed-chunk-26-4.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="model-selection_abundance_files/figure-html/unnamed-chunk-26-5.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<hr>
+</section>
+<section id="session-info" class="level1" data-number="6">
+<h1 data-number="6"><span class="header-section-number">6</span> Session info</h1>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
 <pre><code>─ Session info ───────────────────────────────────────────────────────────────
@@ -586,8 +2167,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   });
   clipboard.on('success', onCopySuccess);
   if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-    // For code content inside modals, clipBoardJS needs to be initialized with a container option
-    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
     const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
       text: getTextToCopy,
       container: window.document.getElementById('quarto-embedded-source-code-modal')
@@ -698,7 +2277,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (window.Quarto?.typesetMath) {
         window.Quarto.typesetMath(note);
       }
-      // TODO in 1.5, we should make sure this works without a callout special case
       if (note.classList.contains("callout")) {
         return note.outerHTML;
       } else {

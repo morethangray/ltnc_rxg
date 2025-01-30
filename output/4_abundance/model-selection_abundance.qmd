@@ -5,12 +5,13 @@ format:
   html:
     toc: true
     toc-title: Contents
-    number-sections: TRUE
+    
 editor: visual
 execute:
   echo: false
   warning: false
 callout-icon: false
+number-sections: TRUE
 ---
 
 ```{r setup}
@@ -27,6 +28,8 @@ library(sessioninfo)
 source(here("R/functions/fxn_utilities.R"))
 source(here("R/functions/fxn_load_rich_abun.R"))
 # source(here("R/functions/fxn_model-selection_abun.R"))
+
+set.seed(912)
 
 ```
 
@@ -223,6 +226,111 @@ fxn_fixed_effects <- function(input_model) {
     summary_table = all_models %>% arrange(aic) # Sort summary table by AIC
   ))
 }
+
+# Function to fit random effects  ----
+fxn_random_effects <- function(best_fixed_model) {
+  
+  # Add each random intercept one at a time
+  plot_type <- update(best_fixed_model, . ~ . + (1 | plot_type))
+  f_year <- update(best_fixed_model, . ~ . + (1 | f_year))
+  f_year_grazer <- update(best_fixed_model, . ~ . + (1 | f_year/grazer))
+  grazer <- update(best_fixed_model, . ~ . + (1 | grazer))
+  f_break <- update(best_fixed_model, . ~ . + (1 | f_break))
+  f_one_yr <- update(best_fixed_model, . ~ . + (1 | f_one_yr))
+  f_two_yr <- update(best_fixed_model, . ~ . + (1 | f_two_yr))
+  f_new <- update(best_fixed_model, . ~ . + (1 | f_new))
+  # 
+  # # Add each random slope one at a time
+  f_year_plot_type <- update(best_fixed_model, . ~ . + (1 + f_year | plot_type))
+  treatment_f_year <- update(best_fixed_model, . ~ . + (1 + treatment | f_year))
+  treatment_f_year_grazer <- update(best_fixed_model, . ~ . + (1 + treatment | f_year/grazer))
+  treatment_grazer <- update(best_fixed_model, . ~ . + (1 + treatment | grazer))
+  treatment_f_break <- update(best_fixed_model, . ~ . + (1 + treatment | f_break))
+  treatment_f_one_yr <- update(best_fixed_model, . ~ . + (1 + treatment | f_one_yr))
+  treatment_f_two_yr  <- update(best_fixed_model, . ~ . + (1 + treatment | f_two_yr))
+  treatment_f_new <- update(best_fixed_model, . ~ . + (1 + treatment | f_new))
+   
+  
+  # Check for singularity using a robust method 
+  list_model_names <- c("best_fixed_model", 
+                  "plot_type", 
+                  "f_year", 
+                  "f_year_grazer", 
+                  "grazer", 
+                  "f_break", 
+                  "f_one_yr",
+                  "f_two_yr",
+                  "f_new",
+                  "f_year_plot_type",
+                  "treatment_f_year",
+                  "treatment_f_year_grazer",
+                  "treatment_grazer",
+                  "treatment_f_break",
+                  "treatment_f_one_yr",
+                  "treatment_f_two_yr",
+                  "treatment_f_new")
+
+  datalist <- list()
+  for(n in list_model_names){
+    
+    model <- get(n)
+    
+    datalist[[n]] <- tibble(
+      model_name = n, 
+      is_singular = isSingular(model)
+    )
+  }
+  
+  bind_datalist <- do.call(bind_rows, datalist)
+  
+  # not_singular <-  bind_datalist %>%
+  #   filter(is_singular == FALSE) %>%
+  #   filter(model_name != "best_fixed_model") 
+  # 
+  # if(nrow(not_singular) == 0){
+  #   print("All random effect models are singular")
+  # }else{
+  #   print(not_singular)
+  # }
+  
+  all_models <- model.sel(best_fixed_model, 
+            plot_type, 
+            f_year, 
+            f_year_grazer, 
+            grazer, 
+            f_break, 
+            f_one_yr,
+            f_two_yr,
+            f_new,
+            f_year_plot_type,
+            treatment_f_year,
+            treatment_f_year_grazer,
+            treatment_grazer,
+            treatment_f_break,
+            treatment_f_one_yr,
+            treatment_f_two_yr,
+            treatment_f_new)  
+  
+  names(all_models)
+  
+  all_models_tbl <-   all_models %>%
+    as_tibble() %>%
+    # Add rownames as a column since they often contain model names
+    tibble::rownames_to_column("model")
+  
+  # To see what columns are being dropped:
+  dropped_cols <- setdiff(names(all_models), names(all_models_tbl))
+  
+  summary_table <- tibble(
+    model_name = rownames(all_models),
+    AICc = all_models$AICc,
+    delta_AICc = round(all_models$delta, 2),
+    weight = round(all_models$weight, 4),
+    df = all_models$df
+  ) %>%
+    arrange(AICc) %>%
+    left_join(bind_datalist, "model_name")
+}
 ```
 
 # Introduction
@@ -233,7 +341,7 @@ The objective of this analysis was to select the best-fitting generalized linear
 
 I used a systematic, three-stage approach to identify the optimal model structure for analyzing plant abundance data: initial model assessment, fixed effects selection, and random effects selection. Modular functions were developed to automate portions of the model selection process. All models were fit using restricted maximum likelihood (REML) via the `lmer` function from the `lme4` package (Bates et al. 2015). Model comparison was primarily based on Akaike's Information Criterion corrected for small sample size (AICc), calculated using the `MuMIn` package (Barton 2022). Models within a delta AICc of 6 were considered for further evaluation.Formal tests for uniform residual distribution (`testUniformity`), dispersion (`testDispersion`), and outlier detection (`testOutliers`) were performed using the `DHARMa` package (Hartig 2022). Diagnostic plots, including quantile-quantile plots (`DHARMa::plotQQunif`) and residual plots (`DHARMa::plotResiduals`), were visually inspected. Model singularity was assessed using the `performance` package (Lüdecke et al., 2021), specifically the `check_singularity` function. The `janitor` package (Firshman, 2023) was used for data cleaning and table formatting.
 
-## Initial model assessment 
+## Initial model assessment
 
 To assess the influence of response variable transformation on model fit, several initial models were fit. These included intercept-only and simple linear models using untransformed abundance as null models:
 
@@ -243,7 +351,7 @@ To assess the influence of response variable transformation on model fit, severa
 Linear mixed-effects models were then fit using standardized, log-transformed, and square-root transformed abundance. For each transformation, four model structures were compared:
 
 -   `lmer_null_1`: A mixed-effects model with a random intercept for plot name (intercept-only): `lmer(transformed abundance ~ 1 + (1 | plot_name))`
--   `lmer_null_2`: A mixed-effects model with a random intercept and a random slope for treatment within plot name (without treatment as a fixed effect): `lmer(``transformed abundance``~ 1 + (1 + treatment | plot_name))`
+-   `lmer_null_2`: A mixed-effects model with a random intercept and a random slope for treatment within plot name (without treatment as a fixed effect): ``` lmer(``transformed abundance``~ 1 + (1 + treatment | plot_name)) ```
 -   `lmer_1`: A mixed-effects model with treatment as a fixed effect and a random intercept for plot name: `lmer(transformed abundance ~ treatment + (1 | plot_name))`
 -   `lmer_2`: A mixed-effects model with treatment as a fixed effect, and a random intercept and a random slope for treatment within plot name: `lmer(transformed abundance ~ treatment + (1 + treatment | plot_name))`
 
@@ -263,6 +371,25 @@ After identifying a set of best-performing fixed effects models, I explored the 
 
 Model comparisons were again based on AICc, and models within a delta AICc of 6 were retained. Singularity checks were performed using the `lme4::check_singularity` function to ensure model convergence.
 
+| Abbreviation | Model specification |
+|---------------------|--------------------------------------------------|
+| plot_type | best_fixed_model, . \~ . + (1 \| plot_type) |
+| f_year | best_fixed_model, . \~ . + (1 \| f_year) |
+| f_year_grazer | best_fixed_model, . \~ . + (1 \| f_year/grazer) |
+| grazer | best_fixed_model, . \~ . + (1 \| grazer) |
+| f_break | best_fixed_model, . \~ . + (1 \| f_break) |
+| f_one_yr | best_fixed_model, . \~ . + (1 \| f_one_yr) |
+| f_two_yr | best_fixed_model, . \~ . + (1 \| f_two_yr) |
+| f_new | best_fixed_model, . \~ . + (1 \| f_new) |
+| f_year_plot_type | best_fixed_model, . \~ . + (1 + f_year \| plot_type) |
+| treatment_f_year | best_fixed_model, . \~ . + (1 + treatment \| f_year) |
+| treatment_f_year_grazer | best_fixed_model, . \~ . + (1 + treatment \| f_year/grazer) |
+| treatment_grazer | best_fixed_model, . \~ . + (1 + treatment \| grazer) |
+| treatment_f_break | best_fixed_model, . \~ . + (1 + treatment \| f_break) |
+| treatment_f_one_yr | best_fixed_model, . \~ . + (1 + treatment \| f_one_yr) |
+| treatment_f_two_yr | best_fixed_model, . \~ . + (1 + treatment \| f_two_yr) |
+| treatment_f_new | best_fixed_model, . \~ . + (1 + treatment \| f_new) |
+
 ## Final model selection
 
 The final model was selected based on AICc, diagnostic plot review, and ecological interpretability. The model with the lowest AICc that met model assumptions and had a biologically plausible structure was chosen. Final model performance was assessed by examining residual plots, testing for uniform residual distribution using `testUniformity` (from `DHARMa`), and assessing for outliers. The rationale for each predictor's inclusion in the final model was documented.
@@ -271,41 +398,56 @@ The final model was selected based on AICc, diagnostic plot review, and ecologic
 
 ## Native species
 
+::: callout-note
+#### Final model for native species abundance
+
+log(abundance) \~ treatment + f_year + (1 + treatment \| plot_name)
+:::
+
 ### Initial model assessment
 
-The log-transformed response with treatment as a fixed effect, and a random intercept and a random slope for treatment within plot name emerged as the best initial model based on AIC values and diagnostic plots: `lmer(log(abundance) ~ treatment + (1 + treatment | plot_name))`
+::: callout-note
+#### Best initial model
+
+log(abundance) \~ treatment + (1 + treatment \| plot_name)
+:::
+
+The log-transformed response with treatment as a fixed effect, and a random intercept and a random slope for treatment within plot name emerged as the best initial model based on AIC values and diagnostic plots.
 
 ```{r}
 # Fit the initial models
-model_init_abun_nat <- fxn_initial_model(abun_nat)
+models_init_abun_nat <- fxn_initial_model(abun_nat)
 
 # View the summary table
-print(model_init_abun_nat$summary_table)
+models_init_abun_nat$summary_table %>%
+  fxn_kable()
 ```
 
 Based on AIC the standardized values had a better fit. However, model diagnostics for this response didn't look good. Visual inspection of QQ plot showed marked deviation from reference; and the tests for deviation, outliers, and within-group deviations from uniformity were significant.
 
 ```{r}
 # Review diagnostics for model with lowest AIC
-fxn_model_review(model_init_abun_nat$best_model$model, abun_nat)
+fxn_model_review(models_init_abun_nat$best_model$model, abun_nat)
 ```
 
 The next best set of transformations ranked by AIC were log-transformed values. These model diagnostics looked better than those for the standardized values: less deviation shown in the QQ plot, and no significant outliers. Test for within-group deviations from uniformity was significant.
 
 ```{r}
 # Identify the model with the lowest AIC for each transformation
-model_init_abun_nat$summary_table %>%
+models_init_abun_nat$summary_table %>%
   group_by(response) %>%
   slice(1) %>%
   arrange(aic) %>%
   ungroup()
 
 # lmer_2: lmer(abundance ~ treatment + (1 + treatment | plot_name))
-best_model_init_abun_nat_log_2 <- lmer(
+model_init_abun_nat_log <- lmer(
   value_log ~ treatment + (1 + treatment | plot_name),
   data = abun, subset = met_sub == "abun_nat", REML = FALSE
 )
-fxn_model_review(best_model_init_abun_nat_log_2, abun_nat)
+fxn_model_review(model_init_abun_nat_log, abun_nat)
+
+
 
 ```
 
@@ -313,73 +455,326 @@ For thoroughness, I also looked at the diagnostics for the best model fit to the
 
 ```{r}
 # lmer_2: lmer(abundance ~ treatment + (1 + treatment | plot_name))
-best_model_init_abun_nat_sqrt_2 <- lmer(
+model_init_abun_nat_sqrt <- lmer(
   value_sqrt ~ treatment + (1 + treatment | plot_name),
   data = abun, subset = met_sub == "abun_nat", REML = FALSE
 )
-fxn_model_review(best_model_init_abun_nat_sqrt_2, abun_nat)
+fxn_model_review(model_init_abun_nat_sqrt, abun_nat)
 
 ```
 
 Because the model diagnostics for the log- and square root-transformed values were comparable, I elected to use the model with the lowest AIC.
 
-::: callout-note
-## Best initial model
-
-log(abundance) \~ treatment + (1 + treatment \| plot_name)
-:::
-
 <br>
 
 ### Fixed effects selection
 
-The AIC results for the fixed effects models evaluated:
+::: callout-note
+#### Best model after fixed effects selection
+
+log(abundance) \~ treatment + f_year + (1 + treatment \| plot_name)
+:::
+
+The addition of sampling year as a fixed effect emerged as the best model after fixed effects selection based on AIC values and diagnostic plots.
+
+The AIC results for the fixed effects models showed the model with a fixed effect for f_one_year to be the best fit for the data. The models that included f_break and f_new were within 3 AIC of the minimum. These models all related to sampling timing (i.e., 1-year gaps between surveys, a survey after a prolonged break, or the first survey year).
+
+All models with one additional fixed effect were within 6 AIC of the minimum.
 
 ```{r}
 # Define the best initial model
-best_model_init_abun <- lmer(
+best_model_init_abun_nat <- lmer(
   value_log ~ treatment + (1 + treatment | plot_name),
   data = abun, subset = met_sub == "abun_nat", REML = FALSE
 )
 
 # Fit the fixed effects models
-model_fixed_abun_nat <- fxn_fixed_effects(best_model_init_abun)
+models_fixed_abun_nat <- fxn_fixed_effects(best_model_init_abun_nat)
 
 # View the summary table
-fixed_summary_table <- model_fixed_abun_nat$summary_table %>%
+fixed_summary_table <- models_fixed_abun_nat$summary_table %>%
   as_tibble() %>%
-  dplyr::select(model_name, terms_count, aic)  
+  dplyr::select(model_name, terms_count, aic) %>%
+  dplyr::mutate(delta = round(aic - min(aic), 1))
 
 fixed_summary_table %>%
   fxn_kable()
 
-
 # View the best model 
-best_fixed_model <- model_fixed_abun_nat$best_model$formula
+best_fixed_model <- models_fixed_abun_nat$best_model$formula
 
 # Capture the output of print()
-output <- capture.output(print(model_fixed_abun_nat$best_model$formula)) 
+# output <- capture.output(print(models_fixed_abun_nat$best_model$formula)) 
+
+```
+
+The model diagnostics for the four top-performing models showed deviation consistent with the initial model (not worse, at least) and no significant outliers. However, tests for within-group deviations from uniformity were significant for treatment and for the fixed effect.
+
+After reviewing the model diagnostics for all the fixed effects selection models, I selected the model with a fixed term for sampling year (f_year). Although this model did not have the lowest AIC, it was within the pre-defined threshold of 6 AIC units for consideration (delta = 4.3). My decision was influenced by the lack of within-group deviations from uniformity. Specifically, the effect of year was uniform with homogenous variance. The inclusion of a fixed effect for year also improved the uniformity for grazed plots.
+
+```{r}
+
+model_fixed_abun_nat_5 <- update(best_model_init_abun_nat, . ~ . + f_year)
+
+fxn_model_review(model_fixed_abun_nat_5, abun_nat)
+
 ```
 
 ::: callout-note
-## Best model after fixed effects selection
-
-`r trimws(paste(deparse(model_fixed_abun_nat$best_model$formula), collapse = " "))`
+The diagnostic plots for excluded fixed effect models fit to native species abundance are included in the Appendix for reference.
 :::
 
+<br>
+
 ### Random effects selection
+
+The addition of random effects resulted in singular fit for all combinations. No random effects were added to the model.
+
+```{r}
+# Define the best fixed effects model
+best_model_fixed_abun_nat <- update(best_model_init_abun_nat, . ~ . + f_year)
+
+models_random_abun_nat <- fxn_random_effects(best_model_fixed_abun_nat)
+
+models_random_abun_nat %>%
+  fxn_kable()
+```
+
+<br>
 
 ### Final model selection
 
 The final selected model included log-transformed abundance as the response variable, treatment, year, and plot type as fixed effects, and random slopes and intercepts for treatment by plot. This model satisfied assumptions of uniform residual distribution and proper dispersion, showed no significant outliers, and maintained convergence without singularity issues.
 
+This model and the diagnostics were previously described in the *Fixed effects selection* section.
+
 ------------------------------------------------------------------------
 
 ## Native forb species
 
+::: callout-note
+#### Final model for native forb species abundance
+:::
+
+### Initial model assessment
+
+::: callout-note
+#### Best initial model
+:::
+
+```{r}
+# Fit the initial models
+models_init_abun_frb <- fxn_initial_model(abun_frb)
+
+# View the summary table
+models_init_abun_frb$summary_table %>%
+  fxn_kable()
+```
+
+```{r}
+# Review diagnostics for model with lowest AIC
+fxn_model_review(models_init_abun_frb$best_model$model, abun_frb)
+```
+
+```{r}
+# Identify the model with the lowest AIC for each transformation
+models_init_abun_frb$summary_table %>%
+  group_by(response) %>%
+  slice(1) %>%
+  arrange(aic) %>%
+  ungroup()
+
+# lmer_2: lmer(abundance ~ treatment + (1 + treatment | plot_name))
+model_init_abun_frb_log <- lmer(
+  value_log ~ treatment + (1 + treatment | plot_name),
+  data = abun, subset = met_sub == "abun_frb", REML = FALSE
+)
+fxn_model_review(model_init_abun_frb_log, abun_frb)
+
+```
+
+```{r}
+
+```
+
+<br>
+
+### Fixed effects selection
+
+::: callout-note
+#### Best model after fixed effects selection
+:::
+
+```{r}
+# Define the best initial model
+best_model_init_abun_frb <- lmer(
+  value_log ~ treatment + (1 + treatment | plot_name),
+  data = abun, subset = met_sub == "abun_frb", REML = FALSE
+)
+
+# Fit the fixed effects models
+models_fixed_abun_frb <- fxn_fixed_effects(best_model_init_abun_frb)
+
+# View the summary table
+fixed_summary_table <- models_fixed_abun_frb$summary_table %>%
+  as_tibble() %>%
+  dplyr::select(model_name, terms_count, aic) %>%
+  dplyr::mutate(delta = round(aic - min(aic), 1))
+
+fixed_summary_table %>%
+  fxn_kable()
+
+# View the best model 
+best_fixed_model <- models_fixed_abun_frb$best_model$formula
+
+
+```
+
+```{r}
+
+model_fixed_abun_frb_5 <- update(best_model_init_abun_frb, . ~ . + f_year)
+
+fxn_model_review(model_fixed_abun_frb_5, abun_frb)
+```
+
+<br>
+
+### Random effects selection
+
+```{r}
+# Define the best fixed effects model
+best_model_fixed_abun_frb <- update(best_model_init_abun_frb, . ~ . + f_year)
+
+models_random_abun_frb <- fxn_random_effects(best_model_fixed_abun_frb)
+
+models_random_abun_frb %>%
+  fxn_kable()
+```
+
+```{r}
+
+```
+
+<br>
+
+### Final model selection
+
 ------------------------------------------------------------------------
 
 ## Non-native species
+
+::: callout-note
+#### Final model for non-native species abundance
+:::
+
+### Initial model assessment
+
+::: callout-note
+#### Best initial model
+:::
+
+```{r}
+# Fit the initial models
+models_init_abun_non <- fxn_initial_model(abun_non)
+
+# View the summary table
+models_init_abun_non$summary_table %>%
+  fxn_kable()
+```
+
+```{r}
+# Review diagnostics for model with lowest AIC
+fxn_model_review(models_init_abun_non$best_model$model, abun_non)
+```
+
+```{r}
+# Identify the model with the lowest AIC for each transformation
+models_init_abun_non$summary_table %>%
+  group_by(response) %>%
+  slice(1) %>%
+  arrange(aic) %>%
+  ungroup()
+
+# lmer_2: lmer(abundance ~ treatment + (1 + treatment | plot_name))
+model_init_abun_non_log <- lmer(
+  value_log ~ treatment + (1 + treatment | plot_name),
+  data = abun, subset = met_sub == "abun_non", REML = FALSE
+)
+fxn_model_review(model_init_abun_non_log, abun_non)
+
+```
+
+```{r}
+# lmer_2: lmer(abundance ~ treatment + (1 + treatment | plot_name))
+model_init_abun_non_sqrt <- lmer(
+  value_sqrt ~ treatment + (1 + treatment | plot_name),
+  data = abun, subset = met_sub == "abun_non", REML = FALSE
+)
+fxn_model_review(model_init_abun_non_sqrt, abun_non)
+
+```
+
+<br>
+
+### Fixed effects selection
+
+::: callout-note
+#### Best model after fixed effects selection
+:::
+
+```{r}
+# Define the best initial model
+best_model_init_abun_non <- lmer(
+  value_log ~ treatment + (1 + treatment | plot_name),
+  data = abun, subset = met_sub == "abun_non", REML = FALSE
+)
+
+# Fit the fixed effects models
+models_fixed_abun_non <- fxn_fixed_effects(best_model_init_abun_non)
+
+# View the summary table
+fixed_summary_table <- models_fixed_abun_non$summary_table %>%
+  as_tibble() %>%
+  dplyr::select(model_name, terms_count, aic) %>%
+  dplyr::mutate(delta = round(aic - min(aic), 1))
+
+fixed_summary_table %>%
+  fxn_kable()
+
+# View the best model 
+best_fixed_model <- models_fixed_abun_non$best_model$formula
+
+
+```
+
+```{r}
+
+model_fixed_abun_non_5 <- update(best_model_init_abun_non, . ~ . + f_year)
+
+fxn_model_review(model_fixed_abun_non_5, abun_non)
+```
+
+<br>
+
+### Random effects selection
+
+```{r}
+# Define the best fixed effects model
+best_model_fixed_abun_non <- update(best_model_init_abun_non, . ~ . + f_year)
+
+models_random_abun_non <- fxn_random_effects(best_model_fixed_abun_non)
+
+models_random_abun_non %>%
+  fxn_kable()
+```
+
+```{r}
+
+```
+
+<br>
+
+### Final model selection
 
 ------------------------------------------------------------------------
 
@@ -395,7 +790,60 @@ The final selected model included log-transformed abundance as the response vari
 
 -   Lüdecke, D., Ben-Shachar, M., Patil, I., Waggoner, P., & Makowski, D. (2021). performance: Assessing and Comparing Statistical Models. *Journal of Open Source Software*, *6*(60), 3139.
 
-    å
+------------------------------------------------------------------------
+
+# Appendix {#sec-Appendix}
+
+**Diagnostic plots for excluded fixed effect models fit to native species abundance**
+
+The following are the diagnostic plots for models with lower AIC to illustrate their issues with uniformity.
+
+Model diagnostics for the model with the lowest AIC: f_one_yr
+
+```{r}
+# fxn_model_review(models_fixed_abun_nat$best_model$model, abun_nat)
+model_fixed_abun_nat_1 <- update(best_model_init_abun_nat, . ~ . + f_one_yr)
+
+fxn_model_review(model_fixed_abun_nat_1, abun_nat)
+
+```
+
+<br>
+
+Model diagnostics for the model with the second lowest AIC: f_break
+
+```{r}
+model_fixed_abun_nat_2 <- update(best_model_init_abun_nat, . ~ . + f_break)
+
+fxn_model_review(model_fixed_abun_nat_2, abun_nat)
+
+```
+
+<br>
+
+Model diagnostics for the model with the third lowest AIC: f_new
+
+```{r}
+model_fixed_abun_nat_3 <- update(best_model_init_abun_nat, . ~ . + f_new)
+
+fxn_model_review(model_fixed_abun_nat_3, abun_nat)
+
+
+```
+
+<br>
+
+Model diagnostics for the model with the fourth lowest AIC: plot_type
+
+```{r}
+model_fixed_abun_nat_4 <- update(best_model_init_abun_nat, . ~ . + plot_type)
+
+fxn_model_review(model_fixed_abun_nat_4, abun_nat)
+
+
+```
+
+------------------------------------------------------------------------
 
 # Session info
 

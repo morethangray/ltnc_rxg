@@ -74,13 +74,6 @@ bind_fixed <- bind_rows(abun_nat_tbl_fix_dredge,
                         abun_nat_tbl_fix_two) %>%
   arrange(aicc) 
 
-bind_fixed %>%
-  mutate(aicc_round = round(aicc, 0)) %>%
-  dplyr::select(treatment, 
-         starts_with("f_"), 
-         plot_type, 
-         aicc_round) %>%
-  distinct()
 
 #   Identify best fixed model ----
 model_abun_nat_fix <- lmer(
