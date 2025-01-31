@@ -178,6 +178,58 @@ Note
 </section>
 <section id="results" class="level1" data-number="3">
 <h1 data-number="3"><span class="header-section-number">3</span> Results</h1>
+<p>Final recommended distribution (and transformation, when relevant) for each of the six models provided in table. Detailed results for each assessment in subsequent sections.</p>
+<p>Native and native forbs for each metric were identical. Negative binomial distribution recommended for native richness because it was a count; normal distribution ok for non-native richness. Recommended distribution for abundance was normal for all species subsets.</p>
+<table class="caption-top table">
+<caption><em>Recommended distribution and transformation for each of the six models</em></caption>
+<thead>
+<tr class="header">
+<th>Metric</th>
+<th>Species</th>
+<th>Distribution</th>
+<th>Transformation</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Richness</td>
+<td>Native</td>
+<td>Negative binomial</td>
+<td>None</td>
+</tr>
+<tr class="even">
+<td>Richness</td>
+<td>Native forb</td>
+<td>Negative binomial</td>
+<td>None</td>
+</tr>
+<tr class="odd">
+<td>Richness</td>
+<td>Non-native</td>
+<td>Normal</td>
+<td>Log</td>
+</tr>
+<tr class="even">
+<td>Abundance</td>
+<td>Native</td>
+<td>Normal</td>
+<td>Log</td>
+</tr>
+<tr class="odd">
+<td>Abundance</td>
+<td>Native forb</td>
+<td>Normal</td>
+<td>Log</td>
+</tr>
+<tr class="even">
+<td>Abundance</td>
+<td>Non-native</td>
+<td>Normal</td>
+<td>Square root</td>
+</tr>
+</tbody>
+</table>
+<p><br></p>
 <section id="richness" class="level2" data-number="3.1">
 <h2 data-number="3.1" class="anchored" data-anchor-id="richness"><span class="header-section-number">3.1</span> Richness</h2>
 <p>Preview the first 10 rows of the data table for richness (rich) to see the column names and formats.</p>
@@ -384,8 +436,19 @@ Tip
 </div>
 <section id="native-species" class="level3" data-number="3.1.1">
 <h3 data-number="3.1.1" class="anchored" data-anchor-id="native-species"><span class="header-section-number">3.1.1</span> Native species</h3>
-<p><strong>Recommended distribution:</strong> Negative binomial distribution</p>
-<p><br></p>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Recommended distribution
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Negative binomial</p>
+</div>
+</div>
 <section id="histograms-1" class="level4" data-number="3.1.1.1">
 <h4 data-number="3.1.1.1" class="anchored" data-anchor-id="histograms-1"><span class="header-section-number">3.1.1.1</span> <strong>Histograms</strong></h4>
 <p>The histograms indicated the raw data followed a Poisson distribution, which was expected for count data.</p>
@@ -520,7 +583,19 @@ NULL</code></pre>
 </section>
 <section id="native-forb-species" class="level3" data-number="3.1.2">
 <h3 data-number="3.1.2" class="anchored" data-anchor-id="native-forb-species"><span class="header-section-number">3.1.2</span> Native forb species</h3>
-<p><strong>Recommended distribution:</strong> Negative binomial distribution</p>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Recommended distribution
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Negative binomial</p>
+</div>
+</div>
 <p>The results for native forb species richness were similar to those for all native species. This was not surprising given the forb data was a large component of the native species data.</p>
 <section id="histograms-2" class="level4" data-number="3.1.2.1">
 <h4 data-number="3.1.2.1" class="anchored" data-anchor-id="histograms-2"><span class="header-section-number">3.1.2.1</span> <strong>Histograms</strong></h4>
@@ -656,7 +731,19 @@ NULL</code></pre>
 </section>
 <section id="non-native-species" class="level3" data-number="3.1.3">
 <h3 data-number="3.1.3" class="anchored" data-anchor-id="non-native-species"><span class="header-section-number">3.1.3</span> Non-native species</h3>
-<p><strong>Recommended distribution:</strong> Normal distribution with log-transformed values</p>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Recommended distribution
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Normal (with log-transformed values)</p>
+</div>
+</div>
 <section id="histograms-3" class="level4" data-number="3.1.3.1">
 <h4 data-number="3.1.3.1" class="anchored" data-anchor-id="histograms-3"><span class="header-section-number">3.1.3.1</span> <strong>Histograms</strong></h4>
 <p>The histogram for the square-root transformed data appeared the most normal of those considered.</p>
@@ -990,7 +1077,19 @@ Tip
 </div>
 <section id="native-species-1" class="level3" data-number="3.2.1">
 <h3 data-number="3.2.1" class="anchored" data-anchor-id="native-species-1"><span class="header-section-number">3.2.1</span> Native species</h3>
-<p><strong>Recommended distribution:</strong> Normal distribution with log-transformed values</p>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Recommended distribution
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Normal (with log-transformed values)</p>
+</div>
+</div>
 <section id="histograms-4" class="level4" data-number="3.2.1.1">
 <h4 data-number="3.2.1.1" class="anchored" data-anchor-id="histograms-4"><span class="header-section-number">3.2.1.1</span> <strong>Histograms</strong></h4>
 <p>The histograms indicated the log-transformed data most closely resembled a normal distribution.</p>
@@ -1110,7 +1209,19 @@ W = 0.93602, p-value = 3.981e-11</code></pre>
 </section>
 <section id="native-forb-species-1" class="level3" data-number="3.2.2">
 <h3 data-number="3.2.2" class="anchored" data-anchor-id="native-forb-species-1"><span class="header-section-number">3.2.2</span> Native forb species</h3>
-<p><strong>Recommended distribution:</strong> Normal distribution with log-transformed values</p>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Recommended distribution
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Normal (with log-transformed values)</p>
+</div>
+</div>
 <p>The results for native forb species abundance were similar to those for all native species. This was not surprising given the forb data was a large component of the native species data.</p>
 <section id="histograms-5" class="level4" data-number="3.2.2.1">
 <h4 data-number="3.2.2.1" class="anchored" data-anchor-id="histograms-5"><span class="header-section-number">3.2.2.1</span> Histograms</h4>
@@ -1231,7 +1342,19 @@ W = 0.93002, p-value = 9.525e-12</code></pre>
 </section>
 <section id="non-native-species-1" class="level3" data-number="3.2.3">
 <h3 data-number="3.2.3" class="anchored" data-anchor-id="non-native-species-1"><span class="header-section-number">3.2.3</span> Non-native species</h3>
-<p><strong>Recommended distribution:</strong> Normal distribution with square root-transformed values</p>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Recommended distribution
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Normal (with square root-transformed values)</p>
+</div>
+</div>
 <section id="histograms-6" class="level4" data-number="3.2.3.1">
 <h4 data-number="3.2.3.1" class="anchored" data-anchor-id="histograms-6"><span class="header-section-number">3.2.3.1</span> Histograms</h4>
 <p>The histograms indicated the square root-transformed data most closely resembled a normal distribution.</p>
@@ -1365,7 +1488,7 @@ W = 0.98814, p-value = 0.005948</code></pre>
  collate  en_US.UTF-8
  ctype    en_US.UTF-8
  tz       America/Los_Angeles
- date     2025-01-29
+ date     2025-01-30
  pandoc   3.2 @ /Applications/RStudio.app/Contents/Resources/app/quarto/bin/tools/aarch64/ (via rmarkdown)
 
 ─ Packages ───────────────────────────────────────────────────────────────────

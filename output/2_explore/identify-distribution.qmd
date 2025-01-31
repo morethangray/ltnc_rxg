@@ -1,7 +1,12 @@
 ---
 title: "Identify the distribution for each model"
 author: "Morgan Gray"
-format: 
+format:
+  # pdf:
+  #   toc: true
+  #   toc-title: Contents
+  #   number-sections: true
+  #   colorlinks: true
   html:
     toc: true
     toc-title: Contents
@@ -215,6 +220,23 @@ For abundance (continuous) data, QQ plots were generated for normal distribution
 
 # Results
 
+Final recommended distribution (and transformation, when relevant) for each of the six models provided in table. Detailed results for each assessment in subsequent sections.
+
+Native and native forbs for each metric were identical. Negative binomial distribution recommended for native richness because it was a count; normal distribution ok for non-native richness. Recommended distribution for abundance was normal for all species subsets.
+
+| Metric    | Species      | Distribution      | Transformation |
+|-----------|--------------|-------------------|----------------|
+| Richness  | Native       | Negative binomial | None           |
+| Richness  | Native forb  | Negative binomial | None           |
+| Richness  | Non-native   | Normal            | Log            |
+| Abundance | Native       | Normal            | Log            |
+| Abundance | Native forb  | Normal            | Log            |
+| Abundance | Non-native   | Normal            | Square root    |
+
+: *Recommended distribution and transformation for each of the six models*
+
+<br>
+
 ## Richness
 
 Preview the first 10 rows of the data table for richness (rich) to see the column names and formats.
@@ -231,9 +253,11 @@ rich %>%
 
 ### Native species
 
-**Recommended distribution:** Negative binomial distribution
+::: {.callout-note icon="false"}
+#### Recommended distribution
 
-<br>
+Negative binomial
+:::
 
 #### **Histograms**
 
@@ -291,7 +315,11 @@ fxn_qq_plot(rich_nat, "native richness")
 
 ### Native forb species
 
-**Recommended distribution:** Negative binomial distribution
+::: {.callout-note icon="false"}
+#### Recommended distribution
+
+Negative binomial
+:::
 
 The results for native forb species richness were similar to those for all native species. This was not surprising given the forb data was a large component of the native species data.
 
@@ -351,7 +379,11 @@ fxn_qq_plot(rich_frb, "native forb richness")
 
 ### Non-native species
 
-**Recommended distribution:** Normal distribution with log-transformed values
+::: {.callout-note icon="false"}
+#### Recommended distribution
+
+Normal (with log-transformed values)
+:::
 
 #### **Histograms**
 
@@ -423,7 +455,11 @@ abun %>%
 
 ### Native species
 
-**Recommended distribution:** Normal distribution with log-transformed values
+::: {.callout-note icon="false"}
+#### Recommended distribution
+
+Normal (with log-transformed values)
+:::
 
 #### **Histograms**
 
@@ -462,7 +498,11 @@ fxn_gof_test_abun(abun_nat, "native abundance")
 
 ### Native forb species
 
-**Recommended distribution:** Normal distribution with log-transformed values
+::: {.callout-note icon="false"}
+#### Recommended distribution
+
+Normal (with log-transformed values)
+:::
 
 The results for native forb species abundance were similar to those for all native species. This was not surprising given the forb data was a large component of the native species data.
 
@@ -503,7 +543,11 @@ fxn_gof_test_abun(abun_frb, "native forb abundance")
 
 ### Non-native species
 
-**Recommended distribution:** Normal distribution with square root-transformed values
+::: {.callout-note icon="false"}
+#### Recommended distribution
+
+Normal (with square root-transformed values)
+:::
 
 #### Histograms
 

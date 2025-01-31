@@ -355,7 +355,7 @@ Linear mixed-effects models were then fit using standardized, log-transformed, a
 -   `lmer_1`: A mixed-effects model with treatment as a fixed effect and a random intercept for plot name: `lmer(transformed abundance ~ treatment + (1 | plot_name))`
 -   `lmer_2`: A mixed-effects model with treatment as a fixed effect, and a random intercept and a random slope for treatment within plot name: `lmer(transformed abundance ~ treatment + (1 + treatment | plot_name))`
 
-AICc values were compared to identify the most promising transformation. QQ plots were used to assess residual normality for each transformation.
+AICc values were compared to identify the most promising transformation. QQ plots were used to assess residual normality for each transformation. I also considered the results from a separate exploratory analysis conducted to determine the most suitable probability distribution for each species (see *Identify the distribution for each model*).
 
 ## Fixed effects selection
 
@@ -372,7 +372,7 @@ After identifying a set of best-performing fixed effects models, I explored the 
 Model comparisons were again based on AICc, and models within a delta AICc of 6 were retained. Singularity checks were performed using the `lme4::check_singularity` function to ensure model convergence.
 
 | Abbreviation | Model specification |
-|---------------------|--------------------------------------------------|
+|------------------------|------------------------------------|
 | plot_type | best_fixed_model, . \~ . + (1 \| plot_type) |
 | f_year | best_fixed_model, . \~ . + (1 \| f_year) |
 | f_year_grazer | best_fixed_model, . \~ . + (1 \| f_year/grazer) |
@@ -390,29 +390,43 @@ Model comparisons were again based on AICc, and models within a delta AICc of 6 
 | treatment_f_two_yr | best_fixed_model, . \~ . + (1 + treatment \| f_two_yr) |
 | treatment_f_new | best_fixed_model, . \~ . + (1 + treatment \| f_new) |
 
+: *Abbreviations used for random effect model selection*
+
 ## Final model selection
 
 The final model was selected based on AICc, diagnostic plot review, and ecological interpretability. The model with the lowest AICc that met model assumptions and had a biologically plausible structure was chosen. Final model performance was assessed by examining residual plots, testing for uniform residual distribution using `testUniformity` (from `DHARMa`), and assessing for outliers. The rationale for each predictor's inclusion in the final model was documented.
 
 # Results
 
+Final models provided in table. Detailed results for model selection in subsequent sections.
+
+Native and native forbs were identical. All three species subsets had same formula and distribution (normal). Abundance was log-transformed for native and native forb species, and square root-transformed for non-native species.
+
+| Species | Response | Formula | Distribution |
+|------------|--------------|----------------------------------|-------------|
+| Native | log(abundance) | grazing + survey year + (1 + grazing \| plot) | Normal |
+| Native forb | log(abundance) | grazing + survey year + (1 + grazing \| plot) | Normal |
+| Non-native | sqrt(abundance) | grazing + survey year + (1 + grazing \| plot) | Normal |
+
+: *Final abundance models*
+
+<br>
+
+------------------------------------------------------------------------
+
 ## Native species
 
-::: callout-note
+::: {.callout-note icon="false"}
 #### Final model for native species abundance
 
 log(abundance) \~ treatment + f_year + (1 + treatment \| plot_name)
 :::
 
+The log-transformed response with fixed effects for grazing treatment and survey year, and a random intercept and a random slope for treatment within plot name emerged as the best model for native species abundance.
+
 ### Initial model assessment
 
-::: callout-note
-#### Best initial model
-
-log(abundance) \~ treatment + (1 + treatment \| plot_name)
-:::
-
-The log-transformed response with treatment as a fixed effect, and a random intercept and a random slope for treatment within plot name emerged as the best initial model based on AIC values and diagnostic plots.
+The native species abundance was previously identified as best fitting a normal distribution with log-transformed values (see *Identify the distribution for each model*). In contrast, the AIC comparison from this initial model assessment showed the standardized values had a better fit than log-transformed values.
 
 ```{r}
 # Fit the initial models
@@ -423,7 +437,7 @@ models_init_abun_nat$summary_table %>%
   fxn_kable()
 ```
 
-Based on AIC the standardized values had a better fit. However, model diagnostics for this response didn't look good. Visual inspection of QQ plot showed marked deviation from reference; and the tests for deviation, outliers, and within-group deviations from uniformity were significant.
+However, model diagnostics for standardized values didn't look good. Visual inspection of QQ plot showed marked deviation from reference; and the tests for deviation, outliers, and within-group deviations from uniformity were significant.
 
 ```{r}
 # Review diagnostics for model with lowest AIC
@@ -440,6 +454,11 @@ models_init_abun_nat$summary_table %>%
   arrange(aic) %>%
   ungroup()
 
+```
+
+These model diagnostics looked better than those for the standardized values: less deviation shown in the QQ plot, and no significant outliers. Test for within-group deviations from uniformity was significant.
+
+```{r}
 # lmer_2: lmer(abundance ~ treatment + (1 + treatment | plot_name))
 model_init_abun_nat_log <- lmer(
   value_log ~ treatment + (1 + treatment | plot_name),
@@ -447,35 +466,19 @@ model_init_abun_nat_log <- lmer(
 )
 fxn_model_review(model_init_abun_nat_log, abun_nat)
 
-
-
 ```
 
-For thoroughness, I also looked at the diagnostics for the best model fit to the square root-transformed data. Visual inspection of QQ plot showed deviation from reference across most of the values; and the tests for deviation and within-group deviations from uniformity for ungrazed plots were significant.
+Because the model diagnostics for the log-transformed values were better than those for the standardized values and because previous work supported log-transformation for native species abundance, I elected to use the model for log-tranformed values with the lowest AIC. The log-transformed response with treatment as a fixed effect, and a random intercept and a random slope for treatment within plot name emerged as the best initial model.
 
-```{r}
-# lmer_2: lmer(abundance ~ treatment + (1 + treatment | plot_name))
-model_init_abun_nat_sqrt <- lmer(
-  value_sqrt ~ treatment + (1 + treatment | plot_name),
-  data = abun, subset = met_sub == "abun_nat", REML = FALSE
-)
-fxn_model_review(model_init_abun_nat_sqrt, abun_nat)
+::: {.callout-note icon="false"}
+#### Best initial model
 
-```
-
-Because the model diagnostics for the log- and square root-transformed values were comparable, I elected to use the model with the lowest AIC.
+log(abundance) \~ treatment + (1 + treatment \| plot_name)
+:::
 
 <br>
 
 ### Fixed effects selection
-
-::: callout-note
-#### Best model after fixed effects selection
-
-log(abundance) \~ treatment + f_year + (1 + treatment \| plot_name)
-:::
-
-The addition of sampling year as a fixed effect emerged as the best model after fixed effects selection based on AIC values and diagnostic plots.
 
 The AIC results for the fixed effects models showed the model with a fixed effect for f_one_year to be the best fit for the data. The models that included f_break and f_new were within 3 AIC of the minimum. These models all related to sampling timing (i.e., 1-year gaps between surveys, a survey after a prolonged break, or the first survey year).
 
@@ -510,7 +513,11 @@ best_fixed_model <- models_fixed_abun_nat$best_model$formula
 
 The model diagnostics for the four top-performing models showed deviation consistent with the initial model (not worse, at least) and no significant outliers. However, tests for within-group deviations from uniformity were significant for treatment and for the fixed effect.
 
-After reviewing the model diagnostics for all the fixed effects selection models, I selected the model with a fixed term for sampling year (f_year). Although this model did not have the lowest AIC, it was within the pre-defined threshold of 6 AIC units for consideration (delta = 4.3). My decision was influenced by the lack of within-group deviations from uniformity. Specifically, the effect of year was uniform with homogenous variance. The inclusion of a fixed effect for year also improved the uniformity for grazed plots.
+::: {.callout-tip icon="false"}
+#### Note
+
+The diagnostic plots for excluded fixed effect models fit to native species abundance are included in the Appendix for reference.
+:::
 
 ```{r}
 
@@ -520,8 +527,12 @@ fxn_model_review(model_fixed_abun_nat_5, abun_nat)
 
 ```
 
+The addition of sampling year as a fixed effect emerged as the best model after fixed effects selection based on AIC values and diagnostic plots. After reviewing the model diagnostics for all the fixed effects selection models, I selected the model with a fixed term for sampling year (f_year). Although this model did not have the lowest AIC, it was within the pre-defined threshold of 6 AIC units for consideration (delta = 4.3). My decision was influenced by the lack of within-group deviations from uniformity. Specifically, the effect of year was uniform with homogenous variance. The inclusion of a fixed effect for year also improved the uniformity for grazed plots.
+
 ::: callout-note
-The diagnostic plots for excluded fixed effect models fit to native species abundance are included in the Appendix for reference.
+#### Best model after fixed effects selection
+
+log(abundance) \~ treatment + f_year + (1 + treatment \| plot_name)
 :::
 
 <br>
@@ -544,23 +555,27 @@ models_random_abun_nat %>%
 
 ### Final model selection
 
-The final selected model included log-transformed abundance as the response variable, treatment, year, and plot type as fixed effects, and random slopes and intercepts for treatment by plot. This model satisfied assumptions of uniform residual distribution and proper dispersion, showed no significant outliers, and maintained convergence without singularity issues.
+The final selected model included log-transformed abundance as the response variable, with fixed effects for grazing treatment and survey year, and a random intercept and a random slope for treatment within plot name. This model satisfied assumptions of uniform residual distribution and proper dispersion, showed no significant outliers, and maintained convergence without singularity issues.
 
-This model and the diagnostics were previously described in the *Fixed effects selection* section.
+::: {.callout-note icon="false"}
+#### Final model for native species abundance
+
+log(abundance) \~ treatment + f_year + (1 + treatment \| plot_name)
+:::
+
+<br>
 
 ------------------------------------------------------------------------
 
 ## Native forb species
 
-::: callout-note
+::: {.callout-note icon="false"}
 #### Final model for native forb species abundance
 :::
 
 ### Initial model assessment
 
-::: callout-note
-#### Best initial model
-:::
+Text
 
 ```{r}
 # Fit the initial models
@@ -571,10 +586,14 @@ models_init_abun_frb$summary_table %>%
   fxn_kable()
 ```
 
+Text
+
 ```{r}
 # Review diagnostics for model with lowest AIC
 fxn_model_review(models_init_abun_frb$best_model$model, abun_frb)
 ```
+
+Text
 
 ```{r}
 # Identify the model with the lowest AIC for each transformation
@@ -593,17 +612,23 @@ fxn_model_review(model_init_abun_frb_log, abun_frb)
 
 ```
 
+Text
+
 ```{r}
 
 ```
+
+Text
+
+::: callout-note
+#### Best initial model
+:::
 
 <br>
 
 ### Fixed effects selection
 
-::: callout-note
-#### Best model after fixed effects selection
-:::
+Text
 
 ```{r}
 # Define the best initial model
@@ -630,6 +655,8 @@ best_fixed_model <- models_fixed_abun_frb$best_model$formula
 
 ```
 
+Text
+
 ```{r}
 
 model_fixed_abun_frb_5 <- update(best_model_init_abun_frb, . ~ . + f_year)
@@ -637,9 +664,17 @@ model_fixed_abun_frb_5 <- update(best_model_init_abun_frb, . ~ . + f_year)
 fxn_model_review(model_fixed_abun_frb_5, abun_frb)
 ```
 
+Text
+
+::: callout-note
+#### Best model after fixed effects selection
+:::
+
 <br>
 
 ### Random effects selection
+
+Text
 
 ```{r}
 # Define the best fixed effects model
@@ -651,27 +686,29 @@ models_random_abun_frb %>%
   fxn_kable()
 ```
 
+Text
+
 ```{r}
 
 ```
+
+Text
 
 <br>
 
 ### Final model selection
 
+Text
+
+<br>
+
 ------------------------------------------------------------------------
 
 ## Non-native species
 
-::: callout-note
-#### Final model for non-native species abundance
-:::
-
 ### Initial model assessment
 
-::: callout-note
-#### Best initial model
-:::
+Text
 
 ```{r}
 # Fit the initial models
@@ -682,10 +719,14 @@ models_init_abun_non$summary_table %>%
   fxn_kable()
 ```
 
+Text
+
 ```{r}
 # Review diagnostics for model with lowest AIC
 fxn_model_review(models_init_abun_non$best_model$model, abun_non)
 ```
+
+Text
 
 ```{r}
 # Identify the model with the lowest AIC for each transformation
@@ -704,6 +745,8 @@ fxn_model_review(model_init_abun_non_log, abun_non)
 
 ```
 
+Text
+
 ```{r}
 # lmer_2: lmer(abundance ~ treatment + (1 + treatment | plot_name))
 model_init_abun_non_sqrt <- lmer(
@@ -714,13 +757,17 @@ fxn_model_review(model_init_abun_non_sqrt, abun_non)
 
 ```
 
+Text
+
+::: callout-note
+#### Best initial model
+:::
+
 <br>
 
 ### Fixed effects selection
 
-::: callout-note
-#### Best model after fixed effects selection
-:::
+Text
 
 ```{r}
 # Define the best initial model
@@ -747,6 +794,8 @@ best_fixed_model <- models_fixed_abun_non$best_model$formula
 
 ```
 
+Text
+
 ```{r}
 
 model_fixed_abun_non_5 <- update(best_model_init_abun_non, . ~ . + f_year)
@@ -754,9 +803,17 @@ model_fixed_abun_non_5 <- update(best_model_init_abun_non, . ~ . + f_year)
 fxn_model_review(model_fixed_abun_non_5, abun_non)
 ```
 
+Text
+
+::: callout-note
+#### Best model after fixed effects selection
+:::
+
 <br>
 
 ### Random effects selection
+
+Text
 
 ```{r}
 # Define the best fixed effects model
@@ -768,13 +825,25 @@ models_random_abun_non %>%
   fxn_kable()
 ```
 
+Text
+
 ```{r}
 
 ```
 
+Text
+
 <br>
 
 ### Final model selection
+
+Text
+
+::: {.callout-note icon="false"}
+#### Final model for non-native species abundance
+:::
+
+Text
 
 ------------------------------------------------------------------------
 

@@ -1,0 +1,449 @@
+---
+title: "Model selection for richness"
+author: "Morgan Gray"
+author: "Morgan Gray"
+format: 
+  html:
+    toc: true
+    toc-title: Contents
+    
+editor: visual
+execute:
+  echo: false
+  warning: false
+callout-icon: false
+number-sections: TRUE
+---
+
+```{r}
+
+
+
+```
+
+```{r}
+
+```
+
+# Introduction
+
+The objective of this analysis was to select the best-fitting generalized linear mixed model (GLMM) for richness of native plant species. Richness was measured as a continuous variable ranging from 0 to 1, representing the percent plot cover.
+
+# Methods
+
+Text
+
+# Results
+
+Text
+
+## Native species
+
+#### Final model for native species richness
+
+log(richness) \~ treatment + f_year + (1 + treatment \| plot_name)
+
+The log-transformed response with fixed effects for grazing treatment and survey year, and a random intercept and a random slope for treatment within plot name emerged as the best model for native species richness.
+
+### Initial model assessment
+
+The native species richness was previously identified as best fitting a normal distribution with log-transformed values (see *Identify the distribution for each model*). In contrast, the AIC comparison from this initial model assessment showed the standardized values had a better fit than log-transformed values.
+
+```{r}
+# Fit the initial models
+models_init_rich_nat <- fxn_initial_model(rich_nat)
+
+# View the summary table
+models_init_rich_nat$summary_table %>%
+  fxn_kable()
+```
+
+However, model diagnostics for standardized values didn't look good. Visual inspection of QQ plot showed marked deviation from reference; and the tests for deviation, outliers, and within-group deviations from uniformity were significant.
+
+```{r}
+# Review diagnostics for model with lowest AIC
+fxn_model_review(models_init_rich_nat$best_model$model, rich_nat)
+```
+
+The next best set of transformations ranked by AIC were log-transformed values. These model diagnostics looked better than those for the standardized values: less deviation shown in the QQ plot, and no significant outliers. Test for within-group deviations from uniformity was significant.
+
+```{r}
+# Identify the model with the lowest AIC for each transformation
+models_init_rich_nat$summary_table %>%
+  group_by(response) %>%
+  slice(1) %>%
+  arrange(aic) %>%
+  ungroup()
+
+```
+
+These model diagnostics looked better than those for the standardized values: less deviation shown in the QQ plot, and no significant outliers. Test for within-group deviations from uniformity was significant.
+
+```{r}
+# lmer_2: lmer(richness ~ treatment + (1 + treatment | plot_name))
+model_init_rich_nat_log <- lmer(
+  value_log ~ treatment + (1 + treatment | plot_name),
+  data = rich, subset = met_sub == "rich_nat", REML = FALSE
+)
+fxn_model_review(model_init_rich_nat_log, rich_nat)
+
+```
+
+Because the model diagnostics for the log-transformed values were better than those for the standardized values and because previous work supported log-transformation for native species richness, I elected to use the model for log-tranformed values with the lowest AIC. The log-transformed response with treatment as a fixed effect, and a random intercept and a random slope for treatment within plot name emerged as the best initial model.
+
+#### Best initial model
+
+log(richness) \~ treatment + (1 + treatment \| plot_name)
+
+<br>
+
+### Fixed effects selection
+
+The AIC results for the fixed effects models showed the model with a fixed effect for f_one_year to be the best fit for the data. The models that included f_break and f_new were within 3 AIC of the minimum. These models all related to sampling timing (i.e., 1-year gaps between surveys, a survey after a prolonged break, or the first survey year).
+
+All models with one additional fixed effect were within 6 AIC of the minimum.
+
+```{r}
+# Define the best initial model
+best_model_init_rich_nat <- lmer(
+  value_log ~ treatment + (1 + treatment | plot_name),
+  data = rich, subset = met_sub == "rich_nat", REML = FALSE
+)
+
+# Fit the fixed effects models
+models_fixed_rich_nat <- fxn_fixed_effects(best_model_init_rich_nat)
+
+# View the summary table
+fixed_summary_table <- models_fixed_rich_nat$summary_table %>%
+  as_tibble() %>%
+  dplyr::select(model_name, terms_count, aic) %>%
+  dplyr::mutate(delta = round(aic - min(aic), 1))
+
+fixed_summary_table %>%
+  fxn_kable()
+
+# View the best model 
+best_fixed_model <- models_fixed_rich_nat$best_model$formula
+
+# Capture the output of print()
+# output <- capture.output(print(models_fixed_rich_nat$best_model$formula)) 
+
+```
+
+The model diagnostics for the four top-performing models showed deviation consistent with the initial model (not worse, at least) and no significant outliers. However, tests for within-group deviations from uniformity were significant for treatment and for the fixed effect.
+
+::: {.callout-tip icon="false"}
+#### Note
+
+The diagnostic plots for excluded fixed effect models fit to native species richness are included in the Appendix for reference.
+:::
+
+```{r}
+
+model_fixed_rich_nat_5 <- update(best_model_init_rich_nat, . ~ . + f_year)
+
+fxn_model_review(model_fixed_rich_nat_5, rich_nat)
+
+```
+
+The addition of sampling year as a fixed effect emerged as the best model after fixed effects selection based on AIC values and diagnostic plots. After reviewing the model diagnostics for all the fixed effects selection models, I selected the model with a fixed term for sampling year (f_year). Although this model did not have the lowest AIC, it was within the pre-defined threshold of 6 AIC units for consideration (delta = 4.3). My decision was influenced by the lack of within-group deviations from uniformity. Specifically, the effect of year was uniform with homogenous variance. The inclusion of a fixed effect for year also improved the uniformity for grazed plots.
+
+#### Best model after fixed effects selection
+
+log(richness) \~ treatment + f_year + (1 + treatment \| plot_name)
+
+<br>
+
+### Random effects selection
+
+The addition of random effects resulted in singular fit for all combinations. No random effects were added to the model.
+
+```{r}
+# Define the best fixed effects model
+best_model_fixed_rich_nat <- update(best_model_init_rich_nat, . ~ . + f_year)
+
+models_random_rich_nat <- fxn_random_effects(best_model_fixed_rich_nat)
+
+models_random_rich_nat %>%
+  fxn_kable()
+```
+
+<br>
+
+### Final model selection
+
+The final selected model included log-transformed richness as the response variable, with fixed effects for grazing treatment and survey year, and a random intercept and a random slope for treatment within plot name. This model satisfied assumptions of uniform residual distribution and proper dispersion, showed no significant outliers, and maintained convergence without singularity issues.
+
+#### Final model for native species richness
+
+log(richness) \~ treatment + f_year + (1 + treatment \| plot_name)
+
+<br>
+
+------------------------------------------------------------------------
+
+## Native forb species
+
+#### Final model for native forb species richness
+
+### Initial model assessment
+
+Text
+
+```{r}
+# Fit the initial models
+models_init_rich_frb <- fxn_initial_model(rich_frb)
+
+# View the summary table
+models_init_rich_frb$summary_table %>%
+  fxn_kable()
+```
+
+Text
+
+```{r}
+# Review diagnostics for model with lowest AIC
+fxn_model_review(models_init_rich_frb$best_model$model, rich_frb)
+```
+
+Text
+
+```{r}
+# Identify the model with the lowest AIC for each transformation
+models_init_rich_frb$summary_table %>%
+  group_by(response) %>%
+  slice(1) %>%
+  arrange(aic) %>%
+  ungroup()
+
+# lmer_2: lmer(richness ~ treatment + (1 + treatment | plot_name))
+model_init_rich_frb_log <- lmer(
+  value_log ~ treatment + (1 + treatment | plot_name),
+  data = rich, subset = met_sub == "rich_frb", REML = FALSE
+)
+fxn_model_review(model_init_rich_frb_log, rich_frb)
+
+```
+
+Text
+
+```{r}
+
+```
+
+Text
+
+#### Best initial model
+
+<br>
+
+### Fixed effects selection
+
+Text
+
+```{r}
+# Define the best initial model
+best_model_init_rich_frb <- lmer(
+  value_log ~ treatment + (1 + treatment | plot_name),
+  data = rich, subset = met_sub == "rich_frb", REML = FALSE
+)
+
+# Fit the fixed effects models
+models_fixed_rich_frb <- fxn_fixed_effects(best_model_init_rich_frb)
+
+# View the summary table
+fixed_summary_table <- models_fixed_rich_frb$summary_table %>%
+  as_tibble() %>%
+  dplyr::select(model_name, terms_count, aic) %>%
+  dplyr::mutate(delta = round(aic - min(aic), 1))
+
+fixed_summary_table %>%
+  fxn_kable()
+
+# View the best model 
+best_fixed_model <- models_fixed_rich_frb$best_model$formula
+
+
+```
+
+Text
+
+```{r}
+
+model_fixed_rich_frb_5 <- update(best_model_init_rich_frb, . ~ . + f_year)
+
+fxn_model_review(model_fixed_rich_frb_5, rich_frb)
+```
+
+Text
+
+#### Best model after fixed effects selection
+
+<br>
+
+### Random effects selection
+
+Text
+
+```{r}
+# Define the best fixed effects model
+best_model_fixed_rich_frb <- update(best_model_init_rich_frb, . ~ . + f_year)
+
+models_random_rich_frb <- fxn_random_effects(best_model_fixed_rich_frb)
+
+models_random_rich_frb %>%
+  fxn_kable()
+```
+
+Text
+
+```{r}
+
+```
+
+Text
+
+<br>
+
+### Final model selection
+
+Text
+
+<br>
+
+------------------------------------------------------------------------
+
+## Non-native species
+
+### Initial model assessment 
+
+Text
+
+```{r}
+# Fit the initial models
+models_init_rich_non <- fxn_initial_model(rich_non)
+
+# View the summary table
+models_init_rich_non$summary_table %>%
+  fxn_kable()
+```
+
+Text
+
+```{r}
+# Review diagnostics for model with lowest AIC
+fxn_model_review(models_init_rich_non$best_model$model, rich_non)
+```
+
+Text
+
+```{r}
+# Identify the model with the lowest AIC for each transformation
+models_init_rich_non$summary_table %>%
+  group_by(response) %>%
+  slice(1) %>%
+  arrange(aic) %>%
+  ungroup()
+
+# lmer_2: lmer(richness ~ treatment + (1 + treatment | plot_name))
+model_init_rich_non_log <- lmer(
+  value_log ~ treatment + (1 + treatment | plot_name),
+  data = rich, subset = met_sub == "rich_non", REML = FALSE
+)
+fxn_model_review(model_init_rich_non_log, rich_non)
+
+```
+
+Text
+
+```{r}
+# lmer_2: lmer(richness ~ treatment + (1 + treatment | plot_name))
+model_init_rich_non_sqrt <- lmer(
+  value_sqrt ~ treatment + (1 + treatment | plot_name),
+  data = rich, subset = met_sub == "rich_non", REML = FALSE
+)
+fxn_model_review(model_init_rich_non_sqrt, rich_non)
+
+```
+
+Text
+
+#### Best initial model
+
+<br>
+
+### Fixed effects selection
+
+Text
+
+```{r}
+# Define the best initial model
+best_model_init_rich_non <- lmer(
+  value_log ~ treatment + (1 + treatment | plot_name),
+  data = rich, subset = met_sub == "rich_non", REML = FALSE
+)
+
+# Fit the fixed effects models
+models_fixed_rich_non <- fxn_fixed_effects(best_model_init_rich_non)
+
+# View the summary table
+fixed_summary_table <- models_fixed_rich_non$summary_table %>%
+  as_tibble() %>%
+  dplyr::select(model_name, terms_count, aic) %>%
+  dplyr::mutate(delta = round(aic - min(aic), 1))
+
+fixed_summary_table %>%
+  fxn_kable()
+
+# View the best model 
+best_fixed_model <- models_fixed_rich_non$best_model$formula
+
+
+```
+
+Text
+
+```{r}
+
+model_fixed_rich_non_5 <- update(best_model_init_rich_non, . ~ . + f_year)
+
+fxn_model_review(model_fixed_rich_non_5, rich_non)
+```
+
+Text
+
+#### Best model after fixed effects selection
+
+<br>
+
+### Random effects selection
+
+Text
+
+```{r}
+# Define the best fixed effects model
+best_model_fixed_rich_non <- update(best_model_init_rich_non, . ~ . + f_year)
+
+models_random_rich_non <- fxn_random_effects(best_model_fixed_rich_non)
+
+models_random_rich_non %>%
+  fxn_kable()
+```
+
+Text
+
+```{r}
+
+```
+
+Text
+
+<br>
+
+### Final model selection
+
+Text
+
+#### Final model for non-native species richness
+
+Text

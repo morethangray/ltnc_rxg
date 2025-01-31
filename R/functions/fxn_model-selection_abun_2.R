@@ -306,7 +306,6 @@ fxn_random_effects <- function(best_fixed_model) {
     print(not_singular)
   }
   
-  
   all_models <- model.sel(best_fixed_model, 
             plot_type, 
             f_year, 
