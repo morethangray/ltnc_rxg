@@ -18,16 +18,16 @@ number-sections: TRUE
 # Load libraries, functions, workflows -----
 rm(list = ls())
 #
-# library(tidyverse) ## To manipulate data frames
 library(here)      # To manage directories
 library(readr)
 library(dplyr)     # For data manipulation
 library(forcats)
 library(sessioninfo)
 
-source(here("R/functions/fxn_utilities.R"))
+source(here("R/functions/fxn_define-file-paths.R"))
+source(here("R/functions/fxn_kable-table.R"))
 source(here("R/functions/fxn_load_rich_abun.R"))
-# source(here("R/functions/fxn_model-selection_abun.R"))
+source(here("R/functions/fxn_model-selection_abun.R"))
 
 set.seed(912)
 
@@ -335,15 +335,17 @@ fxn_random_effects <- function(best_fixed_model) {
 
 # Introduction
 
-The objective of this analysis was to select the best-fitting generalized linear mixed model (GLMM) for percent cover abundance of native plant species. Abundance was measured as a continuous variable ranging from 0 to 1, representing the percent plot cover.
+This document details the model selection process for abundance models developed as part of a larger project analyzing plant observations. Three generalized linear mixed models (GLMMs) were fit to predict plant abundance (percent plot cover, a continuous value from 0 to 1) for different plant groups. These groups included all native plants (nat), native forbs (frb, a subset of native plants), and non-native plants (non). For each group, a best-fit model was selected from a candidate set based on model performance. This document describes the methods used for model selection, summarizes the model diagnostics and decision making process, and presents the final selected models.
 
 # Methods
 
-I used a systematic, three-stage approach to identify the optimal model structure for analyzing plant abundance data: initial model assessment, fixed effects selection, and random effects selection. Modular functions were developed to automate portions of the model selection process. All models were fit using restricted maximum likelihood (REML) via the `lmer` function from the `lme4` package (Bates et al. 2015). Model comparison was primarily based on Akaike's Information Criterion corrected for small sample size (AICc), calculated using the `MuMIn` package (Barton 2022). Models within a delta AICc of 6 were considered for further evaluation.Formal tests for uniform residual distribution (`testUniformity`), dispersion (`testDispersion`), and outlier detection (`testOutliers`) were performed using the `DHARMa` package (Hartig 2022). Diagnostic plots, including quantile-quantile plots (`DHARMa::plotQQunif`) and residual plots (`DHARMa::plotResiduals`), were visually inspected. Model singularity was assessed using the `performance` package (Lüdecke et al., 2021), specifically the `check_singularity` function. The `janitor` package (Firshman, 2023) was used for data cleaning and table formatting.
+I used a systematic, three-stage approach to identify the optimal model structure for analyzing plant abundance data: initial model assessment, fixed effects selection, and random effects selection. Modular functions were developed to automate portions of the model selection process, which was completed for each of the three groups (nat, frb, non). The following sections describe this process.
+
+All models were fit using restricted maximum likelihood (REML) via the `lmer` function from the `lme4` package (Bates et al. 2015). Model comparison was primarily based on Akaike's Information Criterion corrected for small sample size (AICc), calculated using the `MuMIn` package (Barton 2022). Models within a delta AICc of 6 were considered for further evaluation. Formal tests for uniform residual distribution (`testUniformity`), dispersion (`testDispersion`), and outlier detection (`testOutliers`) were performed using the `DHARMa` package (Hartig 2022). Diagnostic plots, including quantile-quantile plots (`DHARMa::plotQQunif`) and residual plots (`DHARMa::plotResiduals`), were visually inspected. Model singularity was assessed using the `performance` package (Lüdecke et al., 2021), specifically the `check_singularity` function. The `janitor` package (Firshman, 2023) was used for data cleaning and table formatting.
 
 ## Initial model assessment
 
-To assess the influence of response variable transformation on model fit, several initial models were fit. These included intercept-only and simple linear models using untransformed abundance as null models:
+For each group (nat, frb, non), I first assessed the influence of response variable transformation on model fit by fitting several models. These included intercept-only and simple linear models using untransformed abundance as null models:
 
 -   `lm_null`: An intercept-only linear model using untransformed abundance `lm(abundance ~ 1)`
 -   `lm`: A linear model with untransformed abundance and a fixed effect for treatment: `lm(abundance ~ treatment)`
@@ -355,11 +357,11 @@ Linear mixed-effects models were then fit using standardized, log-transformed, a
 -   `lmer_1`: A mixed-effects model with treatment as a fixed effect and a random intercept for plot name: `lmer(transformed abundance ~ treatment + (1 | plot_name))`
 -   `lmer_2`: A mixed-effects model with treatment as a fixed effect, and a random intercept and a random slope for treatment within plot name: `lmer(transformed abundance ~ treatment + (1 + treatment | plot_name))`
 
-AICc values were compared to identify the most promising transformation. QQ plots were used to assess residual normality for each transformation. I also considered the results from a separate exploratory analysis conducted to determine the most suitable probability distribution for each species (see *Identify the distribution for each model*).
+AICc values were compared to identify the most promising transformation. QQ plots were used to assess residual normality for each transformation. I also considered the results from a separate exploratory analysis conducted to determine the most suitable probability distribution for each species group (see *Identify the distribution for each model*).
 
 ## Fixed effects selection
 
-Based on the best-performing transformation from the initial model assessment, I then fit a series of models with different combinations of fixed effects. Starting with the best performing initial model, I iteratively added or removed fixed effects: `plot_type`, `f_year`, `f_break`, `f_new`, `f_one_yr`, and `f_two_yr`.
+Based on the best-performing transformation from the initial model assessment, I fit a series of models with different combinations of fixed effects. Starting with the best performing initial model, I iteratively added or removed fixed effects: `plot_type`, `f_year`, `f_break`, `f_new`, `f_one_yr`, and `f_two_yr`.
 
 An initial exploration was conducted using automated model dredging (via the `dredge` function from the `MuMIn` package), followed by manual model comparisons. The `dredge` function explores all possible predictor combinations and ranks them by AICc. While dredge results provided a comprehensive overview of potential variable influences and informed subsequent model selection, the dredge results themselves were not used to identify the final best-fit model.
 
@@ -369,10 +371,10 @@ I developed functions to streamline the fixed effect selection process. First, a
 
 After identifying a set of best-performing fixed effects models, I explored the inclusion of additional random effects. I tested the addition of random intercepts for other variables individually. I also tested the addition of random slopes for treatment within each predictor variable.
 
-Model comparisons were again based on AICc, and models within a delta AICc of 6 were retained. Singularity checks were performed using the `lme4::check_singularity` function to ensure model convergence.
+Model comparisons were again based on AICc, retaining models within a delta AICc of 6. Singularity checks were performed using the `lme4::check_singularity` function to ensure model convergence.
 
 | Abbreviation | Model specification |
-|------------------------|------------------------------------|
+|-----------------------------|-------------------------------------------|
 | plot_type | best_fixed_model, . \~ . + (1 \| plot_type) |
 | f_year | best_fixed_model, . \~ . + (1 \| f_year) |
 | f_year_grazer | best_fixed_model, . \~ . + (1 \| f_year/grazer) |
@@ -394,19 +396,17 @@ Model comparisons were again based on AICc, and models within a delta AICc of 6 
 
 ## Final model selection
 
-The final model was selected based on AICc, diagnostic plot review, and ecological interpretability. The model with the lowest AICc that met model assumptions and had a biologically plausible structure was chosen. Final model performance was assessed by examining residual plots, testing for uniform residual distribution using `testUniformity` (from `DHARMa`), and assessing for outliers. The rationale for each predictor's inclusion in the final model was documented.
+The final model for each group was selected based on AICc, diagnostic plot review, and ecological interpretability. I chose the model with the lowest AICc that met model assumptions and had a biologically plausible structure. Final model performance was assessed by examining residual plots, testing for uniform residual distribution using `testUniformity` (from `DHARMa`), and assessing for outliers. The rationale for each predictor's inclusion in the final model was documented.
 
 # Results
 
-Final models provided in table. Detailed results for model selection in subsequent sections.
-
-Native and native forbs were identical. All three species subsets had same formula and distribution (normal). Abundance was log-transformed for native and native forb species, and square root-transformed for non-native species.
+The final models are presented in the table below, with detailed model selection information provided in subsequent sections. While all three models used a normal distribution and the same fixed and random effects structure (fixed effects for grazing treatment and survey year, and a random intercept and slope for treatment within plot name), the transformation of the abundance data differed slightly. The final models for native and native forb species were identical, using log-transformed abundance. The non-native model used a square root transformation of abundance.
 
 | Species | Response | Formula | Distribution |
-|------------|--------------|----------------------------------|-------------|
-| Native | log(abundance) | grazing + survey year + (1 + grazing \| plot) | Normal |
-| Native forb | log(abundance) | grazing + survey year + (1 + grazing \| plot) | Normal |
-| Non-native | sqrt(abundance) | grazing + survey year + (1 + grazing \| plot) | Normal |
+|----------------|----------------|-------------------------|----------------|
+| Native | log(Abundance) | grazing + survey year + (1 + grazing \| plot) | Normal |
+| Native forb | log(Abundance) | grazing + survey year + (1 + grazing \| plot) | Normal |
+| Non-native | sqrt(Abundance) | grazing + survey year + (1 + grazing \| plot) | Normal |
 
 : *Final abundance models*
 
@@ -419,7 +419,7 @@ Native and native forbs were identical. All three species subsets had same formu
 ::: {.callout-note icon="false"}
 #### Final model for native species abundance
 
-log(abundance) \~ treatment + f_year + (1 + treatment \| plot_name)
+log(Abundance) \~ grazing + survey year + (1 + grazing \| plot)
 :::
 
 The log-transformed response with fixed effects for grazing treatment and survey year, and a random intercept and a random slope for treatment within plot name emerged as the best model for native species abundance.
@@ -473,7 +473,7 @@ Because the model diagnostics for the log-transformed values were better than th
 ::: {.callout-note icon="false"}
 #### Best initial model
 
-log(abundance) \~ treatment + (1 + treatment \| plot_name)
+log(Abundance) \~ treatment + (1 + treatment \| plot_name)
 :::
 
 <br>
@@ -532,7 +532,7 @@ The addition of sampling year as a fixed effect emerged as the best model after 
 ::: callout-note
 #### Best model after fixed effects selection
 
-log(abundance) \~ treatment + f_year + (1 + treatment \| plot_name)
+log(Abundance) \~ grazing + survey year + (1 + grazing \| plot)
 :::
 
 <br>
@@ -560,7 +560,7 @@ The final selected model included log-transformed abundance as the response vari
 ::: {.callout-note icon="false"}
 #### Final model for native species abundance
 
-log(abundance) \~ treatment + f_year + (1 + treatment \| plot_name)
+log(Abundance) \~ grazing + survey year + (1 + grazing \| plot)
 :::
 
 <br>

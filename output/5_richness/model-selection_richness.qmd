@@ -1,7 +1,6 @@
 ---
 title: "Model selection for richness"
 author: "Morgan Gray"
-author: "Morgan Gray"
 format: 
   html:
     toc: true
@@ -15,19 +14,54 @@ callout-icon: false
 number-sections: TRUE
 ---
 
-```{r}
+```{r setup}
+# Load libraries, functions, workflows -----
+rm(list = ls())
+#
+# library(tidyverse) ## To manipulate data frames
+library(here)      # To manage directories
+library(readr)
+library(dplyr)     # For data manipulation
+library(forcats)
+library(sessioninfo)
+
+source(here("R/functions/fxn_utilities.R"))
+source(here("R/functions/fxn_load_rich_abun.R"))
+
+set.seed(912)
 
 
 
 ```
 
-```{r}
+```{r functions}
+# Load required packages ----
+# library(lme4)      # For mixed-effects models
+# library(MuMIn)     # For model selection
+# library(ggplot2)   # For visualization
+# library(DHARMa)    # Model diagnostics and residual checks 
+# library(performance) 
+# library(broom.mixed)
+# library(patchwork) # For combining plots
+# library(ggplotify)
+library(glmmTMB)
 
+# Function for tables ----
+fxn_kable <- function(df){
+  
+  df  %>%
+    knitr::kable() %>%
+    kableExtra::kable_styling(
+      bootstrap_options = c("striped", "hover", "condensed"), 
+                  full_width = TRUE,  
+                  position = "left", 
+                  fixed_thead = TRUE)
+}
 ```
 
 # Introduction
 
-The objective of this analysis was to select the best-fitting generalized linear mixed model (GLMM) for richness of native plant species. Richness was measured as a continuous variable ranging from 0 to 1, representing the percent plot cover.
+This document details the model selection process for richness models developed as part of a larger project analyzing plant observations. Three generalized linear mixed models (GLMMs) were fit to predict plant richness (species count, a positive integer) for different plant groups. These groups included all native plants (nat), native forbs (frb, a subset of native plants), and non-native plants (non). For each group, a best-fit model was selected from a candidate set based on model performance. This document describes the methods used for model selection, summarizes the model diagnostics and decision making process, and presents the final selected models.
 
 # Methods
 
@@ -35,13 +69,27 @@ Text
 
 # Results
 
-Text
+The final models are presented in the table below, with detailed model selection information provided in subsequent sections. The model for non-native species used log-transformed richness, a normal distribution, and the same fixed and random effects structure as the abundance models (fixed effects for grazing treatment and survey year, and a random intercept and slope for treatment within plot name).
+
+The final models for native and native forb species were identical, employing untransformed values, a negative binomial distribution, and the same fixed and random effects structure as the non-native model, with the addition of a fixed effect for plot type (PER, WAN).
+
+| Species | Response | Formula | Distribution |
+|--------------|--------------|------------------------------|--------------|
+| Native | Richness | grazing + survey year + plot type + (1 + grazing \| plot) | Negative binomial |
+| Native forb | Richness | grazing + survey year + plot type + (1 + grazing \| plot) | Negative binomial |
+| Non-native | log(Richness) | grazing + survey year + (1 + grazing \| plot) | Normal |
+
+: *Final richness models*
+
+------------------------------------------------------------------------
 
 ## Native species
 
+::: {.callout-note icon="false"}
 #### Final model for native species richness
 
-log(richness) \~ treatment + f_year + (1 + treatment \| plot_name)
+log(richness) \~ grazing + survey year + plot type + (1 + grazing \| plot)
+:::
 
 The log-transformed response with fixed effects for grazing treatment and survey year, and a random intercept and a random slope for treatment within plot name emerged as the best model for native species richness.
 
@@ -150,7 +198,7 @@ The addition of sampling year as a fixed effect emerged as the best model after 
 
 #### Best model after fixed effects selection
 
-log(richness) \~ treatment + f_year + (1 + treatment \| plot_name)
+log(richness) \~ grazing + survey year + (1 + grazing \| plot)
 
 <br>
 
@@ -176,7 +224,7 @@ The final selected model included log-transformed richness as the response varia
 
 #### Final model for native species richness
 
-log(richness) \~ treatment + f_year + (1 + treatment \| plot_name)
+log(richness) \~ grazing + survey year + (1 + grazing \| plot)
 
 <br>
 
@@ -315,7 +363,7 @@ Text
 
 ## Non-native species
 
-### Initial model assessment 
+### Initial model assessment
 
 Text
 
