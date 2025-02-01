@@ -1318,3 +1318,22 @@ non_assessment <- assess_model(best_model_non, data_non)
 final_model_non <- fit_final_model(data_non, "value_log")
 
 # ========================================================== -----
+
+
+mod_abun_non2 <- lmer(value_sqrt ~ treatment + f_year + f_two_yr + (1 | plot_name),
+                      data = abun_non, REML = FALSE)
+mod_abun_non1 <- lmer(value_sqrt ~ treatment + f_year + f_one_yr + (1 | plot_name),
+                      data = abun_non, REML = FALSE)
+mod_abun_nonnew <- lmer(value_sqrt ~ treatment + f_year + f_new + (1 | plot_name),
+                        data = abun_non, REML = FALSE)
+mod_abun_nonb <- lmer(value_sqrt ~ treatment + f_year + f_break + (1 | plot_name),
+                      data = abun_non, REML = FALSE)
+
+model.sel(mod_abun_non, 
+          mod_abun_non2,
+          mod_abun_non1, 
+          mod_abun_nonnew, 
+          mod_abun_nonb) %>%
+  arrange(AICc)
+# ========================================================== -----
+# richness model selection ----

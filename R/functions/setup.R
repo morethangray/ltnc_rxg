@@ -6,22 +6,27 @@
 #' @export
 fxn_install_dependencies <- function() {
   packages_needed <- c(
-    "here", 
-    "readxl", 
+
+    "car", 
+    "broom.mixed",
+    "DHARMa", 
     "dplyr", 
     "forcats", 
-    "sessioninfo", 
-    "lme4", 
-    "MuMIn", 
-    "ggplot2", 
-    "DHARMa", 
-    "performance", 
     "glmmTMB", 
-    "broom.mixed",
-    "knitr", 
+    "ggplot2", 
+    "here", 
+    "janitor",
     "kableExtra", 
-    "car", 
-    "MASS"
+    "knitr", 
+    "lme4", 
+    "marginaleffects",
+    "MASS", 
+    "MuMIn", 
+    "performance", 
+    "readxl", 
+    "sessioninfo",
+    "see", 
+    "stringr"
   )
   
   # Identify and install missing packages
@@ -37,7 +42,7 @@ fxn_install_dependencies <- function() {
   })
 }
 
-# Optional: Run dependency check on script load
+# Run dependency check on script load
 fxn_install_dependencies()
 
 #' Check Package Availability

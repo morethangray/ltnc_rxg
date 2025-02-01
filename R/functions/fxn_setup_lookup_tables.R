@@ -1,26 +1,3 @@
-# ========================================================== -----
-# ---------------------------------------------------------- -----
-# !!! UPDATE THESE IF YOU CHANGE XLSX FILE OR SHEET NAMES !!! ----
-# ---------------------------------------------------------- -----
-# ---------------------------------------------------------- -----
-# DEFINE FILE AND SHEET NAMES ----
-# Plant attributes xlsx file
-xlsx_name_plants <- "attributes_plant.xlsx"
-sheet_name_plants <- "crosswalk"
-#
-# Plot attributes xlsx file
-xlsx_name_plots <- "attributes_plots.xlsx"
-# Plot names 
-sheet_name_plots <- "lookup-plot-name"
-# Grazing interval
-sheet_name_grazing <- "grazing-interval"
-# Active surveys 
-sheet_name_surveys <- "surveyed-plots"
-# Plot attributes
-sheet_name_attributes <- "plot-attributes"
-# 
-# ========================================================== -----
-
 #' Create Lookup Tables from Excel Sources
 #'
 #' Reads and processes lookup tables from multiple Excel sheets
@@ -32,6 +9,11 @@ sheet_name_attributes <- "plot-attributes"
 #' @param sheet_name_grazing Sheet name for grazing intervals
 #' @param sheet_name_surveys Sheet name for surveys
 #' @param sheet_name_attributes Sheet name for plot attributes
+#' @param xlsx_name_models Filename for model attributes Excel file
+#' @param sheet_name_model Sheet name for model labels
+#' @param sheet_name_term Sheet name for term labels
+#' @param sheet_name_mean Sheet name for mean labels
+#' @param sheet_name_contrast Sheet name for contrast labels
 #'
 #' @return List of processed lookup tables
 #' @import here
@@ -39,14 +21,19 @@ sheet_name_attributes <- "plot-attributes"
 #' @import dplyr
 #' 
 #' @export
-fxn_create_lookup_tables <- function(
+fxn_setup_lookup_tables <- function(
     xlsx_name_plants = "attributes_plant.xlsx", 
     sheet_name_plants = "crosswalk",
-    xlsx_name_plots = "attributes_plots.xlsx",
+    xlsx_name_plots = "attributes_plot.xlsx",
     sheet_name_plots = "lookup-plot-name",
     sheet_name_grazing = "grazing-interval",
     sheet_name_surveys = "surveyed-plots",
-    sheet_name_attributes = "plot-attributes"
+    sheet_name_attributes = "plot-attributes", 
+    xlsx_name_models = "attributes_model.xlsx", 
+    sheet_name_model = "subset", 
+    sheet_name_term = "term", 
+    sheet_name_mean = "mean", 
+    sheet_name_contrast = "contrast"
 ) {
   # Validate packages
   required_packages <- c("here", "readxl", "dplyr")
@@ -56,7 +43,7 @@ fxn_create_lookup_tables <- function(
   }
   
   # Source file path definition 
-  source(here::here("R/functions/fxn_define-file-paths.R"))
+  source(here::here("R/functions/fxn_setup_file_paths.R"))
   
   # Validate file existence
   excel_files <- c(
@@ -141,15 +128,45 @@ fxn_create_lookup_tables <- function(
       index_g
     )
   
+  lookup_model_subset <- readxl::read_excel(
+    here::here(project_paths$path_in_lookup, xlsx_name_models),
+    sheet = sheet_name_model
+  ) %>%
+    dplyr::select(subset:lab_subset)
+  
+  lookup_model_term <- readxl::read_excel(
+    here::here(project_paths$path_in_lookup, xlsx_name_models),
+    sheet = sheet_name_term
+  ) %>%
+    dplyr::select(term:lab_term)
+  
+  lookup_model_mean <- readxl::read_excel(
+    here::here(project_paths$path_in_lookup, xlsx_name_models),
+    sheet = sheet_name_mean
+  ) %>%
+    dplyr::select(value:lab_value)
+  
+  lookup_model_contrast <- readxl::read_excel(
+    here::here(project_paths$path_in_lookup, xlsx_name_models),
+    sheet = sheet_name_contrast
+  ) %>%
+    dplyr::select(contrast:lab_contrast)
+  
+
   # Return list of lookup tables
   return(list(
     lookup_plants = lookup_plants,
     lookup_plot_names = lookup_plot_names,
     lookup_grazing_interval = lookup_grazing_interval,
     list_active_surveys = list_active_surveys,
-    lookup_annotation = lookup_annotation
+    lookup_annotation = lookup_annotation, 
+    lookup_model_subset = lookup_model_subset, 
+    lookup_model_term = lookup_model_term, 
+    lookup_model_mean = lookup_model_mean, 
+    lookup_model_contrast = lookup_model_contrast
+    
   ))
 }
 
 # Run function with default parameters
-lookup_tables <- fxn_create_lookup_tables()
+lookup_tables <- fxn_setup_lookup_tables()

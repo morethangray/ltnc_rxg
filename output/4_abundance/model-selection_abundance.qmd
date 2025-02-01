@@ -24,8 +24,8 @@ library(dplyr)     # For data manipulation
 library(forcats)
 library(sessioninfo)
 
-source(here("R/functions/fxn_define-file-paths.R"))
-source(here("R/functions/fxn_kable-table.R"))
+source(here::here("R/functions/fxn_setup_file_paths.R"))
+source(here("R/functions/fxn_kable.R"))
 source(here("R/functions/fxn_load_rich_abun.R"))
 source(here("R/functions/fxn_model-selection_abun.R"))
 
@@ -374,7 +374,7 @@ After identifying a set of best-performing fixed effects models, I explored the 
 Model comparisons were again based on AICc, retaining models within a delta AICc of 6. Singularity checks were performed using the `lme4::check_singularity` function to ensure model convergence.
 
 | Abbreviation | Model specification |
-|-----------------------------|-------------------------------------------|
+|------------------------------------|------------------------------------|
 | plot_type | best_fixed_model, . \~ . + (1 \| plot_type) |
 | f_year | best_fixed_model, . \~ . + (1 \| f_year) |
 | f_year_grazer | best_fixed_model, . \~ . + (1 \| f_year/grazer) |
@@ -403,7 +403,7 @@ The final model for each group was selected based on AICc, diagnostic plot revie
 The final models are presented in the table below, with detailed model selection information provided in subsequent sections. While all three models used a normal distribution and the same fixed and random effects structure (fixed effects for grazing treatment and survey year, and a random intercept and slope for treatment within plot name), the transformation of the abundance data differed slightly. The final models for native and native forb species were identical, using log-transformed abundance. The non-native model used a square root transformation of abundance.
 
 | Species | Response | Formula | Distribution |
-|----------------|----------------|-------------------------|----------------|
+|------------------|------------------|------------------|------------------|
 | Native | log(Abundance) | grazing + survey year + (1 + grazing \| plot) | Normal |
 | Native forb | log(Abundance) | grazing + survey year + (1 + grazing \| plot) | Normal |
 | Non-native | sqrt(Abundance) | grazing + survey year + (1 + grazing \| plot) | Normal |
@@ -632,25 +632,23 @@ Text
 
 ```{r}
 # Define the best initial model
-best_model_init_abun_frb <- lmer(
-  value_log ~ treatment + (1 + treatment | plot_name),
-  data = abun, subset = met_sub == "abun_frb", REML = FALSE
-)
+best_model_init_abun_frb <- lmer(value_log ~ treatment + (1 + treatment | plot_name),
+  data = abun_frb, REML = FALSE)
 
 # Fit the fixed effects models
 models_fixed_abun_frb <- fxn_fixed_effects(best_model_init_abun_frb)
 
 # View the summary table
-fixed_summary_table <- models_fixed_abun_frb$summary_table %>%
+fixed_summary_table_abun_frb <- models_fixed_abun_frb$summary_table %>%
   as_tibble() %>%
   dplyr::select(model_name, terms_count, aic) %>%
   dplyr::mutate(delta = round(aic - min(aic), 1))
 
-fixed_summary_table %>%
+fixed_summary_table_abun_frb %>%
   fxn_kable()
 
 # View the best model 
-best_fixed_model <- models_fixed_abun_frb$best_model$formula
+best_fixed_model_abun_frb <- models_fixed_abun_frb$best_model_abun_frb$formula
 
 
 ```

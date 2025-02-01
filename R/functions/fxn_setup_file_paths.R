@@ -1,6 +1,3 @@
-# Execute function to define file paths
-fxn_define_file_paths()
-
 #' Define and Create Project File Paths
 #'
 #' Sets up input and output directory paths for the project
@@ -9,7 +6,7 @@ fxn_define_file_paths()
 #' @return List of file paths
 #' @import here
 #' @export
-fxn_define_file_paths <- function() {
+fxn_setup_file_paths <- function() {
   # Validate required packages
   required_packages <- c("here")
   
@@ -68,7 +65,7 @@ fxn_define_file_paths <- function() {
 }
 
 # Store paths in a global variable
-project_paths <- fxn_define_file_paths()
+project_paths <- fxn_setup_file_paths()
 
 # If you need global variables (not recommended, but possible)
 # list2env(project_paths, envir = .GlobalEnv)
