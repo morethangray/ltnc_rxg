@@ -1337,3 +1337,360 @@ model.sel(mod_abun_non,
   arrange(AICc)
 # ========================================================== -----
 # richness model selection ----
+
+
+# ========================================================== -----
+#   fxn_bt_log ----
+fxn_bt_log <- function(df, index_bt){
+  
+  df %>%
+    mutate(bt_estimate = exp(estimate), 
+           bt_conf_low = exp(conf_low),
+           bt_conf_high = exp(conf_high))
+}
+#   fxn_bt_log1 ----
+fxn_bt_log1 <- function(df, index_bt){
+  
+  df %>%
+    mutate(bt_estimate = exp(estimate) - 1e-6, 
+           bt_conf_low = exp(conf_low) - 1e-6, 
+           bt_conf_high = exp(conf_high) - - 1e-6)
+}
+#   fxn_bt_sqrt ----
+fxn_bt_sqrt <- function(df, index_bt){
+  
+  df %>%
+    mutate(bt_estimate = (estimate)^2, 
+           bt_conf_low = (conf_low)^2,
+           bt_conf_high = (conf_high)^2)
+}
+#   fxn_annotate_summary ----
+fxn_annotate_summary <- function(df, index_subset){
+  df %>%
+    tidy() %>%
+    janitor::clean_names() %>%
+    mutate(subset = index_subset) %>%
+    dplyr::relocate(subset, 
+                    term,
+                    estimate, 
+                    conf_low, 
+                    conf_high, 
+                    starts_with("p_")) 
+}
+
+#   fxn_summarize_contrasts ----
+fxn_summarize_contrasts <- function(index_subset, index_bt){
+  
+  best_fit <- get(glue::glue("mod_{index_subset}"))
+  
+  contrasts <- 
+    marginaleffects::comparisons(
+      best_fit, 
+      variables = list(f_year = "pairwise",
+                       f_two_yr = "pairwise",
+                       plot_type = "pairwise",
+                       treatment = "pairwise")) %>%
+    fxn_annotate_summary(index_subset = index_subset) %>%
+    dplyr::mutate(summary_type = "contrast")  
+  
+  if(index_bt == "none"){
+    bt_data <- contrasts  %>%
+      dplyr::mutate(bt_estimate = estimate,
+                    bt_conf_low = conf_low,
+                    bt_conf_high = conf_high)
+  }
+  
+  if(index_bt == "log1"){
+    bt_data <- fxn_bt_log1(contrasts)
+  }
+  
+  if(index_bt == "log"){
+    bt_data <- fxn_bt_log(contrasts)
+  }
+  
+  if(index_bt == "sqrt"){
+    bt_data <- fxn_bt_sqrt(contrasts)
+  }
+  
+  bt_data %>%
+    dplyr::relocate(subset, 
+                    summary_type, 
+                    term,
+                    contrast, 
+                    starts_with("bt"), 
+                    starts_with("p_")) %>%
+    readr::write_csv(here(project_paths$path_out_summary, 
+                          glue::glue("{index_subset}_contrasts.csv")))
+  
+}
+
+#   fxn_summarize_marginal_mean ----
+fxn_summarize_marginal_mean <- function(index_subset, index_effects, index_bt){
+  
+  best_fit <- get(glue::glue("mod_{index_subset}"))
+  
+  mm <- 
+    marginaleffects::marginalmeans(
+      best_fit, 
+      variables = all_of(index_effects)) %>%
+    fxn_annotate_summary(index_subset = index_subset) %>%
+    dplyr::mutate(summary_type = "marginal_mean")  
+  
+  if(index_bt == "none"){
+    bt_data <- mm  %>%
+      dplyr::mutate(bt_estimate = estimate,
+                    bt_conf_low = conf_low,
+                    bt_conf_high = conf_high)
+  }
+  
+  if(index_bt == "log1"){
+    bt_data <- fxn_bt_log1(mm)
+  }
+  
+  if(index_bt == "log"){
+    bt_data <- fxn_bt_log(mm)
+  }
+  
+  if(index_bt == "sqrt"){
+    bt_data <- fxn_bt_sqrt(mm)
+  }
+  
+  bt_data %>%
+    dplyr::relocate(subset, 
+                    summary_type, 
+                    term,
+                    value, 
+                    starts_with("bt"), 
+                    starts_with("p_")) %>%
+    readr::write_csv(here(project_paths$path_out_summary, 
+                          glue::glue("{index_subset}_marginal-mean.csv")))
+  
+}
+
+   
+#   fxn_summarize_contrasts ----
+fxn_summarize_contrasts <- function(index_model_name) {
+  
+  # Retrieve the model object
+  index_model <- get(index_model_name)
+  
+  # Extract response variable and determine transformation
+  transformation <- stringr::str_remove(as.character(formula(index_model))[2], "value_")
+  
+  # Extract predictor variables from model formula
+  predictors <- attr(terms(index_model), "term.labels")
+  # Create a comma-separated list as a string
+  list_predictors <- glue::glue_collapse(predictors_str, ",")
+  
+  # # Create a named list for pairwise comparisons
+  # variable_list <- setNames(rep(list("pairwise"), length(predictors)), predictors)
+  
+  # Compute contrasts dynamically
+  # contrasts <- 
+  marginaleffects::comparisons(index_model, variables = predictors) %>%
+    broom::tidy() %>%
+    fxn_backtransform(index_transformation = transformation) %>%
+    dplyr::mutate(model_name = index_model_name) %>%
+    dplyr::relocate(model_name, term, contrast, starts_with("bt"))
+  
+  avg_slopes(index_model, 
+             variables = predictors, 
+             re.form = NULL) %>%
+    tidy() %>%
+    fxn_backtransform(index_transformation = transformation) %>%
+    dplyr::mutate(model_name = index_model_name) %>%
+    dplyr::relocate(model_name, term, contrast, starts_with("bt"))
+  
+  return(contrasts)
+}
+
+#   v2 ----
+fxn_summarize_contrasts <- function(index_model_name){
+  
+  index_model <- get(index_model_name)
+  transformation <- stringr::str_remove(as.character(formula(index_model))[2], "value_")
+  
+  contrasts <- 
+    marginaleffects::comparisons(
+      index_model, 
+      variables = list(f_year = "pairwise",
+                       plot_type = "pairwise",
+                       treatment = "pairwise")
+    ) %>%
+    broom::tidy() %>%
+    fxn_backtransform(index_transformation = transformation) %>%
+    dplyr::mutate(model_name = index_model_name) %>%
+    relocate(model_name, term, contrast, starts_with("bt"))
+  
+}
+
+#   v3 ----
+index_bt = "log1"
+marginaleffects::comparisons(index_model, 
+                             variables = list(f_year = "pairwise",
+                                              plot_type = "pairwise",
+                                              treatment = "pairwise"))  %>%
+  broom::tidy() %>%
+  mutate(bt_estimate = 
+           case_when(
+             index_bt == "sqrt" ~ (estimate)^2, 
+             index_bt == "log1" ~ exp(estimate) - 1e-6, 
+             TRUE ~ estimate), 
+         bt_conf.low = 
+           case_when(
+             index_bt == "sqrt" ~ (conf.low)^2, 
+             index_bt == "log1" ~ exp(conf.low) - 1e-6, 
+             TRUE ~ conf.low), 
+         bt_conf.high = 
+           case_when(
+             index_bt == "sqrt" ~ (conf.high)^2, 
+             index_bt == "log1" ~ exp(conf.high) - 1e-6, 
+             TRUE ~ conf.high)) 
+
+
+#
+
+
+#
+#   fxn_summarize_all ----
+fxn_summarize_all <- function(index_subset, 
+                              index_effects, 
+                              index_bt){
+  
+  fxn_summarize_contrasts(index_subset, 
+                          index_bt)
+  
+  fxn_summarize_marginal_mean(index_subset, 
+                              index_effects, 
+                              index_bt)
+  
+  # fxn_create_plots(index_subset, 
+  #                  index_effects,
+  #                  index_bt)
+}
+
+# Create model summaries ----
+# fxn_summarize_contrasts(index_subset = "abun_non", index_bt = "sqrt")
+# fxn_summarize_marginal_mean(index_subset = "abun_non",
+#                   index_effects = list_effects_abun_non,
+#                   index_bt = "sqrt")
+
+fxn_summarize_all(index_subset = "rich_nat",
+                  index_effects = list_effects_rich_nat,
+                  index_bt = "none")
+
+fxn_summarize_all(index_subset = "rich_frb",
+                  index_effects = list_effects_rich_frb,
+                  index_bt = "none")
+
+fxn_summarize_all(index_subset = "rich_non",
+                  index_effects = list_effects_rich_non,
+                  index_bt = "log1")
+
+fxn_summarize_all(index_subset = "abun_nat",
+                  index_effects = list_effects_abun_nat,
+                  index_bt = "log1")
+
+fxn_summarize_all(index_subset = "abun_frb",
+                  index_effects = list_effects_abun_frb,
+                  index_bt = "log1")
+#
+fxn_summarize_all(index_subset = "abun_non",
+                  index_effects = list_effects_abun_non,
+                  index_bt = "sqrt")
+
+# Combine model summaries ----
+list_csv_contrast <- 
+  list.files(here(project_paths$path_out_summary),
+             pattern = "*contrasts.csv")
+
+list_csv_mm <- 
+  list.files(here(project_paths$path_out_summary),
+             pattern = "*marginal-mean.csv")
+
+bind_contrasts <- 
+  sapply(here(project_paths$path_out_summary,
+              list_csv_contrast),
+         readr::read_csv, 
+         show_col_types = FALSE,
+         simplify = FALSE) %>%
+  bind_rows() %>%
+  rename(met_sub = subset) %>%
+  mutate(metric = stringr::str_sub(met_sub, 1, 4), 
+         subset = stringr::str_sub(met_sub, 6, 8)) %>%
+  left_join(lookup_tables$lookup_model_subset, "subset") %>%
+  left_join(lookup_tables$lookup_model_term, "term") %>%
+  left_join(lookup_tables$lookup_model_contrast, "contrast")  %>%
+  dplyr::select(metric, 
+                starts_with("lab"),
+                contrast, 
+                term, 
+                treatment, 
+                starts_with("f_"), 
+                starts_with("plot"),
+                bt_estimate, 
+                starts_with("bt_"), 
+                p_value, 
+                s_value, 
+                predicted,
+                predicted_lo, 
+                predicted_hi, 
+                raw_estimate = estimate, 
+                raw_conf_low = conf_low, 
+                raw_conf_high = conf_high, 
+                raw_std_error = std_error, 
+                raw_statistic = statistic, 
+                value,
+                starts_with("value"),
+                summary_type) %>%
+  distinct() %>%
+  arrange(metric, lab_subset, lab_term) %>%
+  readr::write_csv(here(project_paths$path_out_summary, 
+                        "contrasts.csv"))
+
+bind_mm <- 
+  sapply(here(project_paths$path_out_summary,
+              list_csv_mm),
+         readr::read_csv, 
+         show_col_types = FALSE,
+         simplify = FALSE) %>%
+  bind_rows() %>%
+  rename(met_sub = subset) %>%
+  mutate(metric = stringr::str_sub(met_sub, 1, 4), 
+         subset = stringr::str_sub(met_sub, 6, 8)) %>%
+  left_join(lookup_tables$lookup_model_subset, "subset") %>%
+  left_join(lookup_tables$lookup_model_term, "term") %>%
+  left_join(lookup_tables$lookup_model_mean, "value") %>%
+  dplyr::select(metric, 
+                starts_with("lab"),
+                bt_estimate, 
+                starts_with("bt_"), 
+                p_value, 
+                raw_estimate = estimate, 
+                raw_conf_low = conf_low, 
+                raw_conf_high = conf_high, 
+                raw_std_error = std_error, 
+                raw_statistic = statistic, 
+                s_value, 
+                term, 
+                term_id = value, 
+                summary_type)  %>%
+  arrange(metric, lab_subset, lab_term)  %>%
+  readr::write_csv(here(project_paths$path_out_summary, 
+                        "marginal-means.csv"))
+
+========================================================== -----
+  #   emmeans ----
+# Get estimated marginal means for all factors
+emm_list <- emmeans::emmeans(mod_rich_frb, ~ treatment + f_year + plot_type)
+
+# Compute pairwise comparisons (effect sizes)
+# library(emmeans)
+pairwise_effects <- pairs(emm_list)
+
+EMM <- emmeans::emmeans(mod_rich_nat, ~ treatment)
+EMM    # display the means
+
+### pairwise comparisons
+emmeans::contrast(EMM, "pairwise")    # or pairs(EMM)
+exp(tidy(pairs(EMM))$estimate)

@@ -11,6 +11,7 @@ fxn_install_dependencies <- function() {
     "broom.mixed",
     "DHARMa", 
     "dplyr", 
+    "emmeans",
     "forcats", 
     "glmmTMB", 
     "ggplot2", 
