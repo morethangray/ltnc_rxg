@@ -132,25 +132,25 @@ fxn_setup_lookup_tables <- function(
     here::here(project_paths$path_in_lookup, xlsx_name_models),
     sheet = sheet_name_model
   ) %>%
-    dplyr::select(subset:lab_subset)
+    dplyr::select(subset, abbr_subset)
   
   lookup_model_term <- readxl::read_excel(
     here::here(project_paths$path_in_lookup, xlsx_name_models),
     sheet = sheet_name_term
   ) %>%
-    dplyr::select(term:lab_term)
+    dplyr::select(term, abbr_term)
   
   lookup_model_mean <- readxl::read_excel(
     here::here(project_paths$path_in_lookup, xlsx_name_models),
     sheet = sheet_name_mean
   ) %>%
-    dplyr::select(value:lab_value)
+    dplyr::select(value, abbr_value)
   
   lookup_model_contrast <- readxl::read_excel(
     here::here(project_paths$path_in_lookup, xlsx_name_models),
     sheet = sheet_name_contrast
   ) %>%
-    dplyr::select(contrast:lab_contrast)
+    dplyr::select(contrast, abbr_contrast)
   
 
   # Return list of lookup tables

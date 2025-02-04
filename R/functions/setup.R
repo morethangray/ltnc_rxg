@@ -8,6 +8,7 @@ fxn_install_dependencies <- function() {
   packages_needed <- c(
 
     "car", 
+    "broom",
     "broom.mixed",
     "DHARMa", 
     "dplyr", 
@@ -15,6 +16,7 @@ fxn_install_dependencies <- function() {
     "forcats", 
     "glmmTMB", 
     "ggplot2", 
+    "glue",
     "here", 
     "janitor",
     "kableExtra", 

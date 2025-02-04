@@ -20,6 +20,7 @@ source(here::here("R/functions/fxn_calculate_metrics.R"))
 source(here::here("R/functions/fxn_load_rich_abun.R"))
 # Run function to load richness and abundance data
 rich_abun <- fxn_load_rich_abun(project_paths = project_paths)
+# Create input data subsets
 abun <- rich_abun$abundance
 abun_nat <- abun$abun_nat
 abun_frb <- abun$abun_frb
@@ -83,7 +84,9 @@ models_random_abun_nat %>%
   fxn_kable()
 
 # Summarize model
+mod_abun_nat <- lme4::lmer(value_log ~ treatment + f_year + plot_type + (1 + treatment | plot_name), data = abun_nat, REML = FALSE)
 
+fxn_summarize_marginal_means("mod_abun_nat", lookup_tables) 
 # Summarize variables 
 
 # Create plots

@@ -1694,3 +1694,137 @@ EMM    # display the means
 ### pairwise comparisons
 emmeans::contrast(EMM, "pairwise")    # or pairs(EMM)
 exp(tidy(pairs(EMM))$estimate)
+
+#   fxn_backtransform ----
+fxn_backtransform <- function(index_data, index_value, index_transform){
+  
+  bt_name <- glue::glue("bt_{index_value}")
+  
+  index_data %>%
+    dplyr::mutate(
+      "{bt_name}" :=  
+        dplyr::case_when(
+          index_transform == "sqrt" ~ (!!sym(index_value))^2, 
+          index_transform == "log" ~ exp(!!sym(index_value) - 1e-6), 
+          TRUE ~ !!sym(index_value)
+        )
+    )
+  
+}
+
+#   fxn_summarize_marginal_means ----
+# index_model_name = "mod_abun_nat"
+fxn_summarize_marginal_means <- function(index_model_name, lookup_tables){
+  
+  # Retrieve the model object
+  index_model <- get(index_model_name)
+  
+  # Extract model formula and attributes for reference
+  model_formula <- as.character(formula(index_model))[3]
+  response <- if(stringr::str_detect(index_model_name, "abun")){
+    "abundance"
+  }else{
+    "richness"
+  }
+  subset <- stringr::str_sub(index_model_name, -3)
+  
+  # Extract response variable and determine transformation
+  transformation <- stringr::str_remove(as.character(formula(index_model))[2], "value_")
+  
+  # Compute marginal means dynamically
+  marginal_means <- 
+    emmeans::emmeans(index_model, ~ treatment) %>%
+    broom::tidy() %>%
+    janitor::clean_names() %>%
+    fxn_backtransform(index_value = "estimate", index_transform = transformation) %>%
+    # Use the delta method for handling standard errors
+    fxn_backtransform(index_value = "std_error", index_transform = transformation) %>%
+    dplyr::mutate(bt_std_error = std_error * bt_std_error, 
+                  response = response, 
+                  abbr_subset = subset,
+                  model_name = index_model_name, 
+                  model_formula = model_formula) %>%
+    dplyr::left_join(lookup_tables$lookup_model_subset, "abbr_subset") %>%
+    dplyr::select(response, 
+                  subset, 
+                  treatment, 
+                  starts_with("bt"), 
+                  p_value, 
+                  statistic,
+                  df, 
+                  subset, 
+                  model_name, 
+                  model_formula, 
+                  starts_with("abbr_")) 
+  
+  return(marginal_means)
+  
+}
+#
+#   fxn_summarize_contrasts ----
+# use marginaleffects_0.5.0  
+# packageurl <- "https://cran.r-project.org/src/contrib/Archive/marginaleffects/marginaleffects_0.5.0.tar.gz"
+# install.packages(packageurl, repos=NULL, type="source")
+# sessionInfo()
+
+fxn_summarize_contrasts <- function(index_model_name, lookup_tables = lookup_tables) {
+  
+  # Retrieve the model object
+  index_model <- get(index_model_name)
+  
+  # Extract model formula and attributes for reference
+  model_formula <- as.character(formula(index_model))[3]
+  response <- if(stringr::str_detect(index_model_name, "abun")){
+    "abundance"
+  }else{
+    "richness"
+  }
+  subset <- stringr::str_sub(index_model_name, -3)
+  
+  # Extract response variable and determine transformation
+  transformation <- stringr::str_remove(as.character(formula(index_model))[2], "value_")
+  
+  # Extract predictor variables from model formula
+  predictors <- attr(terms(index_model), "term.labels")
+  
+  # Create a named list for pairwise comparisons
+  variable_list <- setNames(rep(list("pairwise"), length(predictors)), predictors)
+  
+  # Compute contrasts dynamically
+  contrasts <- 
+    marginaleffects::comparisons(index_model, variables = variable_list)  %>%
+    broom::tidy() %>%
+    janitor::clean_names() %>%
+    group_by(term, contrast) %>%
+    summarize(estimate = mean(estimate), 
+              p_value = min(p_value), 
+              statistic = mean(statistic), 
+              s_value = mean(s_value), 
+              conf_low = mean(conf_low), 
+              conf_high = mean(conf_high)) %>%
+    fxn_backtransform(index_value = "estimate", index_transform = transformation) %>%
+    fxn_backtransform(index_value = "conf_low", index_transform = transformation) %>%
+    fxn_backtransform(index_value = "conf_high", index_transform = transformation) %>%
+    dplyr::rename(abbr_term = term, 
+                  abbr_contrast = contrast) %>%
+    dplyr::mutate(response = response, 
+                  abbr_subset = subset,
+                  model_name = index_model_name, 
+                  model_formula = model_formula) %>%
+    dplyr::left_join(lookup_tables$lookup_model_subset, "abbr_subset") %>%
+    dplyr::left_join(lookup_tables$lookup_model_term, "abbr_term") %>%
+    dplyr::left_join(lookup_tables$lookup_model_contrast, "abbr_contrast") %>%
+    dplyr::select(response, 
+                  subset,
+                  term,
+                  contrast,
+                  starts_with("bt"), 
+                  p_value, 
+                  statistic,
+                  subset, 
+                  model_name, 
+                  model_formula, 
+                  starts_with("abbr_"))  
+  
+  return(contrasts)
+}
