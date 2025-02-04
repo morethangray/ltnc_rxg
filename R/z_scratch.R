@@ -1679,7 +1679,7 @@ bind_mm <-
   readr::write_csv(here(project_paths$path_out_summary, 
                         "marginal-means.csv"))
 
-========================================================== -----
+# ========================================================== -----
   #   emmeans ----
 # Get estimated marginal means for all factors
 emm_list <- emmeans::emmeans(mod_rich_frb, ~ treatment + f_year + plot_type)

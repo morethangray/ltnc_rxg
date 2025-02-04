@@ -62,7 +62,8 @@ fxn_load_rich_abun <- function(project_paths) {
     dplyr::arrange(year, f_break) %>%
     dplyr::mutate(
       value_sqrt = sqrt(value),
-      dplyr::across(where(is.character), as.factor)
+      dplyr::across(where(is.character), as.factor) %>%
+      dplyr::mutate(treatment = factor(treatment, levels = c("Ungrazed", "Grazed")))
     )
   
   # Create richness subsets
@@ -79,7 +80,8 @@ fxn_load_rich_abun <- function(project_paths) {
   ) %>%
     dplyr::arrange(dplyr::desc(treatment), year, f_break) %>%
     dplyr::mutate(
-      dplyr::across(where(is.character), as.factor)
+      dplyr::across(where(is.character), as.factor) %>%
+        dplyr::mutate(treatment = factor(treatment, levels = c("Ungrazed", "Grazed")))
     )
   
   # Create abundance subsets

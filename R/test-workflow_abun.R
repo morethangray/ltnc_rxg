@@ -87,6 +87,7 @@ models_random_abun_nat %>%
 mod_abun_nat <- lme4::lmer(value_log ~ treatment + f_year + plot_type + (1 + treatment | plot_name), data = abun_nat, REML = FALSE)
 
 fxn_summarize_marginal_means("mod_abun_nat", lookup_tables) 
+fxn_summarize_contrasts("mod_abun_nat", lookup_tables) 
 # Summarize variables 
 
 # Create plots

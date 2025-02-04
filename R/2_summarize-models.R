@@ -21,24 +21,30 @@ source(here::here("R/functions/fxn_load_rich_abun.R"))
 # Run function to load richness and abundance data
 rich_abun <- fxn_load_rich_abun(project_paths = project_paths)
 # Create functions to summarize the models
-source(here::here("R/functions/fxn_summarize-models.R"))
+source(here::here("R/functions/fxn_backtransform.R"))
+
 # ========================================================== -----
 # Abundance ----
-# Create input data subsets
-abun <- rich_abun$abundance
-abun_nat <- abun$abun_nat
+#   Create input data subsets & fit models ----
+abun <- rich_abun$abundance  
+abun_nat <- abun$abun_nat %>%
+  mutate(treatment = factor(treatment, levels = c("Ungrazed", "Grazed")))
 abun_frb <- abun$abun_frb
 abun_non <- abun$abun_non
 
+levels(abun_nat$treatment)
 
-mod_abun_nat <- lme4::lmer(value_log ~ treatment + f_year + plot_type + (1 + treatment | plot_name), data = abun_nat, REML = FALSE)
+
+mod_abun_nat <- lme4::lmer(value_log ~ treatment + f_year + plot_type + (1 | plot_name), data = abun_nat, REML = FALSE)
 mod_abun_frb <- lme4::lmer(value_log ~ treatment + f_year + plot_type + (1 + treatment | plot_name), data = abun_frb, REML = FALSE)
 mod_abun_non <- lme4::lmer(value_sqrt ~ treatment + f_year + f_two_yr + (1 | plot_name), data = abun_non, REML = FALSE)
+
 
 list_models_abun <- c("mod_abun_nat", 
                       "mod_abun_frb", 
                       "mod_abun_non")
 
+#   Marginal means ----
 marginal_means_abun <- list_models_abun %>%
   purrr::map(~ fxn_summarize_marginal_means(.x, lookup_tables)) %>%
   dplyr::bind_rows() %>%
@@ -48,7 +54,12 @@ readr::write_csv(marginal_means_abun,
                  here(project_paths$path_out_summary,
                         "marginal-means_abun.csv"))
 
-# Contrasts ----
+#   Contrasts ----
+# use marginaleffects_0.5.0  
+# packageurl <- "https://cran.r-project.org/src/contrib/Archive/marginaleffects/marginaleffects_0.10.0.tar.gz"
+# install.packages(packageurl, repos=NULL, type="source")
+# sessionInfo()
+
 # Retrieve the model object
 index_model_name = "mod_abun_nat"
 index_model <- get(index_model_name)
@@ -69,54 +80,57 @@ variable_list <- setNames(rep(list("pairwise"), length(predictors)), predictors)
 # contrasts <- 
   marginaleffects::comparisons(index_model, variables = variable_list) %>%
   broom::tidy() %>%
-  janitor::clean_names() %>%
-  group_by(term, contrast) %>%
-  summarize(
-    estimate = mean(estimate), 
-    p_value = min(p_value), 
-    statistic = mean(statistic), 
-    s_value = mean(s_value), 
-    conf_low = mean(conf_low), 
-    conf_high = mean(conf_high)
-  ) %>%
+  # janitor::clean_names() %>%
+  #   tibble() %>%
+  # group_by(term, contrast) %>%
+  # summarize(
+  #   # estimate = mean(estimate), 
+  #   estimate = mean(comparison), 
+  #   p_value = min(p_value), 
+  #   statistic = mean(statistic), 
+  #   # s_value = mean(s_value), 
+  #   conf_low = mean(conf_low), 
+  #   conf_high = mean(conf_high)
+  # ) %>%
   fxn_backtransform(index_value = "estimate", index_transform = transformation) %>%
-  fxn_backtransform(index_value = "conf_low", index_transform = transformation) %>%
-  fxn_backtransform(index_value = "conf_high", index_transform = transformation) %>%
-  dplyr::rename(
-    abbr_term = term, 
-    abbr_contrast = contrast
-  ) %>%
-  dplyr::mutate(
-    response = response, 
-    abbr_subset = subset,
-    model_name = index_model_name, 
-    model_formula = model_formula
-  ) %>%
-  dplyr::left_join(lookup_tables$lookup_model_subset, "abbr_subset") %>%
-  dplyr::left_join(lookup_tables$lookup_model_term, "abbr_term") %>%
-  dplyr::left_join(lookup_tables$lookup_model_contrast, "abbr_contrast") %>%
-  dplyr::select(
-    response, 
-    subset,
-    term,
-    contrast,
-    starts_with("bt"), 
-    p_value, 
-    statistic,
-    estimate_raw = estimate, 
-    model_name, 
-    model_formula, 
-    starts_with("abbr_")
-  )
-
-contrasts_abun <- list_models_abun %>%
-  purrr::map(~ fxn_summarize_contrasts(.x, lookup_tables)) %>%
-  dplyr::bind_rows() %>%
-  dplyr::arrange(response, subset, term, contrast)
-
-readr::write_csv(contrasts_abun,
-                 here(project_paths$path_out_summary,
-                      "contrasts_abun.csv"))
+    relocate(term, contrast, bt_estimate)
+  
+#   dplyr::rename(
+#     abbr_term = term, 
+#     abbr_contrast = contrast
+#   ) %>%
+#   dplyr::mutate(
+#     response = response, 
+#     abbr_subset = subset,
+#     model_name = index_model_name, 
+#     model_formula = model_formula
+#   ) %>%
+#   dplyr::left_join(lookup_tables$lookup_model_subset, "abbr_subset") %>%
+#   dplyr::left_join(lookup_tables$lookup_model_term, "abbr_term") %>%
+#   dplyr::left_join(lookup_tables$lookup_model_contrast, "abbr_contrast") %>%
+#   dplyr::select(
+#     response, 
+#     subset,
+#     term,
+#     contrast,
+#     starts_with("bt"), 
+#     p_value, 
+#     statistic,
+#     estimate_raw = estimate, 
+#     model_name, 
+#     model_formula, 
+#     starts_with("abbr_")
+#   )
+# 
+# contrasts_abun <- list_models_abun %>%
+#   purrr::map(~ fxn_summarize_contrasts(.x, lookup_tables)) %>%
+#   dplyr::bind_rows() %>%
+#   dplyr::arrange(response, subset, term, contrast)
+# 
+# readr::write_csv(contrasts_abun,
+#                  here(project_paths$path_out_summary,
+#                       "contrasts_abun.csv"))
+# ---------------------------------------------------------- -----
 # Richness ----
 # Create input data subsets
 rich <- rich_abun$richness
