@@ -53,3 +53,4 @@ rsconnect/
 /output/3_summary/ 
 /output/4_abundance/model-selection_abundance_files/
 /output/5_richness/model-selection_richness_files/
+/output/*.pdf
