@@ -1,0 +1,358 @@
+---
+title: "Model summaries"
+author: "Morgan Gray"
+date: 2025-02-04
+format: 
+  # html:
+  #   toc: true
+  #   toc-title: Contents
+  pdf:
+    toc: true
+    toc-title: Contents
+    geometry:
+      - top=20mm
+      - bottom=20mm
+      - left=20mm
+      - right=20mm
+      - heightrounded
+    
+editor: visual
+execute:
+  echo: false
+  warning: false
+callout-icon: false
+number-sections: FALSE
+---
+
+```{r setup}
+# Run setup scripts
+source(here::here("R/1_setup.R"))
+
+# Create functions to summarize the models
+source(here::here("R/functions/fxn_summarize_models.R"))
+
+# Create function for pretty tables 
+source(here::here("R/functions/fxn_kable.R"))
+
+# Create functions to tidy tables 
+fxn_tidy_table <- function(index_table){
+  
+  index_table %>%
+    dplyr::mutate(estimate = round(bt_estimate, 2), 
+                  conf_low = round(bt_conf_low, 2),
+                  conf_high = round(bt_conf_high, 2), 
+                  statistic = round(statistic, 2)) %>%
+    dplyr::select(dplyr::any_of(c(
+      # "subset", 
+      "treatment",
+      "term",
+      "contrast",
+      "estimate", 
+      "conf_low", 
+      "conf_high",
+      "p_value", 
+      "statistic")))
+  
+}
+
+# Create input data subsets 
+abun <- rich_abun$abundance  
+abun_nat <- abun$abun_nat 
+abun_frb <- abun$abun_frb
+abun_non <- abun$abun_non
+
+rich <- rich_abun$richness
+rich_nat <- rich$rich_nat
+rich_frb <- rich$rich_frb
+rich_non <- rich$rich_non
+
+
+```
+
+<br>
+
+# Introduction
+
+This document summarizes statistical models developed to analyze plant community observations. Six generalized linear mixed models (GLMMs) were fit to examine two aspects of plant communities: species richness (count data) and percent cover abundance (continuous proportions from 0-1). For each response variable, three plant groups were analyzed: all native species, native forbs (a subset of native species), and non-native species. For each combination of response variable and plant group, the best-performing model from a candidate set of models was selected.
+
+The formulation, model summary, marginal means, and contrasts are provided in this document for each of the six models.
+
+{{< pagebreak >}}
+
+# Abundance
+
+## Native species
+
+```{r echo = TRUE}
+mod_abun_nat <- lme4::lmer(
+  value_log ~ treatment + f_year +  plot_type + (1 + treatment | plot_name), 
+  data = abun_nat, REML = FALSE)
+```
+
+**Model summary table**
+
+```{r}
+summary(mod_abun_nat)
+```
+
+{{< pagebreak >}}
+
+**Marginal means**
+
+```{r}
+mm_abun_nat <- fxn_summarize_marginal_means("mod_abun_nat", lookup_tables)  
+
+fxn_tidy_table(mm_abun_nat) %>%
+  fxn_kable()
+
+```
+
+**Contrasts**
+
+```{r}
+contrasts_abun_nat <- fxn_summarize_contrasts("mod_abun_nat", lookup_tables)  
+
+fxn_tidy_table(contrasts_abun_nat) %>%
+  fxn_kable()
+
+```
+
+<br>
+
+{{< pagebreak >}}
+
+## Native forb species
+
+```{r echo = TRUE}
+mod_abun_frb <- lme4::lmer(
+  value_log ~ treatment + f_year +  plot_type + (1 + treatment | plot_name), 
+  data = abun_frb,  REML = FALSE)
+```
+
+**Model summary table**
+
+```{r}
+summary(mod_abun_frb)
+```
+
+{{< pagebreak >}}
+
+**Marginal means**
+
+```{r}
+mm_abun_frb <- fxn_summarize_marginal_means("mod_abun_frb", lookup_tables)  
+
+mm_abun_frb_tbl <- fxn_tidy_table(mm_abun_frb) 
+
+mm_abun_frb_tbl %>%
+  fxn_kable()
+```
+
+**Contrasts**
+
+```{r}
+contrasts_abun_frb <- fxn_summarize_contrasts("mod_abun_frb", lookup_tables)  
+
+fxn_tidy_table(contrasts_abun_frb) %>%
+  fxn_kable()
+```
+
+{{< pagebreak >}}
+
+## Non-native species
+
+```{r echo = TRUE}
+mod_abun_non <- lme4::lmer(
+  value_sqrt ~ treatment + f_year + f_two_yr + (1 | plot_name), 
+  data = abun_non, REML = FALSE)
+```
+
+**Model summary table**
+
+```{r}
+summary(mod_abun_non)
+```
+
+{{< pagebreak >}}
+
+**Marginal means**
+
+```{r}
+mm_abun_non <- fxn_summarize_marginal_means("mod_abun_non", lookup_tables)  
+
+fxn_tidy_table(mm_abun_non) %>%
+  fxn_kable()
+```
+
+**Contrasts**
+
+```{r}
+contrasts_abun_non <- fxn_summarize_contrasts("mod_abun_non", lookup_tables)  
+
+fxn_tidy_table(contrasts_abun_non) %>%
+  fxn_kable()
+
+```
+
+{{< pagebreak >}}
+
+# Richness
+
+## Native species
+
+```{r echo = TRUE}
+mod_rich_nat <- glmmTMB::glmmTMB(
+  value ~ 
+    treatment + 
+    f_year + 
+    (1 | plot_type) + 
+    (1 + treatment | plot_name),
+  data = rich_nat, 
+  family = nbinom2,
+  control = glmmTMBControl(optimizer=optim, 
+                           optArgs=list(method="BFGS")))
+
+```
+
+**Model summary table**
+
+```{r}
+summary(mod_rich_nat)
+```
+
+{{< pagebreak >}}
+
+**Marginal means**
+
+```{r}
+mm_rich_nat <- fxn_summarize_marginal_means("mod_rich_nat", lookup_tables)  
+# 
+fxn_tidy_table(mm_rich_nat) %>%
+  fxn_kable()
+```
+
+**Contrasts**
+
+```{r}
+contrasts_rich_nat <- fxn_summarize_contrasts("mod_rich_nat", lookup_tables)  
+
+fxn_tidy_table(contrasts_rich_nat) %>%
+  fxn_kable()
+```
+
+{{< pagebreak >}}
+
+## Native forb species
+
+```{r echo = TRUE}
+mod_rich_frb <- glmmTMB::glmmTMB(
+  value ~ 
+    treatment + 
+    f_year + 
+    (1 | plot_type) + 
+    (1 + treatment | plot_name),
+  data = rich_frb, 
+  family = nbinom2,
+  control = glmmTMBControl(optimizer=optim, 
+                           optArgs=list(method="BFGS")))
+
+```
+
+**Model summary table**
+
+```{r}
+summary(mod_rich_frb)
+```
+
+{{< pagebreak >}}
+
+**Marginal means**
+
+```{r}
+mm_rich_frb <- fxn_summarize_marginal_means("mod_rich_frb", lookup_tables)  
+# 
+fxn_tidy_table(mm_rich_frb) %>%
+  fxn_kable()
+```
+
+**Contrasts**
+
+```{r}
+contrasts_rich_frb <- fxn_summarize_contrasts("mod_rich_frb", lookup_tables)  
+
+fxn_tidy_table(contrasts_rich_frb) %>%
+  fxn_kable()
+
+```
+
+{{< pagebreak >}}
+
+## Non-native species
+
+```{r echo = TRUE}
+mod_rich_non <- lme4::lmer(
+  value_sqrt ~ 
+    treatment + 
+    f_year + 
+    (1 + treatment | plot_name), 
+  data = rich_non, 
+  REML = FALSE)
+```
+
+**Model summary table**
+
+```{r}
+summary(mod_rich_non)
+```
+
+{{< pagebreak >}}
+
+**Marginal means**
+
+```{r}
+mm_rich_non <- fxn_summarize_marginal_means("mod_rich_non", lookup_tables)  
+
+fxn_tidy_table(mm_rich_non) %>%
+  fxn_kable()
+```
+
+**Contrasts**
+
+```{r}
+contrasts_rich_non <- fxn_summarize_contrasts("mod_rich_non", lookup_tables)  
+
+fxn_tidy_table(contrasts_rich_non) %>%
+  fxn_kable()
+
+```
+
+{{< pagebreak >}}
+
+# Environment
+
+You must run the scripts in fxn_summarize_models() with marginaleffects_0.5.0. If you use a later version you could (and probably will) get different results.
+
+Get marginaleffects_0.5.0 from cran by running these 2 lines:
+
+```{r echo=TRUE}
+# Uncomment (remove the #) code to run
+
+# packageurl <- "https://cran.r-project.org/src/contrib/Archive/marginaleffects/marginaleffects_0.5.0.tar.gz"
+# install.packages(packageurl, repos=NULL, type="source")
+```
+
+Then confirm the package version:
+
+```{r echo=TRUE}
+# Uncomment (remove the #) code to run
+
+# sessionInfo()
+```
+
+------------------------------------------------------------------------
+
+**Session info**
+
+```{r}
+sessionInfo()
+```

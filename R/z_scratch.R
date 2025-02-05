@@ -1828,3 +1828,116 @@ fxn_summarize_contrasts <- function(index_model_name, lookup_tables = lookup_tab
   
   return(contrasts)
 }
+
+# marginaleffects::comparisons(mod_rich_nat, 
+#                              variables = list(treatment = "pairwise",
+#                                               plot_type = "pairwise",
+#                                               f_year = "pairwise" 
+#                                            )) %>%
+#   broom::tidy()
+# 
+# marginaleffects::marginalmeans(mod_rich_nat, 
+#                                  variables = all_of(list_predictors_nat)) %>%
+#   broom::tidy()
+# 
+# index_model_name = "mod_rich_nat"
+# model_formula <- as.character(formula(mod_rich_nat))[3]
+# response <- if(stringr::str_detect("mod_rich_nat", "abun")) "abundance" else "richness"
+# subset <- stringr::str_sub("mod_rich_nat", -3)
+# transformation <- stringr::str_remove(as.character(formula(mod_rich_nat))[2], "value_")
+# 
+# # # Other subsets 
+# marginaleffects::marginalmeans(mod_rich_frb, "treatment")
+# marginaleffects::marginalmeans(mod_rich_non, "treatment")
+
+
+# ========================================================== -----
+
+# rich_non: Create model summaries ----
+mod_rich_non_sqrt <- lmer(value_sqrt ~ treatment + f_year + (1 + treatment | plot_name), 
+                          data = rich_non, REML = FALSE)
+mod_rich_non_sqrt_1 <- lmer(value_sqrt ~ treatment + f_year + (1 | plot_name), 
+                            data = rich_non, REML = FALSE)
+# mod_rich_non_sqrt_2 <- lmer(value_sqrt ~ treatment + f_year, 
+#                             data = rich_non, REML = FALSE)
+
+# mod_rich_non_log_1 <- lmer(value_log ~ treatment + f_year, 
+#                 data = r_non, REML = FALSE)
+
+mod_rich_non_log_2 <- lmer(value_log ~ treatment + f_year + (1 | plot_name), 
+                           data = rich_non, REML = FALSE)
+
+mod_rich_non_log_3 <- lmer(value_log ~ treatment + f_year + f_break + (1 | plot_name), 
+                           data = rich_non, REML = FALSE)
+
+
+mod_rich_non_log_4 <- lmer(value_log ~ treatment + f_year + (1 + treatment | plot_name),
+                           data = rich_non, REML = FALSE)
+
+
+
+mod_rich_non_log_5 <- lmer(value_log ~ treatment + f_year + f_two_yr + (1 + treatment | plot_name),
+                           data = rich_non)
+
+
+# 
+model.sel(mod_rich_non_sqrt,
+          mod_rich_non_sqrt_1,
+          mod_rich_non_log_2, 
+          mod_rich_non_log_3, 
+          mod_rich_non_log_4, 
+          mod_rich_non_log_5) %>%
+  arrange(AICc)
+# 
+# summary(mod_rich_non)
+# performance::performance(mod_rich_non_log_4)
+
+
+# List effects for marginal summaries 
+list_effects_rich_non_x <- c("treatment", "f_year")
+
+mfx <- 
+  marginaleffects::slopes(mod_rich_non_log_4, 
+                          re.form = NULL) %>%
+  tidy() %>%
+  clean_names() %>%
+  mutate(method = "effect")  %>%
+  rename(value = contrast) %>%
+  relocate(term, value, starts_with("p_"))
+
+mm <- 
+  marginalmeans(mod_rich_non_log_4, 
+                variables = all_of(list_effects_rich_non_x)) %>%
+  tidy() %>%
+  mutate(method = "mean")  
+
+bind_summaries <- 
+  bind_rows(mfx, 
+            mm) %>%
+  dplyr::select(method, term, value, estimate, conf.low, conf.high, p.value)  %>%
+  write_csv(here(path_out, "richness_nonnative_glmm-summary-tables.csv"))
+
+# predictions(mod_rich_non_log_4, 
+#             re.form = NULL) %>%
+#   as_tibble() %>%
+#   mutate(treatment = as.character(treatment)) %>%
+#   arrange(treatment) %>%
+#   mutate(treatment = as_factor(treatment)) %>%
+#   ggplot(aes(x = treatment, 
+#              y = estimate, 
+#              color = treatment)) + 
+#   geom_quasirandom(aes(color = treatment),
+#                    # size = 1,
+#                    cex = 1,
+#                    alpha = 0.8, 
+#                    # dodge.width=0.5, 
+#                    method = "pseudorandom") +
+#   # scale_color_manual(values = palette_treatment) + 
+#   ylab("Richness") +
+#   theme_minimal() + 
+#   theme(legend.position = "none",
+#         axis.title.x = element_blank())  
+# 
+# ggsave(filename =
+#          here(path_out, "richness_nonnative_best-model.png"),
+#        width = 3, height = 5)

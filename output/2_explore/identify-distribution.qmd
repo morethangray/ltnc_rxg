@@ -224,14 +224,14 @@ Final recommended distribution (and transformation, when relevant) for each of t
 
 Native and native forbs for each metric were identical. Negative binomial distribution recommended for native richness because it was a count; normal distribution ok for non-native richness. Recommended distribution for abundance was normal for all species subsets.
 
-| Metric    | Species      | Distribution      | Transformation |
-|-----------|--------------|-------------------|----------------|
-| Richness  | Native       | Negative binomial | None           |
-| Richness  | Native forb  | Negative binomial | None           |
-| Richness  | Non-native   | Normal            | Log            |
-| Abundance | Native       | Normal            | Log            |
-| Abundance | Native forb  | Normal            | Log            |
-| Abundance | Non-native   | Normal            | Square root    |
+| Metric    | Species     | Distribution      | Transformation |
+|-----------|-------------|-------------------|----------------|
+| Richness  | Native      | Negative binomial | None           |
+| Richness  | Native forb | Negative binomial | None           |
+| Richness  | Non-native  | Normal            | Log            |
+| Abundance | Native      | Normal            | Log            |
+| Abundance | Native forb | Normal            | Log            |
+| Abundance | Non-native  | Normal            | Square root    |
 
 : *Recommended distribution and transformation for each of the six models*
 

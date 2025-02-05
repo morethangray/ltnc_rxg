@@ -74,7 +74,7 @@ The final models are presented in the table below, with detailed model selection
 The final models for native and native forb species were identical, employing untransformed values, a negative binomial distribution, and the same fixed and random effects structure as the non-native model, with the addition of a fixed effect for plot type (PER, WAN).
 
 | Species | Response | Formula | Distribution |
-|--------------|--------------|------------------------------|--------------|
+|----|----|----|----|
 | Native | Richness | grazing + survey year + plot type + (1 + grazing \| plot) | Negative binomial |
 | Native forb | Richness | grazing + survey year + plot type + (1 + grazing \| plot) | Negative binomial |
 | Non-native | log(Richness) | grazing + survey year + (1 + grazing \| plot) | Normal |
