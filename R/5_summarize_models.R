@@ -50,7 +50,7 @@ contrasts_abun <- list_models_abun %>%
   dplyr::arrange(response, subset, term, contrast)
 # 
 readr::write_csv(contrasts_abun,
-                 here(project_paths$path_out_summary,
+                 here(project_paths$path_out_summary_tables,
                       "contrasts_abun.csv"))
 
 # ---------------------------------------------------------- -----
@@ -92,7 +92,7 @@ contrasts_rich <- list_models_rich %>%
   dplyr::arrange(response, subset, term, contrast)
 # 
 readr::write_csv(contrasts_rich,
-                 here(project_paths$path_out_summary,
+                 here(project_paths$path_out_summary_tables,
                       "contrasts_rich.csv"))
 
 # ========================================================== -----
@@ -120,5 +120,5 @@ contrasts <- list_model_names %>%
   dplyr::arrange(response, subset, term, contrast)
 
 readr::write_csv(contrasts,
-                 here(project_paths$path_out_summary,
+                 here(project_paths$path_out_summary_tables,
                       "contrasts.csv"))

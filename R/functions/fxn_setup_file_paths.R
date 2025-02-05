@@ -26,11 +26,12 @@ fxn_setup_file_paths <- function() {
     here::here(path_in, "data_derived"),
     here::here(path_in, "lookup-tables"),
     path_out,
-    here::here(path_out, "1_prepare"),
-    here::here(path_out, "2_explore"),
-    here::here(path_out, "3_summary"),
-    here::here(path_out, "4_abundance"),
-    here::here(path_out, "5_richness")
+    here::here(path_out, "identify_distribution"),
+    here::here(path_out, "model_selection_abundance"),
+    here::here(path_out, "model_selection_richness"),
+    here::here(path_out, "summarize_models"),
+    here::here(path_out, "summarize_variables"),
+    here::here(path_out, "summary_tables")
   )
   
   # Create directories
@@ -48,7 +49,7 @@ fxn_setup_file_paths <- function() {
     }
   })
   
-  # Return a list of paths instead of using <<-
+  # Return a list of paths  
   return(list(
     path_r = path_r,
     path_in = path_in,
@@ -56,11 +57,12 @@ fxn_setup_file_paths <- function() {
     path_in_data_derived = here::here(path_in, "data_derived"),
     path_in_lookup = here::here(path_in, "lookup-tables"),
     path_out = path_out,
-    path_out_prepare = here::here(path_out, "1_prepare"),
-    path_out_explore = here::here(path_out, "2_explore"),
-    path_out_summary = here::here(path_out, "3_summary"),
-    path_out_abundance = here::here(path_out, "4_abundance"),
-    path_out_richness = here::here(path_out, "5_richness")
+    path_out_identify_distribution = here::here(path_out, "identify_distribution"),
+    path_out_abundance = here::here(path_out, "model_selection_abundance"),
+    path_out_richness = here::here(path_out, "model_selection_richness"),
+    path_out_summarize_models = here::here(path_out, "summarize_models"),
+    path_out_summarize_variables = here::here(path_out, "summarize_variables"),
+    path_out_summary_tables = here::here(path_out, "summary_tables")
   ))
 }
 

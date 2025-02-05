@@ -1,17 +1,28 @@
 ---
 title: "Model selection for richness"
 author: "Morgan Gray"
+date: 2025-02-04
 format: 
-  html:
+  # html:
+  #   toc: true
+  #   toc-title: Contents
+  pdf:
     toc: true
     toc-title: Contents
+    geometry:
+      - top=20mm
+      - bottom=20mm
+      - left=20mm
+      - right=20mm
+      - heightrounded
     
 editor: visual
 execute:
   echo: false
   warning: false
 callout-icon: false
-number-sections: TRUE
+number-sections: FALSE
+# mainfont: "Gill Sans Nova Book"
 ---
 
 ```{r setup}
@@ -74,7 +85,7 @@ The final models are presented in the table below, with detailed model selection
 The final models for native and native forb species were identical, employing untransformed values, a negative binomial distribution, and the same fixed and random effects structure as the non-native model, with the addition of a fixed effect for plot type (PER, WAN).
 
 | Species | Response | Formula | Distribution |
-|----|----|----|----|
+|------------------|------------------|------------------|------------------|
 | Native | Richness | grazing + survey year + plot type + (1 + grazing \| plot) | Negative binomial |
 | Native forb | Richness | grazing + survey year + plot type + (1 + grazing \| plot) | Negative binomial |
 | Non-native | log(Richness) | grazing + survey year + (1 + grazing \| plot) | Normal |

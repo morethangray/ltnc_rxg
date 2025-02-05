@@ -1,0 +1,105 @@
+---
+title: "Variable summaries"
+author: "Morgan Gray"
+date: 2025-02-05
+format: 
+  pdf:
+    toc: true
+    toc-title: Contents
+    geometry:
+      - top=20mm
+      - bottom=20mm
+      - left=20mm
+      - right=20mm
+      - heightrounded
+    
+editor: visual
+execute:
+  echo: false
+  warning: false
+callout-icon: false
+number-sections: FALSE
+
+mainfont: "Gill Sans Nova Light" 
+sansfont: "Gill Sans Nova Light"
+fontsize: 11pt
+code-overflow: wrap
+---
+
+```{r setup}
+# Run setup scripts
+source(here::here("R/1_setup.R"))
+
+# Create functions to summarize the metrics by variable group
+source(here::here("R/functions/fxn_summarize_models.R"))
+
+# Create function for pretty tables 
+source(here::here("R/functions/fxn_kable.R"))
+
+# # Create functions to tidy tables 
+# fxn_tidy_table <- function(index_table){
+#   
+#   index_table %>%
+#     dplyr::mutate(estimate = round(bt_estimate, 2), 
+#                   conf_low = round(bt_conf_low, 2),
+#                   conf_high = round(bt_conf_high, 2), 
+#                   statistic = round(statistic, 2)) %>%
+#     dplyr::select(dplyr::any_of(c(
+#       # "subset", 
+#       "treatment",
+#       "term",
+#       "contrast",
+#       "estimate", 
+#       "conf_low", 
+#       "conf_high",
+#       "p_value", 
+#       "statistic")))
+#   
+# }
+
+# Create input data subsets 
+abun <- rich_abun$abundance  
+abun_nat <- abun$abun_nat 
+abun_frb <- abun$abun_frb
+abun_non <- abun$abun_non
+
+rich <- rich_abun$richness
+rich_nat <- rich$rich_nat
+rich_frb <- rich$rich_frb
+rich_non <- rich$rich_non
+
+
+```
+
+# Introduction
+
+This document summarizes the data subsets used to analyze plant community observations. Six generalized linear mixed models (GLMMs) were fit to examine two aspects of plant communities: species richness (count data) and percent cover abundance (continuous proportions from 0-1). For each response variable, three plant groups were analyzed: all native species, native forbs (a subset of native species), and non-native species. For each combination of response variable and plant group, the best-performing model from a candidate set of models was selected.
+
+Explanatory variables used in the model:
+
+Treatment: Grazed vs ungrazed
+
+Survey year
+
+Plot type
+
+Plot pair
+
+Grazing interval: 1-year, 2-year, new
+
+# Abundance
+
+```{r}
+
+
+```
+
+{{< pagebreak >}}
+
+# Environment
+
+**Session info**
+
+```{r}
+sessionInfo()
+```

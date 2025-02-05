@@ -1,17 +1,28 @@
 ---
 title: "Model selection for abundance"
 author: "Morgan Gray"
+date: 2025-02-04
 format: 
-  html:
+  # html:
+  #   toc: true
+  #   toc-title: Contents
+  pdf:
     toc: true
     toc-title: Contents
+    geometry:
+      - top=20mm
+      - bottom=20mm
+      - left=20mm
+      - right=20mm
+      - heightrounded
     
 editor: visual
 execute:
   echo: false
   warning: false
 callout-icon: false
-number-sections: TRUE
+number-sections: FALSE
+# mainfont: "Gill Sans Nova Book"
 ---
 
 ```{r setup}
@@ -374,7 +385,7 @@ After identifying a set of best-performing fixed effects models, I explored the 
 Model comparisons were again based on AICc, retaining models within a delta AICc of 6. Singularity checks were performed using the `lme4::check_singularity` function to ensure model convergence.
 
 | Abbreviation | Model specification |
-|----|----|
+|------------------------------------|------------------------------------|
 | plot_type | best_fixed_model, . \~ . + (1 \| plot_type) |
 | f_year | best_fixed_model, . \~ . + (1 \| f_year) |
 | f_year_grazer | best_fixed_model, . \~ . + (1 \| f_year/grazer) |
@@ -403,7 +414,7 @@ The final model for each group was selected based on AICc, diagnostic plot revie
 The final models are presented in the table below, with detailed model selection information provided in subsequent sections. While all three models used a normal distribution and the same fixed and random effects structure (fixed effects for grazing treatment and survey year, and a random intercept and slope for treatment within plot name), the transformation of the abundance data differed slightly. The final models for native and native forb species were identical, using log-transformed abundance. The non-native model used a square root transformation of abundance.
 
 | Species | Response | Formula | Distribution |
-|----|----|----|----|
+|------------------|------------------|------------------|------------------|
 | Native | log(Abundance) | grazing + survey year + (1 + grazing \| plot) | Normal |
 | Native forb | log(Abundance) | grazing + survey year + (1 + grazing \| plot) | Normal |
 | Non-native | sqrt(Abundance) | grazing + survey year + (1 + grazing \| plot) | Normal |

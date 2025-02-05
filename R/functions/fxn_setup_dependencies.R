@@ -13,6 +13,7 @@ fxn_install_dependencies <- function() {
     "DHARMa", 
     "dplyr", 
     "emmeans",
+    "fitdistrplus",
     "forcats", 
     "glmmTMB", 
     "ggplot2", 
@@ -26,10 +27,14 @@ fxn_install_dependencies <- function() {
     "MASS", 
     "MuMIn", 
     "performance",
-    "readxl", 
+    "pscl",
+    "readr",
+    # "readxl", 
     "sessioninfo",
     "see", 
-    "stringr"
+    "stats",
+    "stringr", 
+    "vcd"
   )
   
   # Identify and install missing packages

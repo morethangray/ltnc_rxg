@@ -1,150 +1,51 @@
 ---
 title: "Identify the distribution for each model"
 author: "Morgan Gray"
-format:
-  # pdf:
-  #   toc: true
-  #   toc-title: Contents
-  #   number-sections: true
-  #   colorlinks: true
-  html:
+date: 2025-02-05
+format: 
+  pdf:
     toc: true
     toc-title: Contents
-    number-sections: TRUE
+    geometry:
+      - top=20mm
+      - bottom=20mm
+      - left=20mm
+      - right=20mm
+      - heightrounded
+    
 editor: visual
 execute:
   echo: false
   warning: false
+callout-icon: false
+number-sections: FALSE
+
+mainfont: "Gill Sans Nova Light" 
+sansfont: "Gill Sans Nova Light"
+fontsize: 11pt
+code-overflow: wrap
 ---
 
 ```{r setup}
-# Load libraries, functions, workflows -----
-rm(list = ls())
-#
-# library(tidyverse) ## To manipulate data frames
-library(here) ## To manage directories
-library(readr)
-library(dplyr)
-library(forcats)
-library(vcd)
-library(fitdistrplus)
-library(MASS)
-library(pscl)
-library(car)
-library(kableExtra)
-library(sessioninfo)
+# Run setup scripts
+source(here::here("R/1_setup.R"))
 
-#
-source(here("R/functions/fxn_utilities.R"))
-# Read the richness and abundance data tables
-source(here("R/functions/fxn_load_rich_abun.R"))
+# Create functions to identify distributions
+source(here::here("R/functions/fxn_identify_distribution.R"))
 
+# Create function for pretty tables 
+source(here::here("R/functions/fxn_kable.R"))
 
-```
+# Create input data subsets 
+abun <- rich_abun$abundance  
+abun_nat <- abun$abun_nat 
+abun_frb <- abun$abun_frb
+abun_non <- abun$abun_non
 
-```{r functions}
-fxn_kable <- function(df){
-  
-  df  %>%
-    knitr::kable() %>%
-    kableExtra::kable_styling(
-      bootstrap_options = c("striped", "hover", "condensed"), 
-                  full_width = TRUE,  
-                  position = "left", 
-                  fixed_thead = TRUE)
-}
-
-fxn_histogram <- function(data, data_name) {
-  hist(data$value, breaks = 15, col = "gray", main = paste("Histogram of", data_name), xlab = "Value", ylab = "Count")
-  
-  if ("value_std" %in% names(data)) {
-    hist(data$value_std, breaks = 25, col = "gray", main = paste("Histogram of Standardized", data_name), xlab = "Standardized Value", ylab = "Count")
-  }
-  
-  if ("value_log" %in% names(data)) {
-    hist(data$value_log, breaks = 25, col = "gray", main = paste("Histogram of Log-transformed", data_name), xlab = "Log Value", ylab = "Count")
-  }
-  
-  if ("value_sqrt" %in% names(data)) {
-    hist(data$value_sqrt, breaks = 25, col = "gray", main = paste("Histogram of Square Root-transformed", data_name), xlab = "Sqrt Value", ylab = "Count")
-  }
-}
-
-fxn_gof_test_rich <- function(data, data_name) {
-  gf_pois <- vcd::goodfit(data$value, type = "poisson")
-  pois_first_line <- summary(gf_pois)[1, ]
-  plot(gf_pois, main = "") 
-  
-  gf_nbin <- vcd::goodfit(data$value, type = "nbinomial")
-  nbin_first_line <- summary(gf_nbin)[1, ]
-  plot(gf_nbin, main = "") 
-}
-
-fxn_gof_test_abun <- function(data, data_name) {
-  print(paste("Normal Distribution Fit for", data_name)) 
-  print(shapiro.test(data$value))
-  fitdistrplus::fitdist(data$value, dist = "norm") %>%
-    plot(histo = TRUE, demp = TRUE)
-  cat("\n")
-  
-  print(paste("Normal Distribution Fit for Standardized", data_name)) 
-  print(shapiro.test(data$value_std))
-  fitdistrplus::fitdist(data$value_std, dist = "norm") %>%
-    plot(histo = TRUE, demp = TRUE)
-  cat("\n")
-  
-  print(paste("Normal Distribution Fit for Log-transformed", data_name))
-  print(shapiro.test(data$value_log))
-  fitdistrplus::fitdist(data$value_log, dist = "norm") %>%
-    plot(histo = TRUE, demp = TRUE)
-  cat("\n")
-  
-  print(paste("Normal Distribution Fit for Square Root-transformed", data_name)) 
-  print(shapiro.test(data$value_sqrt))
-  fitdistrplus::fitdist(data$value_sqrt, dist = "norm") %>%
-    plot(histo = TRUE, demp = TRUE)
-}
-
-fxn_vuong_test <- function(data, data_name) {
-  if (length(unique(data$treatment)) > 1) {
-    tryCatch({
-      nb <- MASS::glm.nb(value ~ treatment, data = data)
-      p <- glm(value ~ treatment, data = data, family = "poisson")
-      print(paste("Vuong test: Negative Binomial vs. Poisson for", data_name))
-      print(pscl::vuong(nb, p))
-      cat("\n\n")
-      
-      if (min(data$value) == 0) {
-        z <- pscl::zeroinfl(value ~ treatment, data = data)
-        print(paste("Vuong test: Poisson vs. Zero-Inflated for", data_name))
-        print(pscl::vuong(p, z))
-        cat("\n\n")
-        print(paste("Vuong test: Negative Binomial vs. Zero-Inflated for", data_name))
-        print(pscl::vuong(nb, z))
-      }
-    }, error = function(e) {
-      message(paste("Error in Vuong tests for", data_name, ":", e$message))
-    })
-  } else {
-    message("Skipping Vuong tests as no treatment variable is present.")
-  }
-}
-
-fxn_qq_plot <- function(data, data_name) {
-  data$value_1 <- data$value + 1
-  
-  poisson <- MASS::fitdistr(data$value_1, "Poisson")
-  car::qqp(data$value_1, "pois", lambda = poisson$estimate, main = paste("Poisson QQ plot for", data_name))
-  
-  if (data_name == "nonnative richness") {
-    car::qqp(data$value_1, "norm", main = paste("Normal QQ plot for", data_name))
-    car::qqp(data$value_1, "lnorm", main = paste("Lognormal QQ plot for", data_name))
-    
-    gamma <- MASS::fitdistr(data$value_1, "gamma")
-    car::qqp(data$value_1, "gamma", shape = gamma$estimate[[1]], rate = gamma$estimate[[2]], main = paste("Gamma QQ plot for", data_name))
-  }
-}
-
+rich <- rich_abun$richness
+rich_nat <- rich$rich_nat
+rich_frb <- rich$rich_frb
+rich_non <- rich$rich_non
 
 
 ```
@@ -242,11 +143,11 @@ Native and native forbs for each metric were identical. Negative binomial distri
 Preview the first 10 rows of the data table for richness (rich) to see the column names and formats.
 
 ::: callout-tip
-Scroll to the right to see more columns.
+Scroll to the right to see more columns (html only)
 :::
 
 ```{r richness}
-rich %>%
+rich_nat %>%
   dplyr::slice(1:10) %>%
   fxn_kable()
 ```
@@ -270,6 +171,8 @@ The histograms indicated the raw data followed a Poisson distribution, which was
 -   Square root-transformed values: Kindof normal with some gaps in the lower range
 
 ```{r }
+#| fig-align: left
+#| out-height: 2.5in
 fxn_histogram(rich_nat, "native richness")
 
 ```
@@ -334,6 +237,8 @@ The histograms indicated the raw data followed a Poisson distribution, which was
 -   Square root-transformed values: Kindof normal with some gaps in the lower range
 
 ```{r }
+#| fig-align: left
+#| out-height: 2.5in
 fxn_histogram(rich_frb, "native forb richness")
 
 ```
@@ -398,6 +303,8 @@ The histogram for the square-root transformed data appeared the most normal of t
 -   Square root-transformed values: Kindof normal with some gaps in the lower range
 
 ```{r }
+#| fig-align: left
+#| out-height: 2.5in
 fxn_histogram(rich_non, "non-native richness")
 
 ```
@@ -444,11 +351,11 @@ fxn_qq_plot(rich_non, "non-native richness")
 Preview the first 10 rows of the data table for abundance (abun) to see the column names and formats.
 
 ::: callout-tip
-Scroll to the right to see more columns.
+Scroll to the right to see more columns (html only)
 :::
 
 ```{r abundance}
-abun %>%
+abun_nat %>%
   dplyr::slice(1:10) %>%
   fxn_kable()
 ```
@@ -473,7 +380,9 @@ The histograms indicated the log-transformed data most closely resembled a norma
 
 -   Square root-transformed values: Main peak at 3, additional peak(s) between 7-10
 
-```{r }
+```{r}
+#| fig-align: left
+#| out-height: 2.5in
 fxn_histogram(abun_nat, "native abundance")
 
 ```
@@ -519,6 +428,8 @@ The histograms indicated the log-transformed data most closely resembled a norma
 -   Square root-transformed values: Main peak at 3, broad plateau (no clear peak) of elevated counts between 4-10
 
 ```{r }
+#| fig-align: left
+#| out-height: 2.5in
 fxn_histogram(abun_frb, "native forb abundance")
 
 ```
@@ -562,6 +473,8 @@ The histograms indicated the square root-transformed data most closely resembled
 -   Square root-transformed values: Kindof normal
 
 ```{r }
+#| fig-align: left
+#| out-height: 2.5in
 fxn_histogram(abun_non, "non-native abundance")
 
 ```

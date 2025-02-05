@@ -1,0 +1,7 @@
+response,subset,treatment,bt_estimate,bt_conf_low,bt_conf_high,p_value,statistic,model_name,model_formula,abbr_subset
+richness,Native,Ungrazed,5.206891310325102,4.979713606316032,5.434069014334172,0,44.92218760712688,mod_rich_nat,treatment + f_year + (1 | plot_type) + (1 + treatment | plot_name),nat
+richness,Native,Grazed,6.775038209904738,6.50551819192908,7.044558227880397,0,49.26844018871831,mod_rich_nat,treatment + f_year + (1 | plot_type) + (1 + treatment | plot_name),nat
+richness,Native forb,Ungrazed,4.671630934735054,4.4561267754270695,4.887135094043039,0,42.487478712920705,mod_rich_frb,treatment + f_year + (1 | plot_type) + (1 + treatment | plot_name),frb
+richness,Native forb,Grazed,6.4087449811304,6.144279176628191,6.673210785632608,0,47.49540067291582,mod_rich_frb,treatment + f_year + (1 | plot_type) + (1 + treatment | plot_name),frb
+richness,Non-native,Ungrazed,7.097115666781528,6.654791988863265,7.553670160523847,0,61.899783706213846,mod_rich_non,treatment + f_year + (1 + treatment | plot_name),non
+richness,Non-native,Grazed,7.810039365599142,7.291904052547335,8.34595671142436,0,58.08968174596787,mod_rich_non,treatment + f_year + (1 + treatment | plot_name),non
