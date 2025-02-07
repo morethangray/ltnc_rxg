@@ -1,0 +1,56 @@
+package,ref,row_n
+car,"Fox J, Weisberg S (2019). _An R Companion to Applied Regression_, Third edition. Sage, Thousand Oaks",3
+car,CA. <https://www.john-fox.ca/Companion/>.,4
+broom,"Robinson D, Hayes A, Couch S (2024). _broom: Convert Statistical Objects into Tidy Tibbles_. R package",3
+broom,"version 1.0.7, <https://CRAN.R-project.org/package=broom>.",4
+broom.mixed,"Bolker B, Robinson D (2024). _broom.mixed: Tidying Methods for Mixed Models_. R package version",3
+broom.mixed,"0.2.9.6, <https://CRAN.R-project.org/package=broom.mixed>.",4
+DHARMa,Hartig F (2024). _DHARMa: Residual Diagnostics for Hierarchical (Multi-Level / Mixed) Regression,3
+DHARMa,"Models_. R package version 0.4.7, <https://CRAN.R-project.org/package=DHARMa>.",4
+dplyr,"Wickham H, François R, Henry L, Müller K, Vaughan D (2023). _dplyr: A Grammar of Data Manipulation_. R",3
+dplyr,"package version 1.1.4, <https://CRAN.R-project.org/package=dplyr>.",4
+emmeans,"Lenth R (2024). _emmeans: Estimated Marginal Means, aka Least-Squares Means_. R package version 1.10.6,",3
+emmeans,<https://CRAN.R-project.org/package=emmeans>.,4
+fitdistrplus,"Marie Laure Delignette-Muller, Christophe Dutang (2015). fitdistrplus: An R Package for Fitting",3
+fitdistrplus,"Distributions. Journal of Statistical Software, 64(4), 1-34. DOI 10.18637/jss.v064.i04.",4
+forcats,Wickham H (2023). _forcats: Tools for Working with Categorical Variables (Factors)_. R package version,3
+forcats,"1.0.0, <https://CRAN.R-project.org/package=forcats>.",4
+glmmTMB,"Mollie E. Brooks, Kasper Kristensen, Koen J. van Benthem, Arni Magnusson, Casper W. Berg, Anders",3
+glmmTMB,"Nielsen, Hans J. Skaug, Martin Maechler and Benjamin M. Bolker (2017). glmmTMB Balances Speed and",4
+glmmTMB,"Flexibility Among Packages for Zero-inflated Generalized Linear Mixed Modeling. The R Journal, 9(2),",5
+glmmTMB,378-400. doi: 10.32614/RJ-2017-066.,6
+ggplot2,"H. Wickham. ggplot2: Elegant Graphics for Data Analysis. Springer-Verlag New York, 2016.",3
+glue,"Hester J, Bryan J (2024). _glue: Interpreted String Literals_. R package version 1.8.0,",3
+glue,<https://CRAN.R-project.org/package=glue>.,4
+here,"Müller K (2020). _here: A Simpler Way to Find Your Files_. R package version 1.0.1,",3
+here,<https://CRAN.R-project.org/package=here>.,4
+janitor,"Firke S (2024). _janitor: Simple Tools for Examining and Cleaning Dirty Data_. R package version 2.2.1,",3
+janitor,<https://CRAN.R-project.org/package=janitor>.,4
+kableExtra,Zhu H (2024). _kableExtra: Construct Complex Table with 'kable' and Pipe Syntax_. R package version,3
+kableExtra,"1.4.0, <https://CRAN.R-project.org/package=kableExtra>.",4
+knitr,Xie Y (2024). _knitr: A General-Purpose Package for Dynamic Report Generation in R_. R package version,3
+knitr,"1.48, <https://yihui.org/knitr/>.",4
+lme4,"Douglas Bates, Martin Maechler, Ben Bolker, Steve Walker (2015). Fitting Linear Mixed-Effects Models",3
+lme4,"Using lme4. Journal of Statistical Software, 67(1), 1-48. doi:10.18637/jss.v067.i01.",4
+marginaleffects,"Arel-Bundock V (2022). _marginaleffects: Marginal Effects, Marginal Means, Predictions, and Contrasts_.",3
+marginaleffects,"R package version 0.5.0, <https://CRAN.R-project.org/package=marginaleffects>.",4
+MASS,"Venables, W. N. & Ripley, B. D. (2002) Modern Applied Statistics with S. Fourth Edition. Springer, New",3
+MASS,York. ISBN 0-387-95457-0,4
+MuMIn,"Bartoń K (2024). _MuMIn: Multi-Model Inference_. R package version 1.48.4,",3
+MuMIn,<https://CRAN.R-project.org/package=MuMIn>.,4
+performance,"Lüdecke et al., (2021). performance: An R Package for Assessment, Comparison and Testing of Statistical",3
+performance,"Models. Journal of Open Source Software, 6(60), 3139. https://doi.org/10.21105/joss.03139",4
+pscl,Simon Jackman (2024). pscl: Classes and Methods for R Developed in the Political Science Computational,3
+pscl,"Laboratory. Sydney, Australia. R package version 1.5.9. URL https://github.com/atahk/pscl/",4
+readr,"Wickham H, Hester J, Bryan J (2024). _readr: Read Rectangular Text Data_. R package version 2.1.5,",3
+readr,<https://CRAN.R-project.org/package=readr>.,4
+sessioninfo,"Wickham H, Chang W, Flight R, Müller K, Hester J (2021). _sessioninfo: R Session Information_. R",3
+sessioninfo,"package version 1.2.2, <https://CRAN.R-project.org/package=sessioninfo>.",4
+see,"Lüdecke et al., (2021). see: An R Package for Visualizing Statistical Models. Journal of Open Source",3
+see,"Software, 6(64), 3393. https://doi.org/10.21105/joss.03393",4
+stats,R Core Team (2024). _R: A Language and Environment for Statistical Computing_. R Foundation for,3
+stats,"Statistical Computing, Vienna, Austria. <https://www.R-project.org/>.",4
+stringr,"Wickham H (2023). _stringr: Simple, Consistent Wrappers for Common String Operations_. R package",3
+stringr,"version 1.5.1, <https://CRAN.R-project.org/package=stringr>.",4
+vcd,"To cite the strucplot framework (e.g., functions mosaic(), sieve(), assoc(), strucplot(), structable(),",4
+vcd,"pairs.table(), cotabplot(), doubledecker()), additionally use:",5

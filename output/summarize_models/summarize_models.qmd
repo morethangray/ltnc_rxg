@@ -1,7 +1,7 @@
 ---
 title: "Model summaries"
 author: "Morgan Gray"
-date: 2025-02-05
+date: 2025-02-06
 format: 
   pdf:
     toc: true
@@ -101,7 +101,7 @@ summary(mod_abun_nat)
 **Marginal means**
 
 ```{r}
-mm_abun_nat <- fxn_summarize_marginal_means("mod_abun_nat", lookup_tables)  
+mm_abun_nat <- fxn_summarize_marginal_means("mod_abun_nat", index_link = "none", lookup_tables)  
 
 fxn_tidy_table(mm_abun_nat) %>%
   fxn_kable()
@@ -111,7 +111,7 @@ fxn_tidy_table(mm_abun_nat) %>%
 **Contrasts**
 
 ```{r}
-contrasts_abun_nat <- fxn_summarize_contrasts("mod_abun_nat", lookup_tables)  
+contrasts_abun_nat <- fxn_summarize_contrasts("mod_abun_nat", index_link = "none", lookup_tables)  
 
 fxn_tidy_table(contrasts_abun_nat) %>%
   fxn_kable()
@@ -141,7 +141,7 @@ summary(mod_abun_frb)
 **Marginal means**
 
 ```{r}
-mm_abun_frb <- fxn_summarize_marginal_means("mod_abun_frb", lookup_tables)  
+mm_abun_frb <- fxn_summarize_marginal_means("mod_abun_frb", index_link = "none", lookup_tables)  
 
 mm_abun_frb_tbl <- fxn_tidy_table(mm_abun_frb) 
 
@@ -152,7 +152,7 @@ mm_abun_frb_tbl %>%
 **Contrasts**
 
 ```{r}
-contrasts_abun_frb <- fxn_summarize_contrasts("mod_abun_frb", lookup_tables)  
+contrasts_abun_frb <- fxn_summarize_contrasts("mod_abun_frb", index_link = "none", lookup_tables)  
 
 fxn_tidy_table(contrasts_abun_frb) %>%
   fxn_kable()
@@ -179,7 +179,7 @@ summary(mod_abun_non)
 **Marginal means**
 
 ```{r}
-mm_abun_non <- fxn_summarize_marginal_means("mod_abun_non", lookup_tables)  
+mm_abun_non <- fxn_summarize_marginal_means("mod_abun_non", index_link = "none", lookup_tables)  
 
 fxn_tidy_table(mm_abun_non) %>%
   fxn_kable()
@@ -188,7 +188,7 @@ fxn_tidy_table(mm_abun_non) %>%
 **Contrasts**
 
 ```{r}
-contrasts_abun_non <- fxn_summarize_contrasts("mod_abun_non", lookup_tables)  
+contrasts_abun_non <- fxn_summarize_contrasts("mod_abun_non", index_link = "none", lookup_tables)  
 
 fxn_tidy_table(contrasts_abun_non) %>%
   fxn_kable()
@@ -226,7 +226,7 @@ summary(mod_rich_nat)
 **Marginal means**
 
 ```{r}
-mm_rich_nat <- fxn_summarize_marginal_means("mod_rich_nat", lookup_tables)  
+mm_rich_nat <- fxn_summarize_marginal_means("mod_rich_nat", index_link = "none", lookup_tables)  
 # 
 fxn_tidy_table(mm_rich_nat) %>%
   fxn_kable()
@@ -235,7 +235,7 @@ fxn_tidy_table(mm_rich_nat) %>%
 **Contrasts**
 
 ```{r}
-contrasts_rich_nat <- fxn_summarize_contrasts("mod_rich_nat", lookup_tables)  
+contrasts_rich_nat <- fxn_summarize_contrasts("mod_rich_nat", index_link = "none", lookup_tables)  
 
 fxn_tidy_table(contrasts_rich_nat) %>%
   fxn_kable()
@@ -270,7 +270,7 @@ summary(mod_rich_frb)
 **Marginal means**
 
 ```{r}
-mm_rich_frb <- fxn_summarize_marginal_means("mod_rich_frb", lookup_tables)  
+mm_rich_frb <- fxn_summarize_marginal_means("mod_rich_frb", index_link = "none", lookup_tables)  
 # 
 fxn_tidy_table(mm_rich_frb) %>%
   fxn_kable()
@@ -279,7 +279,7 @@ fxn_tidy_table(mm_rich_frb) %>%
 **Contrasts**
 
 ```{r}
-contrasts_rich_frb <- fxn_summarize_contrasts("mod_rich_frb", lookup_tables)  
+contrasts_rich_frb <- fxn_summarize_contrasts("mod_rich_frb", index_link = "none", lookup_tables)  
 
 fxn_tidy_table(contrasts_rich_frb) %>%
   fxn_kable()
@@ -311,7 +311,7 @@ summary(mod_rich_non)
 **Marginal means**
 
 ```{r}
-mm_rich_non <- fxn_summarize_marginal_means("mod_rich_non", lookup_tables)  
+mm_rich_non <- fxn_summarize_marginal_means("mod_rich_non", index_link = "none", lookup_tables)  
 
 fxn_tidy_table(mm_rich_non) %>%
   fxn_kable()
@@ -320,15 +320,14 @@ fxn_tidy_table(mm_rich_non) %>%
 **Contrasts**
 
 ```{r}
-contrasts_rich_non <- fxn_summarize_contrasts("mod_rich_non", lookup_tables)  
+contrasts_rich_non <- fxn_summarize_contrasts("mod_rich_non", index_link = "none", lookup_tables)  
 
 fxn_tidy_table(contrasts_rich_non) %>%
   fxn_kable()
 
 ```
 
-{{< pagebreak >}} 
-# Environment
+{{< pagebreak >}} \# Environment
 
 You must run the scripts in fxn_summarize_models() with marginaleffects_0.5.0. If you use a later version you could (and probably will) get different results.
 

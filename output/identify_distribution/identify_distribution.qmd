@@ -1,7 +1,7 @@
 ---
 title: "Identify the distribution for each model"
 author: "Morgan Gray"
-date: 2025-02-05
+date: 2025-02-06
 format: 
   pdf:
     toc: true
@@ -129,7 +129,7 @@ Native and native forbs for each metric were identical. Negative binomial distri
 |-----------|-------------|-------------------|----------------|
 | Richness  | Native      | Negative binomial | None           |
 | Richness  | Native forb | Negative binomial | None           |
-| Richness  | Non-native  | Normal            | Log            |
+| Richness  | Non-native  | Normal            | Square root    |
 | Abundance | Native      | Normal            | Log            |
 | Abundance | Native forb | Normal            | Log            |
 | Abundance | Non-native  | Normal            | Square root    |
@@ -287,7 +287,7 @@ fxn_qq_plot(rich_frb, "native forb richness")
 ::: {.callout-note icon="false"}
 #### Recommended distribution
 
-Normal (with log-transformed values)
+Normal (with square root-transformed values)
 :::
 
 #### **Histograms**

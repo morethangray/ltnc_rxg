@@ -90,7 +90,11 @@ Grazing interval: 1-year, 2-year, new
 # Abundance
 
 ```{r}
+mod_abun_nat <- lme4::lmer(
+  value_log ~ treatment + f_year +  plot_type + (1 + treatment | plot_name), 
+  data = abun_nat, REML = FALSE)
 
+equatiomatic::extract_eq(mod_abun_nat, wrap = TRUE)
 
 ```
 

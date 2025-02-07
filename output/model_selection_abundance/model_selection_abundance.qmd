@@ -414,10 +414,10 @@ The final model for each group was selected based on AICc, diagnostic plot revie
 The final models are presented in the table below, with detailed model selection information provided in subsequent sections. While all three models used a normal distribution and the same fixed and random effects structure (fixed effects for grazing treatment and survey year, and a random intercept and slope for treatment within plot name), the transformation of the abundance data differed slightly. The final models for native and native forb species were identical, using log-transformed abundance. The non-native model used a square root transformation of abundance.
 
 | Species | Response | Formula | Distribution |
-|------------------|------------------|------------------|------------------|
-| Native | log(Abundance) | grazing + survey year + (1 + grazing \| plot) | Normal |
-| Native forb | log(Abundance) | grazing + survey year + (1 + grazing \| plot) | Normal |
-| Non-native | sqrt(Abundance) | grazing + survey year + (1 + grazing \| plot) | Normal |
+|------------|--------------|---------------------------|------------------|
+| Native | log(Abundance) | grazing + survey year + plot type +  (grazing \| plot) | Normal |
+| Native forb | log(Abundance) | grazing + survey year + plot type + (grazing \| plot) | Normal |
+| Non-native | sqrt(Abundance) | grazing + survey year + 2-yr interval + (grazing \| plot) | Normal |
 
 : *Final abundance models*
 
@@ -430,7 +430,7 @@ The final models are presented in the table below, with detailed model selection
 ::: {.callout-note icon="false"}
 #### Final model for native species abundance
 
-log(Abundance) \~ grazing + survey year + (1 + grazing \| plot)
+log(Abundance) \~ grazing + survey year + plot type + (grazing \| plot)
 :::
 
 The log-transformed response with fixed effects for grazing treatment and survey year, and a random intercept and a random slope for treatment within plot name emerged as the best model for native species abundance.
@@ -543,7 +543,7 @@ The addition of sampling year as a fixed effect emerged as the best model after 
 ::: callout-note
 #### Best model after fixed effects selection
 
-log(Abundance) \~ grazing + survey year + (1 + grazing \| plot)
+log(Abundance) \~ grazing + survey year + (grazing \| plot)
 :::
 
 <br>
@@ -571,7 +571,7 @@ The final selected model included log-transformed abundance as the response vari
 ::: {.callout-note icon="false"}
 #### Final model for native species abundance
 
-log(Abundance) \~ grazing + survey year + (1 + grazing \| plot)
+log(Abundance) \~ grazing + survey year + (grazing \| plot)
 :::
 
 <br>

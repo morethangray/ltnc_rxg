@@ -36,7 +36,11 @@ fxn_backtransform <- function(index_data, index_value, index_transform) {
         index_transform == "sqrt" ~ (!!rlang::sym(index_value))^2, 
         index_transform == "log" ~ exp(!!rlang::sym(index_value) - 1e-6), 
         TRUE ~ !!rlang::sym(index_value)
-      )
+      ), 
+      bt_type = dplyr::case_when(
+        index_transform == "value" ~ "none", 
+        TRUE ~ index_transform
+      ), 
     )
 }
 
@@ -46,6 +50,7 @@ fxn_backtransform <- function(index_data, index_value, index_transform) {
 #' Computes and formats marginal means for a given statistical model
 #'
 #' @param index_model_name Name of the model object to analyze
+#' @param index_link Name of the link used to fit the model 
 #' @param lookup_tables A list of lookup tables for additional metadata
 #'
 #' @return A data frame with summarized marginal means and associated metadata
@@ -62,7 +67,7 @@ fxn_backtransform <- function(index_data, index_value, index_transform) {
 #' @importFrom dplyr mutate left_join select
 #' @importFrom stringr str_detect str_sub str_remove
 #' @export
-fxn_summarize_marginal_means <- function(index_model_name, lookup_tables) {
+fxn_summarize_marginal_means <- function(index_model_name, index_link, lookup_tables) {
   
   # Validate required packages
   required_packages <- c("broom", "dplyr", "marginaleffects", "janitor", "stringr")
@@ -86,6 +91,9 @@ fxn_summarize_marginal_means <- function(index_model_name, lookup_tables) {
   response <- if(stringr::str_detect(index_model_name, "abun")) "abundance" else "richness"
   subset <- stringr::str_sub(index_model_name, -3)
   transformation <- stringr::str_remove(as.character(formula(index_model))[2], "value_")
+  if(transformation == "value" & index_link != "none"){
+    transformation <- index_link
+  }
   
   # Compute marginal means
   marginal_means <- 
@@ -96,12 +104,20 @@ fxn_summarize_marginal_means <- function(index_model_name, lookup_tables) {
     fxn_backtransform(index_value = "estimate", index_transform = transformation) %>%
     fxn_backtransform(index_value = "conf_low", index_transform = transformation) %>%
     fxn_backtransform(index_value = "conf_high", index_transform = transformation) %>%
+    fxn_backtransform(index_value = "std_error", index_transform = transformation) %>%
     
     dplyr::mutate(
+      bt_std_error = bt_std_error * std_error,
       response = response, 
       abbr_subset = subset,
       model_name = index_model_name, 
       model_formula = model_formula
+    ) %>%
+    dplyr::rename(
+      raw_estimate = estimate, 
+      raw_conf_low = conf_low, 
+      raw_conf_high = conf_high, 
+      raw_std_error = std_error, 
     ) %>%
     dplyr::left_join(lookup_tables$lookup_model_subset, "abbr_subset") %>%
     dplyr::select(
@@ -113,7 +129,8 @@ fxn_summarize_marginal_means <- function(index_model_name, lookup_tables) {
       statistic,
       model_name,
       model_formula,
-      starts_with("abbr_")
+      starts_with("abbr_"), 
+      starts_with("raw_")
     )
   
   return(marginal_means)
@@ -125,6 +142,7 @@ fxn_summarize_marginal_means <- function(index_model_name, lookup_tables) {
 #' Performs pairwise comparisons and computes contrasts for statistical models
 #'
 #' @param index_model_name Name of the model object to analyze
+#' @param index_link Name of the link used to fit the model 
 #' @param lookup_tables A list of lookup tables for additional metadata
 #'
 #' @return A data frame with computed contrasts and associated statistical information
@@ -141,7 +159,7 @@ fxn_summarize_marginal_means <- function(index_model_name, lookup_tables) {
 #' @importFrom broom tidy
 #' @importFrom dplyr group_by summarize mutate left_join select
 #' @export
-fxn_summarize_contrasts <- function(index_model_name, lookup_tables) {
+fxn_summarize_contrasts <- function(index_model_name, index_link, lookup_tables) {
   
   # Validate required packages
   required_packages <- c("broom", "dplyr", "janitor", "marginaleffects", "stringr", "tibble")
@@ -165,7 +183,10 @@ fxn_summarize_contrasts <- function(index_model_name, lookup_tables) {
   response <- if(stringr::str_detect(index_model_name, "abun")) "abundance" else "richness"
   subset <- stringr::str_sub(index_model_name, -3)
   transformation <- stringr::str_remove(as.character(formula(index_model))[2], "value_")
-  
+  if(transformation == "value" & index_link != "none"){
+    transformation <- index_link
+  }
+
   # Extract predictor variables
   predictors <- attr(terms(index_model), "term.labels")
   
@@ -181,15 +202,21 @@ fxn_summarize_contrasts <- function(index_model_name, lookup_tables) {
     fxn_backtransform(index_value = "estimate", index_transform = transformation) %>%
     fxn_backtransform(index_value = "conf_low", index_transform = transformation) %>%
     fxn_backtransform(index_value = "conf_high", index_transform = transformation) %>%
-    dplyr::rename(
-      abbr_term = term, 
-      abbr_contrast = contrast
-    ) %>%
+    fxn_backtransform(index_value = "std_error", index_transform = transformation) %>%
     dplyr::mutate(
+      bt_std_error = bt_std_error * std_error,
       response = response, 
       abbr_subset = subset,
       model_name = index_model_name, 
       model_formula = model_formula
+    ) %>%
+    dplyr::rename(
+      abbr_term = term, 
+      abbr_contrast = contrast, 
+      raw_estimate = estimate, 
+      raw_conf_low = conf_low, 
+      raw_conf_high = conf_high, 
+      raw_std_error = std_error, 
     ) %>%
     dplyr::left_join(lookup_tables$lookup_model_subset, "abbr_subset") %>%
     dplyr::left_join(lookup_tables$lookup_model_term, "abbr_term") %>%
@@ -202,10 +229,10 @@ fxn_summarize_contrasts <- function(index_model_name, lookup_tables) {
       starts_with("bt"), 
       p_value, 
       statistic,
-      estimate_raw = estimate, 
       model_name, 
       model_formula, 
-      starts_with("abbr_")
+      starts_with("abbr_"), 
+      starts_with("raw_")
     )
   
   return(contrasts)

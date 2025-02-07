@@ -85,10 +85,10 @@ The final models are presented in the table below, with detailed model selection
 The final models for native and native forb species were identical, employing untransformed values, a negative binomial distribution, and the same fixed and random effects structure as the non-native model, with the addition of a fixed effect for plot type (PER, WAN).
 
 | Species | Response | Formula | Distribution |
-|------------------|------------------|------------------|------------------|
-| Native | Richness | grazing + survey year + plot type + (1 + grazing \| plot) | Negative binomial |
-| Native forb | Richness | grazing + survey year + plot type + (1 + grazing \| plot) | Negative binomial |
-| Non-native | log(Richness) | grazing + survey year + (1 + grazing \| plot) | Normal |
+|----|----|----|----|
+| Native | Richness | grazing + survey year + (1 \| plot type) + (grazing \| plot) | Negative binomial |
+| Native forb | Richness | grazing + survey year + (1 \| plot type) + (grazing \| plot) | Negative binomial |
+| Non-native | sqrt(Richness) | grazing + survey year + (grazing \| plot) | Normal |
 
 : *Final richness models*
 
@@ -99,7 +99,7 @@ The final models for native and native forb species were identical, employing un
 ::: {.callout-note icon="false"}
 #### Final model for native species richness
 
-log(richness) \~ grazing + survey year + plot type + (1 + grazing \| plot)
+log(richness) \~ grazing + survey year + (1 \| plot type) + (grazing \| plot)
 :::
 
 The log-transformed response with fixed effects for grazing treatment and survey year, and a random intercept and a random slope for treatment within plot name emerged as the best model for native species richness.
@@ -209,7 +209,7 @@ The addition of sampling year as a fixed effect emerged as the best model after 
 
 #### Best model after fixed effects selection
 
-log(richness) \~ grazing + survey year + (1 + grazing \| plot)
+log(richness) \~ grazing + survey year + (grazing \| plot)
 
 <br>
 
@@ -235,7 +235,7 @@ The final selected model included log-transformed richness as the response varia
 
 #### Final model for native species richness
 
-log(richness) \~ grazing + survey year + (1 + grazing \| plot)
+log(richness) \~ grazing + survey year + (grazing \| plot)
 
 <br>
 
