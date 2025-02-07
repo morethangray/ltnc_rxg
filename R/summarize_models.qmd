@@ -1,7 +1,8 @@
 ---
 title: "Model summaries"
 author: "Morgan Gray"
-date: 2025-02-06
+date: now
+date-format: "YYYY-MM-DD"
 format: 
   pdf:
     toc: true
@@ -19,7 +20,9 @@ execute:
   warning: false
 callout-icon: false
 number-sections: FALSE
-mainfont: "Gill Sans Nova Light"
+latex-output-dir: ../output
+
+mainfont: "Gill Sans Nova Light" 
 sansfont: "Gill Sans Nova Light"
 fontsize: 11pt
 code-overflow: wrap
@@ -327,7 +330,9 @@ fxn_tidy_table(contrasts_rich_non) %>%
 
 ```
 
-{{< pagebreak >}} \# Environment
+{{< pagebreak >}}
+
+# Environment
 
 You must run the scripts in fxn_summarize_models() with marginaleffects_0.5.0. If you use a later version you could (and probably will) get different results.
 

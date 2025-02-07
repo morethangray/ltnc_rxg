@@ -1,7 +1,0 @@
-response,subset,treatment,bt_estimate,bt_conf_low,bt_conf_high,p_value,statistic,model_name,model_formula,abbr_subset
-abundance,Native,Ungrazed,9.19300553418574,5.856453070421272,14.43046665538985,0,9.643118026930814,mod_abun_nat,treatment + f_year + plot_type + (1 + treatment | plot_name),nat
-abundance,Native,Grazed,18.35595673309215,13.085944191996635,25.74832527508594,0,16.853271056692623,mod_abun_nat,treatment + f_year + plot_type + (1 + treatment | plot_name),nat
-abundance,Native forb,Ungrazed,6.623625933963406,2.9905847408623547,14.670181357382868,3.1604878192315056e-6,4.660104568044428,mod_abun_frb,treatment + f_year + plot_type + (1 + treatment | plot_name),frb
-abundance,Native forb,Grazed,14.772375790327507,6.91422990778403,31.561444933293156,3.6044500717480332e-12,6.951883568669882,mod_abun_frb,treatment + f_year + plot_type + (1 + treatment | plot_name),frb
-abundance,Non-native,Ungrazed,50.84030345096375,44.86374111494688,57.19045699847847,0,32.334699580478386,mod_abun_non,treatment + f_year + f_two_yr + (1 | plot_name),non
-abundance,Non-native,Grazed,50.75774144280653,44.78618562716342,57.10288846986712,0,32.30843398107305,mod_abun_non,treatment + f_year + f_two_yr + (1 | plot_name),non

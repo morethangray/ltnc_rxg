@@ -22,16 +22,9 @@ fxn_setup_file_paths <- function() {
   # Create directories if they don't exist
   dirs_to_create <- c(
     path_in,
-    here::here(path_in, "data_raw"),
     here::here(path_in, "data_derived"),
     here::here(path_in, "lookup-tables"),
-    path_out,
-    here::here(path_out, "identify_distribution"),
-    here::here(path_out, "model_selection_abundance"),
-    here::here(path_out, "model_selection_richness"),
-    here::here(path_out, "summarize_models"),
-    here::here(path_out, "summarize_variables"),
-    here::here(path_out, "summary_tables")
+    path_out
   )
   
   # Create directories
@@ -53,16 +46,9 @@ fxn_setup_file_paths <- function() {
   return(list(
     path_r = path_r,
     path_in = path_in,
-    path_in_data_raw = here::here(path_in, "data_raw"),
     path_in_data_derived = here::here(path_in, "data_derived"),
     path_in_lookup = here::here(path_in, "lookup-tables"),
-    path_out = path_out,
-    path_out_identify_distribution = here::here(path_out, "identify_distribution"),
-    path_out_abundance = here::here(path_out, "model_selection_abundance"),
-    path_out_richness = here::here(path_out, "model_selection_richness"),
-    path_out_summarize_models = here::here(path_out, "summarize_models"),
-    path_out_summarize_variables = here::here(path_out, "summarize_variables"),
-    path_out_summary_tables = here::here(path_out, "summary_tables")
+    path_out = path_out
   ))
 }
 

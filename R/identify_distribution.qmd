@@ -1,7 +1,8 @@
 ---
 title: "Identify the distribution for each model"
 author: "Morgan Gray"
-date: 2025-02-06
+date: now
+date-format: "YYYY-MM-DD"
 format: 
   pdf:
     toc: true
@@ -19,6 +20,7 @@ execute:
   warning: false
 callout-icon: false
 number-sections: FALSE
+latex-output-dir: ../output
 
 mainfont: "Gill Sans Nova Light" 
 sansfont: "Gill Sans Nova Light"

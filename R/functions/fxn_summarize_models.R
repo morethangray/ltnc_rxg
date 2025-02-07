@@ -67,7 +67,7 @@ fxn_backtransform <- function(index_data, index_value, index_transform) {
 #' @importFrom dplyr mutate left_join select
 #' @importFrom stringr str_detect str_sub str_remove
 #' @export
-fxn_summarize_marginal_means <- function(index_model_name, index_link, lookup_tables) {
+fxn_summarize_marginal_means <- function(index_model_name, lookup_tables) {
   
   # Validate required packages
   required_packages <- c("broom", "dplyr", "marginaleffects", "janitor", "stringr")
@@ -91,9 +91,9 @@ fxn_summarize_marginal_means <- function(index_model_name, index_link, lookup_ta
   response <- if(stringr::str_detect(index_model_name, "abun")) "abundance" else "richness"
   subset <- stringr::str_sub(index_model_name, -3)
   transformation <- stringr::str_remove(as.character(formula(index_model))[2], "value_")
-  if(transformation == "value" & index_link != "none"){
-    transformation <- index_link
-  }
+  # if(transformation == "value" & index_link != "none"){
+  #   transformation <- index_link
+  # }
   
   # Compute marginal means
   marginal_means <- 
@@ -159,7 +159,7 @@ fxn_summarize_marginal_means <- function(index_model_name, index_link, lookup_ta
 #' @importFrom broom tidy
 #' @importFrom dplyr group_by summarize mutate left_join select
 #' @export
-fxn_summarize_contrasts <- function(index_model_name, index_link, lookup_tables) {
+fxn_summarize_contrasts <- function(index_model_name, lookup_tables) {
   
   # Validate required packages
   required_packages <- c("broom", "dplyr", "janitor", "marginaleffects", "stringr", "tibble")
@@ -183,9 +183,9 @@ fxn_summarize_contrasts <- function(index_model_name, index_link, lookup_tables)
   response <- if(stringr::str_detect(index_model_name, "abun")) "abundance" else "richness"
   subset <- stringr::str_sub(index_model_name, -3)
   transformation <- stringr::str_remove(as.character(formula(index_model))[2], "value_")
-  if(transformation == "value" & index_link != "none"){
-    transformation <- index_link
-  }
+  # if(transformation == "value" & index_link != "none"){
+  #   transformation <- index_link
+  # }
 
   # Extract predictor variables
   predictors <- attr(terms(index_model), "term.labels")

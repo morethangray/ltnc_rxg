@@ -1,7 +1,8 @@
 ---
 title: "Variable summaries"
 author: "Morgan Gray"
-date: 2025-02-05
+date: now
+date-format: "YYYY-MM-DD"
 format: 
   pdf:
     toc: true
@@ -19,6 +20,7 @@ execute:
   warning: false
 callout-icon: false
 number-sections: FALSE
+latex-output-dir: ../output
 
 mainfont: "Gill Sans Nova Light" 
 sansfont: "Gill Sans Nova Light"
@@ -31,42 +33,21 @@ code-overflow: wrap
 source(here::here("R/1_setup.R"))
 
 # Create functions to summarize the metrics by variable group
-source(here::here("R/functions/fxn_summarize_models.R"))
+# source(here::here("R/functions/fxn_summarize_models.R"))
 
 # Create function for pretty tables 
-source(here::here("R/functions/fxn_kable.R"))
-
-# # Create functions to tidy tables 
-# fxn_tidy_table <- function(index_table){
-#   
-#   index_table %>%
-#     dplyr::mutate(estimate = round(bt_estimate, 2), 
-#                   conf_low = round(bt_conf_low, 2),
-#                   conf_high = round(bt_conf_high, 2), 
-#                   statistic = round(statistic, 2)) %>%
-#     dplyr::select(dplyr::any_of(c(
-#       # "subset", 
-#       "treatment",
-#       "term",
-#       "contrast",
-#       "estimate", 
-#       "conf_low", 
-#       "conf_high",
-#       "p_value", 
-#       "statistic")))
-#   
-# }
+# source(here::here("R/functions/fxn_kable.R"))
 
 # Create input data subsets 
-abun <- rich_abun$abundance  
-abun_nat <- abun$abun_nat 
-abun_frb <- abun$abun_frb
-abun_non <- abun$abun_non
-
-rich <- rich_abun$richness
-rich_nat <- rich$rich_nat
-rich_frb <- rich$rich_frb
-rich_non <- rich$rich_non
+# abun <- rich_abun$abundance  
+# abun_nat <- abun$abun_nat 
+# abun_frb <- abun$abun_frb
+# abun_non <- abun$abun_non
+# 
+# rich <- rich_abun$richness
+# rich_nat <- rich$rich_nat
+# rich_frb <- rich$rich_frb
+# rich_non <- rich$rich_non
 
 
 ```
@@ -90,11 +71,9 @@ Grazing interval: 1-year, 2-year, new
 # Abundance
 
 ```{r}
-mod_abun_nat <- lme4::lmer(
-  value_log ~ treatment + f_year +  plot_type + (1 + treatment | plot_name), 
-  data = abun_nat, REML = FALSE)
-
-equatiomatic::extract_eq(mod_abun_nat, wrap = TRUE)
+# mod_abun_nat <- lme4::lmer(
+#   value_log ~ treatment + f_year +  plot_type + (1 + treatment | plot_name), 
+#   data = abun_nat, REML = FALSE)
 
 ```
 

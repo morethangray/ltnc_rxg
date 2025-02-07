@@ -104,3 +104,5 @@ fxn_load_rich_abun <- function(project_paths) {
   ))
 }
 
+# Run the function to create data as a list in working memory
+rich_abun <- fxn_load_rich_abun(project_paths = project_paths)
