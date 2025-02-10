@@ -38,7 +38,7 @@ fxn_rich <- function(index_data, index_subset, index_native, lookup_tables) {
     dplyr::group_by(index_g) %>%
     dplyr::summarize(value = dplyr::n_distinct(genus_species)) %>%
     dplyr::ungroup() %>%
-    dplyr::right_join(lookup_tables$lookup_annotation, "index_g") %>%
+    dplyr::right_join(lookup_tables$lookup_plots, "index_g") %>%
     dplyr::mutate(
       subset = index_subset,
       metric = "rich",
@@ -104,7 +104,7 @@ fxn_abun <- function(index_data, index_subset, index_native, lookup_tables) {
     dplyr::group_by(index_g) %>%
     dplyr::summarize(value = sum(value, na.rm = TRUE)) %>%
     dplyr::ungroup() %>%
-    dplyr::right_join(lookup_tables$lookup_annotation, "index_g") %>%
+    dplyr::right_join(lookup_tables$lookup_plots, "index_g") %>%
     dplyr::mutate(
       subset = index_subset,
       metric = "abun",

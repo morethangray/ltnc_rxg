@@ -1,0 +1,9 @@
+﻿abbr_term,term,order
+treatment,Grazing treatment,1
+f_year,Year,2
+plot_type,Plot type,3
+f_break,Interval,4
+f_new,New plot,5
+f_one_yr,1y Break,6
+f_two_yr,2y Break,7
+grazer,Grazer,8

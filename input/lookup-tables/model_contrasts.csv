@@ -1,0 +1,19 @@
+﻿abbr_contrast,contrast,order,abbr_term
+Grazed - Ungrazed,Grazed - Ungrazed,1,treatment
+y5 - y4,2020 - 2019,2,f_year
+y6 - y4,2021 - 2019,3,f_year
+y7 - y4,2022 - 2019,4,f_year
+y6 - y5,2021 - 2020,5,f_year
+y7 - y5,2022 - 2020,6,f_year
+y7 - y6,2022 - 2021,7,f_year
+w - p,WAN - PER,8,plot_type
+t1 - t0,2y Break,9,f_two_yr
+mean(Grazed) - mean(Ungrazed),Grazed - Ungrazed,10,treatment
+mean(y5) - mean(y4),2020 - 2019,11,f_year
+mean(y6) - mean(y4),2021 - 2019,12,f_year
+mean(y7) - mean(y4),2022 - 2019,13,f_year
+mean(y6) - mean(y5),2021 - 2020,14,f_year
+mean(y7) - mean(y5),2022 - 2020,15,f_year
+mean(y7) - mean(y6),2022 - 2021,16,f_year
+mean(w) - mean(p),WAN - PER,17,plot_type
+mean(t1) - mean(t0),2y Break,18,f_two_yr

@@ -1,0 +1,319 @@
+﻿orig_name,taxonomic_name,genus_species,f_native,f_forb,include_plant,has_mult_taxa,is_native,is_forb
+Achillea millefolium,Achillea millefolium,Achillea millefolium,n1,f1,TRUE,FALSE,TRUE,TRUE
+Achyrachaena mollis,Achyrachaena mollis,Achyrachaena mollis,n1,f1,TRUE,FALSE,TRUE,TRUE
+Acmipson americanus var. amer.,Acmispon americanus var. americanus,Acmispon americanus,n1,f1,TRUE,TRUE,TRUE,TRUE
+Acmipson americanus var. americanus,Acmispon americanus var. americanus,Acmispon americanus,n1,f1,TRUE,TRUE,TRUE,TRUE
+Acmispon micranthus,Acmispon micranthus,Acmispon micranthus,n1,f1,TRUE,FALSE,TRUE,TRUE
+Acmispon parviflorus,Acmispon parviflorus,Acmispon parviflorus,n1,f1,TRUE,FALSE,TRUE,TRUE
+Acmispon wrangelianus,Acmispon wrangelianus,Acmispon wrangelianus,n1,f1,TRUE,FALSE,TRUE,TRUE
+Adiantum jordanii,Adiantum jordanii,Adiantum jordanii,n1,f1,TRUE,FALSE,TRUE,TRUE
+Adiantum jordanii (2020),Adiantum jordanii,Adiantum jordanii,n1,f1,TRUE,FALSE,TRUE,TRUE
+Aegilops triuncialis,Aegilops triuncialis,Aegilops triuncialis,n0,f0,TRUE,FALSE,FALSE,FALSE
+Aesculus californica,Aesculus californica,Aesculus californica,n1,f0,TRUE,FALSE,TRUE,FALSE
+Aesculus californica (native),Aesculus californica,Aesculus californica,n1,f0,TRUE,FALSE,TRUE,FALSE
+Agoseris grandiflora,Agoseris grandiflora,Agoseris grandiflora,n1,f1,TRUE,FALSE,TRUE,TRUE
+Agoseris grandiflora (2020),Agoseris grandiflora,Agoseris grandiflora,n1,f1,TRUE,FALSE,TRUE,TRUE
+Agoseris heterophylla,Agoseris heterophylla,Agoseris heterophylla,n1,f1,TRUE,TRUE,TRUE,TRUE
+Agoseris heterophylla var. het.,Agoseris heterophylla var. heterophylla,Agoseris heterophylla,n1,f1,TRUE,TRUE,TRUE,TRUE
+Agoseris heterophylla var. heterophylla,Agoseris heterophylla var. heterophylla,Agoseris heterophylla,n1,f1,TRUE,TRUE,TRUE,TRUE
+Agoseris retrorsa,Agoseris retrorsa,Agoseris retrorsa,n1,f1,TRUE,FALSE,TRUE,TRUE
+Agrostis pallens (2020),Agrostis pallens,Agrostis pallens,n1,f0,TRUE,FALSE,TRUE,FALSE
+Aira caryophyllea,Aira caryophyllea,Aira caryophyllea,n0,f0,TRUE,FALSE,FALSE,FALSE
+Aira caryophyllea,Aira caryophyllea,Aira caryophyllea,n0,f0,TRUE,FALSE,FALSE,FALSE
+Alopecurus saccatus,Alopecurus saccatus,Alopecurus saccatus,n1,f0,TRUE,FALSE,TRUE,FALSE
+Alopecurus saccatus (grass),Alopecurus saccatus,Alopecurus saccatus,n1,f0,TRUE,FALSE,TRUE,FALSE
+Amsinckia intermedia,Amsinckia intermedia,Amsinckia intermedia,n1,f1,TRUE,FALSE,TRUE,TRUE
+Amsinckia intermedia (2021),Amsinckia intermedia,Amsinckia intermedia,n1,f1,TRUE,FALSE,TRUE,TRUE
+Anagallis arvensis,Anagallis arvensis,Anagallis arvensis,n0,f1,TRUE,FALSE,FALSE,TRUE
+Aphanes occidentalis,Aphanes occidentalis,Aphanes occidentalis,n1,f1,TRUE,FALSE,TRUE,TRUE
+Apiastrum angustifolium,Apiastrum angustifolium,Apiastrum angustifolium,n1,f1,TRUE,FALSE,TRUE,TRUE
+Arctostaphylos manzanita,Arctostaphylos manzanita,Arctostaphylos manzanita,n1,f0,TRUE,FALSE,TRUE,FALSE
+Astragalus gambelianus,Astragalus gambelianus,Astragalus gambelianus,n1,f0,TRUE,FALSE,TRUE,FALSE
+Athysanus pusillus,Athysanus pusillus,Athysanus pusillus,n1,f1,TRUE,FALSE,TRUE,TRUE
+Avena barbata,Avena barbata,Avena barbata,n0,f0,TRUE,FALSE,FALSE,FALSE
+Avena barbata  ,Avena barbata,Avena barbata,n0,f0,TRUE,FALSE,FALSE,FALSE
+Avena barbata     ,Avena barbata,Avena barbata,n0,f0,TRUE,FALSE,FALSE,FALSE
+Brachypodium distachyon,Brachypodium distachyon,Brachypodium distachyon,n0,f0,TRUE,FALSE,FALSE,FALSE
+Briza minor,Briza minor,Briza minor,n0,f0,TRUE,FALSE,FALSE,FALSE
+Briza minor (2021),Briza minor,Briza minor,n0,f0,TRUE,FALSE,FALSE,FALSE
+Brodiaea elegans,Brodiaea elegans,Brodiaea elegans,n1,f1,TRUE,FALSE,TRUE,TRUE
+Brodiaea sp.,Brodiaea spp.,Brodiaea spp.,n1,f1,FALSE,FALSE,TRUE,TRUE
+Brodiaea sp. ,Brodiaea spp.,Brodiaea spp.,n1,f1,FALSE,FALSE,TRUE,TRUE
+Brodiaea sp. *,Brodiaea spp.,Brodiaea spp.,n1,f1,FALSE,FALSE,TRUE,TRUE
+Brodiaea sp. *,Brodiaea spp.,Brodiaea spp.,n1,f1,FALSE,FALSE,TRUE,TRUE
+Bromus carinatus var. car.,Bromus carinatus var. carinatus,Bromus carinatus,n1,f0,TRUE,TRUE,TRUE,FALSE
+Bromus carinatus var. carinatus,Bromus carinatus var. carinatus,Bromus carinatus,n1,f0,TRUE,TRUE,TRUE,FALSE
+Bromus carinatus var. carinatus (grass),Bromus carinatus var. carinatus,Bromus carinatus,n1,f0,TRUE,TRUE,TRUE,FALSE
+Bromus diandrus,Bromus diandrus,Bromus diandrus,n0,f0,TRUE,FALSE,FALSE,FALSE
+Bromus hordeaceus,Bromus hordeaceus,Bromus hordeaceus,n0,f0,TRUE,FALSE,FALSE,FALSE
+Bromus madritensis ssp. madritensis,Bromus madritensis ssp. madritensis,Bromus madritensis,n0,f0,TRUE,TRUE,FALSE,FALSE
+Bromus sterilis,Bromus sterilis,Bromus sterilis,n0,f0,TRUE,FALSE,FALSE,FALSE
+Bromus sterilis (20),Bromus sterilis,Bromus sterilis,n0,f0,TRUE,FALSE,FALSE,FALSE
+Bromus sterilis (2020),Bromus sterilis,Bromus sterilis,n0,f0,TRUE,FALSE,FALSE,FALSE
+Cadamine oligosperma,Cardamine oligosperma,Cardamine oligosperma,n1,f1,TRUE,FALSE,TRUE,TRUE
+Callitriche heterophylla,Callitriche heterophylla,Callitriche heterophylla,n1,f1,TRUE,FALSE,TRUE,TRUE
+Calochortus luteus,Calochortus luteus,Calochortus luteus,n1,f1,TRUE,FALSE,TRUE,TRUE
+Cardamine californica,Cardamine californica,Cardamine californica,n1,f1,TRUE,FALSE,TRUE,TRUE
+Cardamine californica (2020),Cardamine californica,Cardamine californica,n1,f1,TRUE,FALSE,TRUE,TRUE
+Cardamine oligosperma,Cardamine oligosperma,Cardamine oligosperma,n1,f1,TRUE,FALSE,TRUE,TRUE
+Cardmine oligosperma,Cardamine oligosperma,Cardamine oligosperma,n1,f1,TRUE,FALSE,TRUE,TRUE
+Carduus pycnocephalus ssp. pycn.,Carduus pycnocephalus ssp. pycnocephalus,Carduus pycnocephalus,n0,f1,TRUE,TRUE,FALSE,TRUE
+Carduus pycnocephalus ssp. pycno.,Carduus pycnocephalus ssp. pycnocephalus,Carduus pycnocephalus,n0,f1,TRUE,TRUE,FALSE,TRUE
+Carex tumulicola,Carex tumulicola,Carex tumulicola,n1,f1,TRUE,FALSE,TRUE,TRUE
+Castilleja attenuata,Castilleja attenuata,Castilleja attenuata,n1,f1,TRUE,FALSE,TRUE,TRUE
+Centaurea melitensis,Centaurea melitensis,Centaurea melitensis,n0,f1,TRUE,FALSE,FALSE,TRUE
+Centaurea melitensis (new 2018),Centaurea melitensis,Centaurea melitensis,n0,f1,TRUE,FALSE,FALSE,TRUE
+Centaurea solstitialis,Centaurea solstitialis,Centaurea solstitialis,n0,f1,TRUE,FALSE,FALSE,TRUE
+Cerastium glomeratum,Cerastium glomeratum,Cerastium glomeratum,n0,f1,TRUE,FALSE,FALSE,TRUE
+Ceratium glomeratum,Cerastium glomeratum,Cerastium glomeratum,n0,f1,TRUE,FALSE,FALSE,TRUE
+Chlorogalum pomeridianum var. pom.,Chlorogalum pomeridianum var. pomeridianum,Chlorogalum pomeridianum,n1,f1,TRUE,TRUE,TRUE,TRUE
+Cichorium intybus,Cichorium intybus,Cichorium intybus,n0,f1,TRUE,FALSE,FALSE,TRUE
+Clarkia gracilis ssp gracilis (2020),Clarkia gracilis ssp. gracilis,Clarkia gracilis,n1,f1,TRUE,TRUE,TRUE,TRUE
+Clarkia gracilis ssp. gracilis (2020),Clarkia gracilis ssp. gracilis,Clarkia gracilis,n1,f1,TRUE,TRUE,TRUE,TRUE
+Clarkia purpurea ssp. quadrivulnera,Clarkia purpurea ssp. quadrivulnera,Clarkia purpurea,n1,f1,TRUE,TRUE,TRUE,TRUE
+Clarkia unguicalata,Clarkia unguiculata,Clarkia unguiculata,n1,f1,TRUE,FALSE,TRUE,TRUE
+Clarkia unguicalata (2020),Clarkia unguiculata,Clarkia unguiculata,n1,f1,TRUE,FALSE,TRUE,TRUE
+Claytonia perfoliata,Claytonia perfoliata,Claytonia perfoliata,n1,f1,TRUE,TRUE,TRUE,TRUE
+Claytonia perfoliata ssp. perf.,Claytonia perfoliata ssp. perfoliata,Claytonia perfoliata,n1,f1,TRUE,TRUE,TRUE,TRUE
+Claytonia perfoliata ssp. perfoliata,Claytonia perfoliata ssp. perfoliata,Claytonia perfoliata,n1,f1,TRUE,TRUE,TRUE,TRUE
+Collinsia heterophylla,Collinsia heterophylla,Collinsia heterophylla,n1,f1,TRUE,FALSE,TRUE,TRUE
+Collinsia heterophylla (2020),Collinsia heterophylla,Collinsia heterophylla,n1,f1,TRUE,FALSE,TRUE,TRUE
+Collinsia sparsiflora,Collinsia sparsiflora,Collinsia sparsiflora,n1,f1,TRUE,TRUE,TRUE,TRUE
+Collinsia sparsiflora var. sp.,Collinsia sparsiflora var. sparsiflora,Collinsia sparsiflora,n1,f1,TRUE,TRUE,TRUE,TRUE
+Collinsia sparsiflora var. sparsiflora,Collinsia sparsiflora var. sparsiflora,Collinsia sparsiflora,n1,f1,TRUE,TRUE,TRUE,TRUE
+Convolvulus arvensis,Convolvulus arvensis,Convolvulus arvensis,n0,f1,TRUE,FALSE,FALSE,TRUE
+Cordylanthus pilosus (2020),Cordylanthus pilosus,Cordylanthus pilosus,n1,f1,TRUE,FALSE,TRUE,TRUE
+Crassula connata,Crassula connata,Crassula connata,n1,f1,TRUE,FALSE,TRUE,TRUE
+Cynoglossum grande,Cynoglossum grande,Cynoglossum grande,n1,f1,TRUE,FALSE,TRUE,TRUE
+Cynosurus echinatus,Cynosurus echinatus,Cynosurus echinatus,n0,f0,TRUE,FALSE,FALSE,FALSE
+Dactylis glomerata,Dactylis glomerata,Dactylis glomerata,n0,f0,TRUE,FALSE,FALSE,FALSE
+Dactylis glomerata (2020),Dactylis glomerata,Dactylis glomerata,n0,f0,TRUE,FALSE,FALSE,FALSE
+Daucus pusillus,Daucus pusillus,Daucus pusillus,n1,f1,TRUE,FALSE,TRUE,TRUE
+Delphinium sp.,Delphinium spp.,Delphinium spp.,n1,f1,FALSE,FALSE,TRUE,TRUE
+Delphinium variegatum,Delphinium variegatum,Delphinium variegatum,n1,f1,TRUE,FALSE,TRUE,TRUE
+Delphinium variegatum (2020),Delphinium variegatum,Delphinium variegatum,n1,f1,TRUE,FALSE,TRUE,TRUE
+Dichelostemma capitatum,Dichelostemma capitatum,Dichelostemma capitatum,n1,f1,TRUE,FALSE,TRUE,TRUE
+Dichelostemma congestum,Dichelostemma congestum,Dichelostemma congestum,n1,f1,TRUE,FALSE,TRUE,TRUE
+Dodecatheon hendersonii,Dodecatheon hendersonii,Dodecatheon hendersonii,n1,f1,TRUE,FALSE,TRUE,TRUE
+Dodecatheon hendersonii (=Primula h.),Dodecatheon hendersonii,Dodecatheon hendersonii,n1,f1,TRUE,FALSE,TRUE,TRUE
+Dodecatheon hendersonii (2020) = Primula,Dodecatheon hendersonii,Dodecatheon hendersonii,n1,f1,TRUE,FALSE,TRUE,TRUE
+Downingia concolor var. concolor,Downingia concolor var. concolor,Downingia concolor,n1,f1,TRUE,TRUE,TRUE,TRUE
+dry,dry,dry N/A,N/A,N/A,FALSE,FALSE,N/A,N/A
+dry (grasses and forbs),dry,dry N/A,N/A,N/A,FALSE,FALSE,N/A,N/A
+Eleocharis macrostachya,Eleocharis macrostachya,Eleocharis macrostachya,n1,f1,TRUE,FALSE,TRUE,TRUE
+Elymus caput-medusae,Elymus caput-medusae,Elymus caput-medusae,n0,f1,TRUE,FALSE,FALSE,TRUE
+Elymus glaucus ssp. gla.,Elymus glaucus ssp. glaucus,Elymus glaucus,n1,f0,TRUE,TRUE,TRUE,FALSE
+Elymus glaucus ssp. glaucus,Elymus glaucus ssp. glaucus,Elymus glaucus,n1,f0,TRUE,TRUE,TRUE,FALSE
+Elymus glaucus ssp. glaucus (grass),Elymus glaucus ssp. glaucus,Elymus glaucus,n1,f0,TRUE,TRUE,TRUE,FALSE
+Epilobium brachycarpum,Epilobium brachycarpum,Epilobium brachycarpum,n1,f1,TRUE,FALSE,TRUE,TRUE
+Erigeron foliosus,Erigeron foliosus,Erigeron foliosus,n1,f1,TRUE,TRUE,TRUE,TRUE
+Erigeron foliosus ?,Erigeron foliosus,Erigeron foliosus,n1,f1,TRUE,TRUE,TRUE,TRUE
+Erigeron foliosus var. franciscanus,Erigeron foliosus var. franciscanus,Erigeron foliosus,n1,f1,TRUE,TRUE,TRUE,TRUE
+Erigeron sp.,Erigeron spp.,Erigeron spp.,n1,f1,FALSE,FALSE,TRUE,TRUE
+Erodium botrys,Erodium botrys,Erodium botrys,n0,f1,TRUE,FALSE,FALSE,TRUE
+Erodium cicutarium,Erodium cicutarium,Erodium cicutarium,n0,f1,TRUE,FALSE,FALSE,TRUE
+Erodium moschatum,Erodium moschatum,Erodium moschatum,n0,f1,TRUE,FALSE,FALSE,TRUE
+Euphorbia spathulata,Euphorbia spathulata,Euphorbia spathulata,n1,f1,TRUE,FALSE,TRUE,TRUE
+Eurybia radulina,Eurybia radulina,Eurybia radulina,n1,f1,TRUE,FALSE,TRUE,TRUE
+Festuca bromoides,Festuca bromoides,Festuca bromoides,n0,f0,TRUE,FALSE,FALSE,FALSE
+Festuca californica,Festuca californica,Festuca californica,n1,f0,TRUE,FALSE,TRUE,FALSE
+Festuca idahoensis,Festuca idahoensis,Festuca idahoensis,n1,f0,TRUE,FALSE,TRUE,FALSE
+Festuca idahoensis,Festuca idahoensis,Festuca idahoensis,n1,f0,TRUE,FALSE,TRUE,FALSE
+Festuca idahoensis (grass),Festuca idahoensis,Festuca idahoensis,n1,f0,TRUE,FALSE,TRUE,FALSE
+Festuca microstachys,Festuca microstachys,Festuca microstachys,n1,f0,TRUE,FALSE,TRUE,FALSE
+Festuca microstachys (grass),Festuca microstachys,Festuca microstachys,n1,f0,TRUE,FALSE,TRUE,FALSE
+Festuca myorus,Festuca myorus,Festuca myorus,n0,f0,TRUE,FALSE,FALSE,FALSE
+Festuca perennis,Festuca perennis,Festuca perennis,n0,f0,TRUE,FALSE,FALSE,FALSE
+Fritillaria affinis,Fritillaria affinis,Fritillaria affinis,n1,f1,TRUE,FALSE,TRUE,TRUE
+Galium aparine,Galium aparine,Galium aparine,n1,f1,TRUE,FALSE,TRUE,TRUE
+Galium aparine,Galium aparine,Galium aparine,n1,f1,TRUE,FALSE,TRUE,TRUE
+Galium murale,Galium murale,Galium murale,n0,f1,TRUE,FALSE,FALSE,TRUE
+Galium parisiense,Galium parisiense,Galium parisiense,n0,f1,TRUE,FALSE,FALSE,TRUE
+Galium porrigens,Galium porrigens,Galium porrigens,n1,f1,TRUE,TRUE,TRUE,TRUE
+Galium porrigens ssp. porrigens,Galium porrigens ssp. porrigens,Galium porrigens,n1,f1,TRUE,TRUE,TRUE,TRUE
+Galium sp.,Galium spp.,Galium spp.,n0,f1,FALSE,FALSE,FALSE,TRUE
+Gastridium phleoides,Gastridium phleoides,Gastridium phleoides,n0,f0,TRUE,FALSE,FALSE,FALSE
+geophyte species,geophyte,geophyte N/A,n1,f1,FALSE,FALSE,TRUE,TRUE
+Geranium carolinianum,Geranium carolinianum,Geranium carolinianum,n1,f1,TRUE,FALSE,TRUE,TRUE
+Geranium dissectum,Geranium dissectum,Geranium dissectum,n0,f1,TRUE,FALSE,FALSE,TRUE
+Geranium molle,Geranium molle,Geranium molle,n0,f1,TRUE,FALSE,FALSE,TRUE
+Geranium purpureum,Geranium purpureum,Geranium purpureum,n0,f1,TRUE,FALSE,FALSE,TRUE
+Geranium sp.,Geranium spp.,Geranium spp.,n0,f1,FALSE,FALSE,FALSE,TRUE
+Githopsis specularioides,Githopsis specularioides,Githopsis specularioides,n1,f1,TRUE,FALSE,TRUE,TRUE
+grass sp.,grass,grass N/A,N/A,f0,FALSE,FALSE,N/A,FALSE
+grass species,grass,grass N/A,N/A,f0,FALSE,FALSE,N/A,FALSE
+Helminthotheca echioides,Helminthotheca echioides,Helminthotheca echioides,n0,f1,TRUE,FALSE,FALSE,TRUE
+Heterocodon rariflorum,Heterocodon rariflorum,Heterocodon rariflorum,n1,f1,TRUE,FALSE,TRUE,TRUE
+Heteromeles arbutifolia,Heteromeles arbutifolia,Heteromeles arbutifolia,n1,f1,TRUE,FALSE,TRUE,TRUE
+Hordeum marinum,Hordeum marinum,Hordeum marinum,n0,f0,TRUE,FALSE,FALSE,FALSE
+Hordeum murinum leporinum,Hordeum murinum ssp. leporinum,Hordeum murinum,n0,f0,TRUE,TRUE,FALSE,FALSE
+Hordeum murinum ssp. leporinum,Hordeum murinum ssp. leporinum,Hordeum murinum,n0,f0,TRUE,TRUE,FALSE,FALSE
+Hypericum perforatum,Hypericum perforatum,Hypericum perforatum,n0,f1,TRUE,FALSE,FALSE,TRUE
+Hypochaeris glabra,Hypochaeris glabra,Hypochaeris glabra,n0,f1,TRUE,FALSE,FALSE,TRUE
+Iris macrosiphon,Iris macrosiphon,Iris macrosiphon,n1,f1,TRUE,FALSE,TRUE,TRUE
+Juncus bufonius,Juncus bufonius,Juncus bufonius,n1,f1,TRUE,FALSE,TRUE,TRUE
+Juncus occidentalis,Juncus occidentalis,Juncus occidentalis,n1,f1,TRUE,FALSE,TRUE,TRUE
+Koeleria macrantha,Koeleria macrantha,Koeleria macrantha,n1,f0,TRUE,FALSE,TRUE,FALSE
+Koeleria macrantha (grass),Koeleria macrantha,Koeleria macrantha,n1,f0,TRUE,FALSE,TRUE,FALSE
+Lactuca saligna,Lactuca saligna,Lactuca saligna,n0,f1,TRUE,FALSE,FALSE,TRUE
+Lactuca serriola,Lactuca serriola,Lactuca serriola,n0,f1,TRUE,FALSE,FALSE,TRUE
+Lactuca sp.,Lactuca spp.,Lactuca spp.,n0,f1,FALSE,FALSE,FALSE,TRUE
+Lagophylla ramosissima,Lagophylla ramosissima,Lagophylla ramosissima,n1,f1,TRUE,FALSE,TRUE,TRUE
+Lasthenia californica,Lasthenia californica,Lasthenia californica,n1,f1,TRUE,FALSE,TRUE,TRUE
+Lasthenia californica (2020),Lasthenia californica,Lasthenia californica,n1,f1,TRUE,FALSE,TRUE,TRUE
+Lasthenia glaberimma,Lasthenia glaberimma,Lasthenia glaberimma,n1,f1,TRUE,FALSE,TRUE,TRUE
+Lathyrus angulatus,Lathyrus angulatus,Lathyrus angulatus,n0,f1,TRUE,FALSE,FALSE,TRUE
+Lathyrus hirsutus,Lathyrus hirsutus,Lathyrus hirsutus,n0,f1,TRUE,FALSE,FALSE,TRUE
+Lathyrus vestitus,Lathyrus vestitus,Lathyrus vestitus,n1,f1,TRUE,FALSE,TRUE,TRUE
+Leontodon saxatilis (2020),Leontodon saxatilis,Leontodon saxatilis,n0,f1,TRUE,TRUE,FALSE,TRUE
+Leontodon saxatilis ssp. long. (2020),Leontodon saxatilis ssp. longirostris,Leontodon saxatilis,n0,f1,TRUE,TRUE,FALSE,TRUE
+Leontodon saxatilis ssp. longirostris,Leontodon saxatilis ssp. longirostris,Leontodon saxatilis,n0,f1,TRUE,TRUE,FALSE,TRUE
+Leontodon saxatilis ssp. longirostris (2020),Leontodon saxatilis ssp. longirostris,Leontodon saxatilis,n0,f1,TRUE,TRUE,FALSE,TRUE
+Leontodon saxatilis var. longirostris,Leontodon saxatilis ssp. longirostris,Leontodon saxatilis,n0,f1,TRUE,TRUE,FALSE,TRUE
+Leptosiphon jepsonii,Leptosiphon jepsonii,Leptosiphon jepsonii,n1,f1,TRUE,FALSE,TRUE,TRUE
+Leptosiphon jepsonii ,Leptosiphon jepsonii,Leptosiphon jepsonii,n1,f1,TRUE,FALSE,TRUE,TRUE
+Leptosiphon jepsonii (CNPS 1B),Leptosiphon jepsonii,Leptosiphon jepsonii,n1,f1,TRUE,FALSE,TRUE,TRUE
+Leptosiphon parviflorus,Leptosiphon parviflorus,Leptosiphon parviflorus,n1,f1,TRUE,FALSE,TRUE,TRUE
+Limnanthes douglasii var. nivea,Limnanthes douglasii var. nivea,Limnanthes douglasii,n1,f1,TRUE,TRUE,TRUE,TRUE
+Linum bienne,Linum bienne,Linum bienne,n0,f1,TRUE,FALSE,FALSE,TRUE
+Lithophragma affine,Lithophragma affine,Lithophragma affine,n1,f1,TRUE,FALSE,TRUE,TRUE
+Lithophramna  parviflora,Lithophragma parviflorum,Lithophragma parviflorum,n1,f1,TRUE,FALSE,TRUE,TRUE
+Logfia gallica,Logfia gallica,Logfia gallica,n0,f1,TRUE,FALSE,FALSE,TRUE
+Lotus corniculatus,Lotus corniculatus,Lotus corniculatus,n0,f1,TRUE,FALSE,FALSE,TRUE
+Lupinus bicolor,Lupinus bicolor,Lupinus bicolor,n1,f1,TRUE,FALSE,TRUE,TRUE
+Lupinus nanus,Lupinus nanus,Lupinus nanus,n1,f1,TRUE,FALSE,TRUE,TRUE
+Lupinus nanus (2020),Lupinus nanus,Lupinus nanus,n1,f1,TRUE,FALSE,TRUE,TRUE
+Lythrum hyssopifolia,Lythrum hyssopifolia,Lythrum hyssopifolia,n0,f1,TRUE,FALSE,FALSE,TRUE
+Madia exigua,Madia exigua,Madia exigua,n1,f1,TRUE,FALSE,TRUE,TRUE
+Madia gracilis,Madia gracilis,Madia gracilis,n1,f1,TRUE,FALSE,TRUE,TRUE
+Madia sp.,Madia spp.,Madia spp.,n1,f1,FALSE,FALSE,TRUE,TRUE
+Medicago polymorpha,Medicago polymorpha,Medicago polymorpha,n0,f1,TRUE,FALSE,FALSE,TRUE
+Melica californica,Melica californica,Melica californica,n1,f0,TRUE,FALSE,TRUE,FALSE
+Melica californica (grass),Melica torreyana,Melica torreyana,n1,f0,TRUE,FALSE,TRUE,FALSE
+Melica torreyana,Melica torreyana,Melica torreyana,n1,f0,TRUE,FALSE,TRUE,FALSE
+Melica torreyana  (grass),Melica torreyana,Melica torreyana,n1,f0,TRUE,FALSE,TRUE,FALSE
+Melica torreyana (2020),Melica torreyana,Melica torreyana,n1,f0,TRUE,FALSE,TRUE,FALSE
+Melica torreyana (2020) (grass),Melica torreyana,Melica torreyana,n1,f0,TRUE,FALSE,TRUE,FALSE
+Melica torreyana (grass),Melica torreyana,Melica torreyana,n1,f0,TRUE,FALSE,TRUE,FALSE
+Melilotus sp.,Melilotus spp.,Melilotus spp.,n0,f1,FALSE,FALSE,FALSE,TRUE
+Melilotus sp. ,Melilotus spp.,Melilotus spp.,n0,f1,FALSE,FALSE,FALSE,TRUE
+Mentha pulegium,Mentha pulegium,Mentha pulegium,n0,f1,TRUE,FALSE,FALSE,TRUE
+Microcala quadrangularis,Microcala quadrangularis,Microcala quadrangularis,n1,f1,TRUE,FALSE,TRUE,TRUE
+Micropus californicus californicus,Micropus californicus var. californicus,Micropus californicus,n1,f1,TRUE,TRUE,TRUE,TRUE
+Micropus californicus var. cal.,Micropus californicus var. californicus,Micropus californicus,n1,f1,TRUE,TRUE,TRUE,TRUE
+Micropus californicus var. californicus,Micropus californicus var. californicus,Micropus californicus,n1,f1,TRUE,TRUE,TRUE,TRUE
+Micropus californicus var. californius,Micropus californicus var. californicus,Micropus californicus,n1,f1,TRUE,TRUE,TRUE,TRUE
+Microseris douglasii,Microseris douglasii,Microseris douglasii,n1,f1,TRUE,FALSE,TRUE,TRUE
+Microseris douglasii ssp.,Microseris douglasii,Microseris douglasii,n1,f1,TRUE,FALSE,TRUE,TRUE
+Microsteris gracilis,Microsteris gracilis,Microsteris gracilis,n1,f1,TRUE,FALSE,TRUE,TRUE
+Montia fontana,Montia fontana,Montia fontana,n1,f1,TRUE,FALSE,TRUE,TRUE
+Navarretia pubescens,Navarretia pubescens,Navarretia pubescens,n1,f1,TRUE,FALSE,TRUE,TRUE
+Navarretia tagetina,Navarretia tagetina,Navarretia tagetina,n1,f1,TRUE,FALSE,TRUE,TRUE
+Nemophila heterophylla,Nemophila heterophylla,Nemophila heterophylla,n1,f1,TRUE,FALSE,TRUE,TRUE
+Nemophila heterophylla (2021),Nemophila heterophylla,Nemophila heterophylla,n1,f1,TRUE,FALSE,TRUE,TRUE
+Nemophila menziesii,Nemophila menziesii,Nemophila menziesii,n1,f1,TRUE,TRUE,TRUE,TRUE
+Nemophila menziesii menziesii (2021),Nemophila menziesii var. menziesii,Nemophila menziesii,n1,f1,TRUE,TRUE,TRUE,TRUE
+Nemophila menziesii var. menziesii,Nemophila menziesii var. menziesii,Nemophila menziesii,n1,f1,TRUE,TRUE,TRUE,TRUE
+Nemophila pedunculata,Nemophila pedunculata,Nemophila pedunculata,n1,f1,TRUE,FALSE,TRUE,TRUE
+Parentucellia viscosa,Parentucellia viscosa,Parentucellia viscosa,n0,f1,TRUE,FALSE,FALSE,TRUE
+Pectocarya pusilla,Pectocarya pusilla,Pectocarya pusilla,n1,f1,TRUE,FALSE,TRUE,TRUE
+Pectocarya pusilla  (2020),Pectocarya pusilla,Pectocarya pusilla,n1,f1,TRUE,FALSE,TRUE,TRUE
+Pectocarya pusilla (2021),Pectocarya pusilla,Pectocarya pusilla,n1,f1,TRUE,FALSE,TRUE,TRUE
+Pentagramma triangularis,Pentagramma triangularis,Pentagramma triangularis,n1,f1,TRUE,FALSE,TRUE,TRUE
+Pentagramma triangularis ssp. triangularis,Pentagramma triangularis ssp. triangularis,Pentagramma triangularis,n1,f1,TRUE,FALSE,TRUE,TRUE
+Petrorhagia dubia,Petrorhagia dubia,Petrorhagia dubia,n0,f1,TRUE,FALSE,FALSE,TRUE
+Phacelia distans,Phacelia distans,Phacelia distans,n1,f1,TRUE,FALSE,TRUE,TRUE
+Phalaris aquatica,Phalaris aquatica,Phalaris aquatica,n0,f1,TRUE,FALSE,FALSE,TRUE
+Plagiobothrys bracteatus,Plagiobothrys bracteatus,Plagiobothrys bracteatus,n1,f1,TRUE,FALSE,TRUE,TRUE
+Plagiobothrys nothofulvus,Plagiobothrys nothofulvus,Plagiobothrys nothofulvus,n1,f1,TRUE,FALSE,TRUE,TRUE
+Plantago erecta,Plantago erecta,Plantago erecta,n1,f1,TRUE,FALSE,TRUE,TRUE
+Plantago erecta (2020),Plantago erecta,Plantago erecta,n1,f1,TRUE,FALSE,TRUE,TRUE
+Plectritis ciliosa,Plectritis ciliosa,Plectritis ciliosa,n1,f1,TRUE,FALSE,TRUE,TRUE
+Plectritis macrocera,Plectritis macrocera,Plectritis macrocera,n1,f1,TRUE,FALSE,TRUE,TRUE
+Pleuropogon californicus,Pleuropogon californicus,Pleuropogon californicus,n1,f0,TRUE,FALSE,TRUE,FALSE
+Pleuropogon californicus (grass),Pleuropogon californicus,Pleuropogon californicus,n1,f0,TRUE,FALSE,TRUE,FALSE
+Poa secunda ssp. secunda,Poa secunda ssp. secunda,Poa secunda,n1,f0,TRUE,TRUE,TRUE,FALSE
+Poa secunda ssp. secunda (grass),Poa secunda ssp. secunda,Poa secunda,n1,f0,TRUE,TRUE,TRUE,FALSE
+Polypodium cailrhiza,Polypodium cailrhiza,Polypodium cailrhiza,n1,f1,TRUE,FALSE,TRUE,TRUE
+Primula hendersonii,Primula hendersonii,Primula hendersonii,n1,f1,TRUE,FALSE,TRUE,TRUE
+Psilocarphus tenellus,Psilocarphus tenellus,Psilocarphus tenellus,n1,f1,TRUE,FALSE,TRUE,TRUE
+Quercus agrifolia var. agr.,Quercus agrifolia var. agrifolia,Quercus agrifolia,n1,f0,TRUE,TRUE,TRUE,FALSE
+Quercus agrifolia var. agrifolia,Quercus agrifolia var. agrifolia,Quercus agrifolia,n1,f0,TRUE,TRUE,TRUE,FALSE
+Quercus douglasii,Quercus douglasii,Quercus douglasii,n1,f0,TRUE,FALSE,TRUE,FALSE
+Quercus kelloggii (2021),Quercus kelloggii,Quercus kelloggii,n1,f0,TRUE,FALSE,TRUE,FALSE
+Quercus lobata,Quercus lobata,Quercus lobata,n1,f0,TRUE,FALSE,TRUE,FALSE
+Quercus lobata (2020),Quercus lobata,Quercus lobata,n1,f0,TRUE,FALSE,TRUE,FALSE
+Ranunculus arvensis,Ranunculus arvensis,Ranunculus arvensis,n0,f1,TRUE,FALSE,FALSE,TRUE
+Ranunculus californicus,Ranunculus californicus,Ranunculus californicus,n1,f1,TRUE,FALSE,TRUE,TRUE
+Ranunculus hebecarpus,Ranunculus hebecarpus,Ranunculus hebecarpus,n1,f1,TRUE,FALSE,TRUE,TRUE
+Ranunculus muricatus,Ranunculus muricatus,Ranunculus muricatus,n0,f1,TRUE,FALSE,FALSE,TRUE
+Ranunculus occidentalis,Ranunculus occidentalis,Ranunculus occidentalis,n1,f1,TRUE,FALSE,TRUE,TRUE
+Raphanus sativus,Raphanus sativus,Raphanus sativus,n0,f1,TRUE,FALSE,FALSE,TRUE
+Rumex crispus,Rumex crispus,Rumex crispus,n0,f1,TRUE,FALSE,FALSE,TRUE
+Sanicula bipinnata,Sanicula bipinnata,Sanicula bipinnata,n1,f1,TRUE,FALSE,TRUE,TRUE
+Sanicula bipinnatifida,Sanicula bipinnatifida,Sanicula bipinnatifida,n1,f1,TRUE,FALSE,TRUE,TRUE
+Sanicula crassicaulis,Sanicula crassicaulis,Sanicula crassicaulis,n1,f1,TRUE,FALSE,TRUE,TRUE
+Scandix pectin-veneris,Scandix pecten-veneris,Scandix pecten-veneris,n0,f1,TRUE,FALSE,FALSE,TRUE
+Scandix pectinveneris,Scandix pecten-veneris,Scandix pecten-veneris,n0,f1,TRUE,FALSE,FALSE,TRUE
+Senecio vulgaris,Senecio vulgaris,Senecio vulgaris,n0,f1,TRUE,FALSE,FALSE,TRUE
+Senecio vulgaris (2020),Senecio vulgaris,Senecio vulgaris,n0,f1,TRUE,FALSE,FALSE,TRUE
+Sidalcea diploscypha,Sidalcea diploscypha,Sidalcea diploscypha,n1,f1,TRUE,FALSE,TRUE,TRUE
+Sidalcea hartwegii,Sidalcea hartwegii,Sidalcea hartwegii,n1,f1,TRUE,FALSE,TRUE,TRUE
+Silene gallica,Silene gallica,Silene gallica,n0,f1,TRUE,FALSE,FALSE,TRUE
+Sisymbrium officinale,Sisymbrium officinale,Sisymbrium officinale,n0,f1,TRUE,FALSE,FALSE,TRUE
+Sisyrinchium bellum,Sisyrinchium bellum,Sisyrinchium bellum,n1,f1,TRUE,FALSE,TRUE,TRUE
+Sisyrinchium bellum (2020),Sisyrinchium bellum,Sisyrinchium bellum,n1,f1,TRUE,FALSE,TRUE,TRUE
+Sonchus oleraceus,Sonchus oleraceus,Sonchus oleraceus,n0,f1,TRUE,FALSE,FALSE,TRUE
+Sonchus oleraceus (2020),Sonchus oleraceus,Sonchus oleraceus,n0,f1,TRUE,FALSE,FALSE,TRUE
+Stachys rigida ssp. quecetorum,Stachys rigida ssp. quercetorum,Stachys rigida,n1,f1,TRUE,TRUE,TRUE,TRUE
+Stachys rigida ssp. quercetorum,Stachys rigida ssp. quercetorum,Stachys rigida,n1,f1,TRUE,TRUE,TRUE,TRUE
+Stellaria media,Stellaria media,Stellaria media,n0,f1,TRUE,FALSE,FALSE,TRUE
+Stipa lepida,Stipa lepida,Stipa lepida,n1,f0,TRUE,FALSE,TRUE,FALSE
+Stipa pulchra,Stipa pulchra,Stipa pulchra,n1,f0,TRUE,FALSE,TRUE,FALSE
+Stipa pulchra (2020),Stipa pulchra,Stipa pulchra,n1,f0,TRUE,FALSE,TRUE,FALSE
+Stipa pulchra (grass),Stipa pulchra,Stipa pulchra,n1,f0,TRUE,FALSE,TRUE,FALSE
+Thysanocarpus curvipes,Thysanocarpus curvipes,Thysanocarpus curvipes,n1,f1,TRUE,FALSE,TRUE,TRUE
+Thysanocarpus radians,Thysanocarpus radians,Thysanocarpus radians,n1,f1,TRUE,FALSE,TRUE,TRUE
+Tonella tenella,Tonella tenella,Tonella tenella,n1,f1,TRUE,FALSE,TRUE,TRUE
+Torilis arvensis,Torilis arvensis,Torilis arvensis,n0,f1,TRUE,FALSE,FALSE,TRUE
+Torilis nodosa,Torilis nodosa,Torilis nodosa,n0,f1,TRUE,FALSE,FALSE,TRUE
+Torilis nodosa.,Torilis nodosa,Torilis nodosa,n0,f1,TRUE,FALSE,FALSE,TRUE
+Torilis sp.,Torilis spp.,Torilis spp.,n0,f1,FALSE,FALSE,FALSE,TRUE
+Toxicodendron diversilobum,Toxicodendron diversilobum,Toxicodendron diversilobum,n1,f0,TRUE,FALSE,TRUE,FALSE
+Tragopogon sp. ?,Tragopogon spp.,Tragopogon spp.,n0,f1,FALSE,FALSE,FALSE,TRUE
+Trifolium barbigerum,Trifolium barbigerum,Trifolium barbigerum,n1,f1,TRUE,FALSE,TRUE,TRUE
+Trifolium bifidum var. decipiens,Trifolium bifidum var. decipiens,Trifolium bifidum,n1,f1,TRUE,TRUE,TRUE,TRUE
+Trifolium campestre,Trifolium campestre,Trifolium campestre,n0,f1,TRUE,FALSE,FALSE,TRUE
+Trifolium ciliolatum,Trifolium ciliolatum,Trifolium ciliolatum,n1,f1,TRUE,FALSE,TRUE,TRUE
+Trifolium depauperatum,Trifolium depauperatum,Trifolium depauperatum,n1,f1,TRUE,FALSE,TRUE,TRUE
+Trifolium depauperatum (2021),Trifolium depauperatum,Trifolium depauperatum,n1,f1,TRUE,FALSE,TRUE,TRUE
+Trifolium dichotomum,Trifolium dichotomum,Trifolium dichotomum,n1,f1,TRUE,FALSE,TRUE,TRUE
+Trifolium dubium,Trifolium dubium,Trifolium dubium,n0,f1,TRUE,FALSE,FALSE,TRUE
+Trifolium glomeratum,Trifolium glomeratum,Trifolium glomeratum,n0,f1,TRUE,FALSE,FALSE,TRUE
+Trifolium gracilentum,Trifolium gracilentum,Trifolium gracilentum,n1,f1,TRUE,FALSE,TRUE,TRUE
+Trifolium hirtum,Trifolium hirtum,Trifolium hirtum,n0,f1,TRUE,FALSE,FALSE,TRUE
+Trifolium microcephalum,Trifolium microcephalum,Trifolium microcephalum,n1,f1,TRUE,FALSE,TRUE,TRUE
+Trifolium microcephalum (2021),Trifolium microcephalum,Trifolium microcephalum,n1,f1,TRUE,FALSE,TRUE,TRUE
+Trifolium microdon,Trifolium microdon,Trifolium microdon,n1,f1,TRUE,FALSE,TRUE,TRUE
+Trifolium microdon (2021),Trifolium microdon,Trifolium microdon,n1,f1,TRUE,FALSE,TRUE,TRUE
+Trifolium oliganthum,Trifolium oliganthum,Trifolium oliganthum,n1,f1,TRUE,FALSE,TRUE,TRUE
+Trifolium olivaceum,Trifolium olivaceum,Trifolium olivaceum,n1,f1,TRUE,FALSE,TRUE,TRUE
+Trifolium sp.,Trifolium spp.,Trifolium spp.,n1,f1,FALSE,FALSE,TRUE,TRUE
+Trifolium subterraneanum,Trifolium subterraneum,Trifolium subterraneum,n0,f1,TRUE,FALSE,FALSE,TRUE
+Trifolium subterraneum,Trifolium subterraneum,Trifolium subterraneum,n0,f1,TRUE,FALSE,FALSE,TRUE
+Trifolium variegatum,Trifolium variegatum,Trifolium variegatum,n1,f1,TRUE,TRUE,TRUE,TRUE
+Trifolium variegatum pauciflora,Trifolium variegatum var. pauciflora,Trifolium variegatum,n1,f1,TRUE,TRUE,TRUE,TRUE
+Trifolium variegatum ssp.,Trifolium variegatum ssp.,Trifolium variegatum,n1,f1,TRUE,TRUE,TRUE,TRUE
+Trifolium wildenovii,Trifolium willdenovii,Trifolium willdenovii,n1,f1,TRUE,FALSE,TRUE,TRUE
+Triphysaria pusilla,Triphysaria pusilla,Triphysaria pusilla,n1,f1,TRUE,FALSE,TRUE,TRUE
+Triteleia hyacinthina,Triteleia hyacinthina,Triteleia hyacinthina,n1,f1,TRUE,FALSE,TRUE,TRUE
+Triteleia laxa,Triteleia laxa,Triteleia laxa,n1,f1,TRUE,FALSE,TRUE,TRUE
+Umbellularia californica,Umbellularia californica,Umbellularia californica,n1,f0,TRUE,FALSE,TRUE,FALSE
+Umbellularia californica (2020),Umbellularia californica,Umbellularia californica,n1,f0,TRUE,FALSE,TRUE,FALSE
+Veronica peregrina,Veronica peregrina,Veronica peregrina,n1,f0,TRUE,FALSE,TRUE,FALSE
+Vicia sativa var. nigra,Vicia sativa var. nigra,Vicia sativa,n0,f1,TRUE,TRUE,FALSE,TRUE
+Vicia sativa var. sativa,Vicia sativa var. sativa,Vicia sativa,n0,f1,TRUE,TRUE,FALSE,TRUE
+Vicia sp.,Vicia spp.,Vicia spp.,n0,f1,FALSE,FALSE,FALSE,TRUE
+Vicia villosa var. varia,Vicia villosa var. varia,Vicia villosa,n0,f1,TRUE,TRUE,FALSE,TRUE
+Wyethia glabra,Wyethia glabra,Wyethia glabra,n1,f1,TRUE,FALSE,TRUE,TRUE
+Yabea microcarpa,Yabea microcarpa,Yabea microcarpa,n1,f1,TRUE,FALSE,TRUE,TRUE

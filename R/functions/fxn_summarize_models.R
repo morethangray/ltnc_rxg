@@ -119,7 +119,7 @@ fxn_summarize_marginal_means <- function(index_model_name, lookup_tables) {
       raw_conf_high = conf_high, 
       raw_std_error = std_error, 
     ) %>%
-    dplyr::left_join(lookup_tables$lookup_model_subset, "abbr_subset") %>%
+    dplyr::left_join(lookup_tables$lookup_species_subset, "abbr_subset") %>%
     dplyr::select(
       response,
       subset, 
@@ -218,7 +218,7 @@ fxn_summarize_contrasts <- function(index_model_name, lookup_tables) {
       raw_conf_high = conf_high, 
       raw_std_error = std_error, 
     ) %>%
-    dplyr::left_join(lookup_tables$lookup_model_subset, "abbr_subset") %>%
+    dplyr::left_join(lookup_tables$lookup_species_subset, "abbr_subset") %>%
     dplyr::left_join(lookup_tables$lookup_model_term, "abbr_term") %>%
     dplyr::left_join(lookup_tables$lookup_model_contrast, "abbr_contrast") %>%
     dplyr::select(

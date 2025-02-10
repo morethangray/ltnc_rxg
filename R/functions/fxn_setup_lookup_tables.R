@@ -2,14 +2,14 @@
 #'
 #' Reads and processes lookup tables from multiple Excel sheets
 #'
-#' @param xlsx_name_plants Filename for plants Excel file
+#' @param csv_plants Filename for plants Excel file
 #' @param sheet_name_plants Sheet name for plants data
-#' @param xlsx_name_plots Filename for plots Excel file
+#' @param csv_plots Filename for plots Excel file
 #' @param sheet_name_plots Sheet name for plot names
 #' @param sheet_name_grazing Sheet name for grazing intervals
 #' @param sheet_name_surveys Sheet name for surveys
 #' @param sheet_name_attributes Sheet name for plot attributes
-#' @param xlsx_name_models Filename for model attributes Excel file
+#' @param csv_models Filename for model attributes Excel file
 #' @param sheet_name_model Sheet name for model labels
 #' @param sheet_name_term Sheet name for term labels
 #' @param sheet_name_mean Sheet name for mean labels
@@ -22,18 +22,14 @@
 #' 
 #' @export
 fxn_setup_lookup_tables <- function(
-    xlsx_name_plants = "attributes_plant.xlsx", 
-    sheet_name_plants = "crosswalk",
-    xlsx_name_plots = "attributes_plot.xlsx",
-    sheet_name_plots = "lookup-plot-name",
-    sheet_name_grazing = "grazing-interval",
-    sheet_name_surveys = "surveyed-plots",
-    sheet_name_attributes = "plot-attributes", 
-    xlsx_name_models = "attributes_model.xlsx", 
-    sheet_name_model = "subset", 
-    sheet_name_term = "term", 
-    sheet_name_mean = "mean", 
-    sheet_name_contrast = "contrast"
+    csv_plants = "plant_attributes.csv", 
+    csv_plots = "plot_attributes.csv", 
+    csv_surveys = "surveys_by_year.csv", 
+    csv_plot_names = "plot_names.csv", 
+    csv_subsets = "species_subsets.csv", 
+    csv_terms = "model_terms.csv", 
+    csv_means = "model_means.csv", 
+    csv_contrasts = "model_contrasts.csv"
 ) {
   # Validate packages
   required_packages <- c("here", "readxl", "dplyr")
@@ -46,42 +42,35 @@ fxn_setup_lookup_tables <- function(
   source(here::here("R/functions/fxn_setup_file_paths.R"))
   
   # Validate file existence
-  excel_files <- c(
-    file.path(project_paths$path_in_lookup, xlsx_name_plants),
-    file.path(project_paths$path_in_lookup, xlsx_name_plots)
+  check_files <- c(
+    file.path(project_paths$path_in_lookup, csv_plants),
+    file.path(project_paths$path_in_lookup, csv_plots), 
+    file.path(project_paths$path_in_lookup, csv_surveys), 
+    file.path(project_paths$path_in_lookup, csv_plot_names), 
+    file.path(project_paths$path_in_lookup, csv_subsets), 
+    file.path(project_paths$path_in_lookup, csv_terms), 
+    file.path(project_paths$path_in_lookup, csv_means), 
+    file.path(project_paths$path_in_lookup, csv_contrasts)
   )
   
-  for(file_path in excel_files) {
+  for(file_path in check_files) {
     if(!file.exists(file_path)) {
       stop(paste("File not found:", file_path))
     }
   }
   
   # Create lookup tables
-  lookup_plants <- readxl::read_excel(
-    here::here(project_paths$path_in_lookup, xlsx_name_plants),
-    sheet = sheet_name_plants
+  lookup_plants <- readr::read_csv(
+    here::here(project_paths$path_in_lookup, csv_plants)
   ) %>%
-    dplyr::distinct(
-      orig_name,
-      taxonomic_name,
-      genus_species,
-      f_native,
-      f_forb,
-      include_plant,
-      has_mult_taxa,
-      is_native,
-      is_forb
-    )
+    dplyr::distinct()
   
-  lookup_plot_names <- readxl::read_excel(
-    here::here(project_paths$path_in_lookup, xlsx_name_plots),
-    sheet = sheet_name_plots
+  lookup_plot_names <- readr::read_csv(
+    here::here(project_paths$path_in_lookup, csv_plot_names)
   )
   
-  lookup_grazing_interval <- readxl::read_excel(
-    here::here(project_paths$path_in_lookup, xlsx_name_plots),
-    sheet = sheet_name_grazing
+  lookup_grazing_interval <- readr::read_csv(
+    here::here(project_paths$path_in_lookup, csv_plots)
   ) %>%
     dplyr::select(
       index,
@@ -89,13 +78,11 @@ fxn_setup_lookup_tables <- function(
       grazer,
       interval,
       in_v1,
-      -f_grazed
     ) %>%
     dplyr::distinct()
   
-  list_active_surveys <- readxl::read_excel(
-    here::here(project_paths$path_in_lookup, xlsx_name_plots),
-    sheet = sheet_name_surveys
+  list_active_surveys <- readr::read_csv(
+    here::here(project_paths$path_in_lookup, csv_plots)
   ) %>%
     dplyr::filter(
       include_plot == TRUE,
@@ -104,14 +91,10 @@ fxn_setup_lookup_tables <- function(
     ) %>%
     dplyr::pull(index)
   
-  lookup_annotation <- readxl::read_excel(
-    here::here(project_paths$path_in_lookup, xlsx_name_plots),
-    sheet = sheet_name_attributes
+  lookup_plots <- readr::read_csv(
+    here::here(project_paths$path_in_lookup, csv_plots)
   ) %>%
-    dplyr::mutate(f_new = dplyr::if_else(interval == "New plot", "n1", "n0")) %>%
-    dplyr::filter(
-      index %in% list_active_surveys
-    ) %>%
+    dplyr::filter(index %in% list_active_surveys) %>%
     dplyr::distinct(
       treatment,
       plot_name,
@@ -128,27 +111,23 @@ fxn_setup_lookup_tables <- function(
       index_g
     )
   
-  lookup_model_subset <- readxl::read_excel(
-    here::here(project_paths$path_in_lookup, xlsx_name_models),
-    sheet = sheet_name_model
+  lookup_species_subset <- readr::read_csv(
+    here::here(project_paths$path_in_lookup, csv_subsets)
   ) %>%
     dplyr::select(subset, abbr_subset)
   
-  lookup_model_term <- readxl::read_excel(
-    here::here(project_paths$path_in_lookup, xlsx_name_models),
-    sheet = sheet_name_term
+  lookup_model_term <- readr::read_csv(
+    here::here(project_paths$path_in_lookup, csv_terms)
   ) %>%
     dplyr::select(term, abbr_term)
   
-  lookup_model_mean <- readxl::read_excel(
-    here::here(project_paths$path_in_lookup, xlsx_name_models),
-    sheet = sheet_name_mean
+  lookup_model_mean <- readr::read_csv(
+    here::here(project_paths$path_in_lookup, csv_means)
   ) %>%
     dplyr::select(value, abbr_value)
   
-  lookup_model_contrast <- readxl::read_excel(
-    here::here(project_paths$path_in_lookup, xlsx_name_models),
-    sheet = sheet_name_contrast
+  lookup_model_contrast <- readr::read_csv(
+    here::here(project_paths$path_in_lookup, csv_contrasts)
   ) %>%
     dplyr::select(contrast, abbr_contrast)
   
@@ -159,14 +138,15 @@ fxn_setup_lookup_tables <- function(
     lookup_plot_names = lookup_plot_names,
     lookup_grazing_interval = lookup_grazing_interval,
     list_active_surveys = list_active_surveys,
-    lookup_annotation = lookup_annotation, 
-    lookup_model_subset = lookup_model_subset, 
+    lookup_plots = lookup_plots, 
+    lookup_species_subset = lookup_species_subset, 
     lookup_model_term = lookup_model_term, 
     lookup_model_mean = lookup_model_mean, 
     lookup_model_contrast = lookup_model_contrast
     
   ))
 }
+
 
 # Run function with default parameters
 lookup_tables <- fxn_setup_lookup_tables()
