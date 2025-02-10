@@ -6,9 +6,7 @@ Valliere JM, Gray M, Ruygt J, Comendant T, Palladini M. (in review). Dry-season 
 
 ### Analysis scripts
 
-**.R**
-
-This repository has 4 R scripts used for the analysis. They will be in the R directory. These include:
+**.R:** This repository has 4 R scripts used for the analysis. They will be in the R directory. These include:
 
 **.R/1_setup.R**
 
@@ -20,11 +18,9 @@ This repository has 4 R scripts used for the analysis. They will be in the R dir
 
 <br>
 
-**.R/functions**
+**.R/functions:** This repository has 14 functions used for the analysis. They will be in the functions sub-directory. These include:
 
-This repository has 14 functions used for the analysis. They will be in the functions sub-directory. These include:
-
-[Setup functions]{.underline}
+***Setup functions***
 
 -   **.R/functions/fxn_setup_dependencies.R**
 
@@ -32,7 +28,7 @@ This repository has 14 functions used for the analysis. They will be in the func
 
 -   **.R/functions/fxn_setup_lookup_tables.R**
 
-[Data preparation functions]{.underline}
+***Data preparation functions***
 
 -   **.R/functions/fxn_prepare_input_data.R**
 
@@ -40,7 +36,7 @@ This repository has 14 functions used for the analysis. They will be in the func
 
 -   **.R/functions/fxn_load_rich_abun.R**
 
-[Model selection functions]{.underline}
+***Model selection functions***
 
 -   **.R/functions/fxn_identify_distribution.R**
 
@@ -56,7 +52,7 @@ This repository has 14 functions used for the analysis. They will be in the func
 
 -   **.R/functions/fxn_model_selection_rich.R**
 
--   fxn_summarize_models.R
+-   **.R/functions/fxn_summarize_models.R**
 
 ------------------------------------------------------------------------
 
