@@ -12,21 +12,25 @@ Valliere JM, Gray M, Ruygt J, Comendant T, Palladini M. (in review). Dry-season 
 
 **.input/data**
 
-There are 6 data files within the data subfolder that are used in this analysis. Four .xlsx files contain the annual plant surveys conducted at Wantrup Preserve between 2019-2022.
+There are 6 data files within the data subfolder that are used in this analysis.
 
-**wantrup_2019.xlsx:**
+Four .xlsx files contain the annual plant surveys conducted at Wantrup Preserve between 2019-2022. These were derived from the raw survey data and require pre-processing with `fxn_prepare_input_data`, which assigns consistent names to the column names, sheet names, and plant names (among other cleaning).
 
-**wantrup_2020.xlsx:**
+-   **wantrup_2019.xlsx**
 
-**wantrup_2021.xlsx:**
+-   **wantrup_2020.xlsx**
 
-**wantrup_2022.xlsx:**
+-   **wantrup_2021.xlsx**
 
-Two files contain the abundance and richness estimates derived from the surveys.
+-   **wantrup_2022.xlsx**
 
-**abundance.csv:**
+Two files contain the abundance and richness estimates derived from the surveys using `fxn_calculate_metrics`. Each file contains the estimates for each species subset (all native species, native forb species, and non-native species).
 
-**richness.csv:**
+-   **abundance.csv**
+
+-   **richness.csv:**
+
+The script `fxn_load_rich_abun` is used to load the abundance and richness data into working memory as rich_abun.
 
 <br>
 
