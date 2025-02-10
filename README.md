@@ -6,9 +6,61 @@ Valliere JM, Gray M, Ruygt J, Comendant T, Palladini M. (in review). Dry-season 
 
 ### Analysis scripts
 
+**.R**
+
+This repository has 4 R scripts used for the analysis. They will be in the R directory. These include:
+
+**.R/1_setup.R**
+
+**.R/2_model_selection_abundance.R**
+
+**.R/3_model_selection_richness.R**
+
+**.R/4_make_mm_and_contrast_tables.R**
+
+<br>
+
+**.R/functions**
+
+This repository has 14 functions used for the analysis. They will be in the functions sub-directory. These include:
+
+[Setup functions]{.underline}
+
+-   **.R/functions/fxn_setup_dependencies.R**
+
+-   **.R/functions/fxn_setup_file_paths.R**
+
+-   **.R/functions/fxn_setup_lookup_tables.R**
+
+[Data preparation functions]{.underline}
+
+-   **.R/functions/fxn_prepare_input_data.R**
+
+-   **.R/functions/fxn_calculate_metrics.R**
+
+-   **.R/functions/fxn_load_rich_abun.R**
+
+[Model selection functions]{.underline}
+
+-   **.R/functions/fxn_identify_distribution.R**
+
+-   **.R/functions/fxn_kable.R**
+
+-   **.R/functions/fxn_lmer_fixed_effects.r**
+
+-   **.R/functions/fxn_lmer_initial_model.r**
+
+-   **.R/functions/fxn_lmer_model_review.r**
+
+-   **.R/functions/fxn_lmer_random_effects.r**
+
+-   **.R/functions/fxn_model_selection_rich.R**
+
+-   fxn_summarize_models.R
+
 ------------------------------------------------------------------------
 
-**Data**
+### **Data**
 
 **.input/data**
 
