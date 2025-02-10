@@ -22,7 +22,7 @@ Valliere JM, Gray M, Ruygt J, Comendant T, Palladini M. (in review). Dry-season 
 
 **.R/functions:** This repository has 14 functions used for the analysis. They will be in the functions sub-directory. These include:
 
-#### Setup functions
+#### [Setup functions]{.underline}
 
 **.R/functions/fxn_setup_dependencies.R:** To manage package dependencies.
 
