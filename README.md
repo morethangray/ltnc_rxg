@@ -22,7 +22,7 @@ Valliere JM, Gray M, Ruygt J, Comendant T, Palladini M. (in review). Dry-season 
 
 **.R/functions:** This repository has 14 functions used for the analysis. They will be in the functions sub-directory. These include:
 
-#### [Setup functions]{.underline}
+#### *Setup functions*
 
 **.R/functions/fxn_setup_dependencies.R:** To manage package dependencies.
 
@@ -32,7 +32,7 @@ Valliere JM, Gray M, Ruygt J, Comendant T, Palladini M. (in review). Dry-season 
 
 <br>
 
-#### **Data preparation functions**
+#### ***Data preparation functions***
 
 **.R/functions/fxn_prepare_input_data.R:** To prepare plant survey data for analysis.
 
@@ -42,7 +42,7 @@ Valliere JM, Gray M, Ruygt J, Comendant T, Palladini M. (in review). Dry-season 
 
 <br>
 
-#### Model selection functions
+#### *Model selection functions*
 
 **.R/functions/fxn_identify_distribution.R:** To determine the most suitable probability distribution for each of six generalized linear mixed models (GLMMs) fit to plant observation data. Defines functions for visual inspection (histograms, QQ plots) and goodness of fit tests.
 
@@ -58,7 +58,7 @@ Valliere JM, Gray M, Ruygt J, Comendant T, Palladini M. (in review). Dry-season 
 
 <br>
 
-#### Model summary functions
+#### *Model summary functions*
 
 **.R/functions/fxn_summarize_models.R:** To compute and format marginal means and contrasts for the final models.
 
