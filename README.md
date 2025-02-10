@@ -1,13 +1,25 @@
-Metadata for: Dry-season grazing enhances native plant diversity of oak savannas
+### A repository for the generalized mixed models used in: 
 
-Analysis scripts
+Valliere JM, Gray M, Ruygt J, Comendant T, Palladini M. (in review). Dry-season grazing enhances native plant diversity of oak savannas.
 
-input/data_derived
+------------------------------------------------------------------------
 
-input/lookup-tables
+#### Analysis scripts
 
-output/
+------------------------------------------------------------------------
 
-R/
+#### Data
 
-R/functions
+.input/data_derived
+
+.input/lookup-tables
+
+------------------------------------------------------------------------
+
+.output/
+
+------------------------------------------------------------------------
+
+.R/
+
+.R/functions
