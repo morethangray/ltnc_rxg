@@ -1,0 +1,21 @@
+﻿abbr_value,value,abbr_term
+Ungrazed,Ungrazed,treatment
+Grazed,Grazed,treatment
+y4,2019,f_year
+y5,2020,f_year
+y6,2021,f_year
+y7,2022,f_year
+p,PER,plot_type
+w,WAN,plot_type
+o1,1y Break,f_one_yr
+o0,Not 1y break,f_one_yr
+t0,Not 2y break,f_two_yr
+t1,2y Break,f_two_yr
+n0,Existing plot,f_new
+n1,New plot,f_new
+b0,New plot,f_break
+b1,1y Break,f_break
+b2,2y Break,f_break
+b3,3y Break,f_break
+Goat,Goat,grazer
+Sheep,Sheep,grazer

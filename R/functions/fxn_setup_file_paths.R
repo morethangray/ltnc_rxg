@@ -22,8 +22,8 @@ fxn_setup_file_paths <- function() {
   # Create directories if they don't exist
   dirs_to_create <- c(
     path_in,
-    here::here(path_in, "data_derived"),
-    here::here(path_in, "lookup-tables"),
+    here::here(path_in, "data"),
+    here::here(path_in, "lookup_tables"),
     path_out
   )
   
@@ -47,7 +47,7 @@ fxn_setup_file_paths <- function() {
     path_r = path_r,
     path_in = path_in,
     path_in_data_derived = here::here(path_in, "data_derived"),
-    path_in_lookup = here::here(path_in, "lookup-tables"),
+    path_in_lookup = here::here(path_in, "lookup_tables"),
     path_out = path_out
   ))
 }

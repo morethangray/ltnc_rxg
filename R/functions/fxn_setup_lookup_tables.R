@@ -2,18 +2,14 @@
 #'
 #' Reads and processes lookup tables from multiple Excel sheets
 #'
-#' @param csv_plants Filename for plants Excel file
-#' @param sheet_name_plants Sheet name for plants data
-#' @param csv_plots Filename for plots Excel file
-#' @param sheet_name_plots Sheet name for plot names
-#' @param sheet_name_grazing Sheet name for grazing intervals
-#' @param sheet_name_surveys Sheet name for surveys
-#' @param sheet_name_attributes Sheet name for plot attributes
-#' @param csv_models Filename for model attributes Excel file
-#' @param sheet_name_model Sheet name for model labels
-#' @param sheet_name_term Sheet name for term labels
-#' @param sheet_name_mean Sheet name for mean labels
-#' @param sheet_name_contrast Sheet name for contrast labels
+#' @param csv_plants File name for plant attributes csv file
+#' @param csv_plots File name for plot attributes csv file
+#' @param csv_surveys File name for surveys by year csv file
+#' @param csv_plot_names File name for plot names csv file
+#' @param csv_subsets File name for species subsets csv file
+#' @param csv_terms File name for model term labels csv file
+#' @param csv_means File name for marginal mean labels csv file
+#' @param csv_contrasts File name for model contrast labels csv file
 #'
 #' @return List of processed lookup tables
 #' @import here
