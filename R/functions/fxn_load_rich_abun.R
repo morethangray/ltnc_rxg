@@ -55,7 +55,7 @@ fxn_load_rich_abun <- function(project_paths) {
   # Load and process richness data
   rich <- readr::read_csv(
     here::here(
-      project_paths$path_in_data_derived,
+      project_paths$path_in_data,
       "richness.csv"
     )
   ) %>%
@@ -74,7 +74,7 @@ fxn_load_rich_abun <- function(project_paths) {
   # Load and process abundance data
   abun <- readr::read_csv(
     here::here(
-      project_paths$path_in_data_derived,
+      project_paths$path_in_data,
       "abundance.csv"
     )
   ) %>%

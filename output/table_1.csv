@@ -1,0 +1,7 @@
+response_variable,formula,distribution
+Native abundance,log(Abundance) ~ Grazing treatment + Survey year + Plot type + (Grazing treatment | Plot pair),Normal distribution
+Native forb abundance,log(Abundance) ~ Grazing treatment + Survey year + Plot type + (Grazing treatment | Plot pair),Normal distribution
+Non-native abundance,sqrt(Abundance) ~ Grazing treatment + Survey year + Two-year interval + (1 | Plot pair),Normal distribution
+Native richness,Richness ~ Grazing treatment + Survey year + (1 | Plot type) + (Grazing treatment | Plot pair),Negative binomial distribution
+Native forb richness,Richness ~ Grazing treatment + Survey year + (1 | Plot type) + (Grazing treatment | Plot pair),Negative binomial distribution
+Non-native richness,sqrt(Richness) ~ Grazing treatment + Survey year + (Grazing treatment | Plot pair),Normal distribution

@@ -172,7 +172,7 @@ fxn_calculate_metrics <- function(processed_data, lookup_tables, project_paths) 
   # Combine and save richness
   dplyr::bind_rows(rich_non, rich_nat, rich_frb) %>%
     readr::write_csv(here::here(
-      project_paths$path_in_data_derived, 
+      project_paths$path_in_data, 
       "richness.csv"
     ))
   
@@ -201,7 +201,7 @@ fxn_calculate_metrics <- function(processed_data, lookup_tables, project_paths) 
   # Combine and save abundance
   dplyr::bind_rows(abun_non, abun_nat, abun_frb) %>%
     readr::write_csv(here::here(
-      project_paths$path_in_data_derived,
+      project_paths$path_in_data,
       "abundance.csv"
     ))
 }

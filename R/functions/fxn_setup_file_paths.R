@@ -46,7 +46,7 @@ fxn_setup_file_paths <- function() {
   return(list(
     path_r = path_r,
     path_in = path_in,
-    path_in_data_derived = here::here(path_in, "data_derived"),
+    path_in_data = here::here(path_in, "data"),
     path_in_lookup = here::here(path_in, "lookup_tables"),
     path_out = path_out
   ))

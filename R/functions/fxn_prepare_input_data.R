@@ -53,7 +53,7 @@ fxn_prepare_input_data <- function(list_years, project_paths, lookup_tables) {
   for (index_year in list_years) {
     # Read xlsx ----
     path <- here::here(
-      project_paths$path_in_data_derived,
+      project_paths$path_in_data,
       glue::glue("wantrup_{index_year}.xlsx")
     )
     

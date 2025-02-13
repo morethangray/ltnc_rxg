@@ -22,6 +22,7 @@ fxn_setup_lookup_tables <- function(
     csv_plots = "plot_attributes.csv", 
     csv_surveys = "surveys_by_year.csv", 
     csv_plot_names = "plot_names.csv", 
+    csv_grazing_interval = "grazing_interval.csv",
     csv_subsets = "species_subsets.csv", 
     csv_terms = "model_terms.csv", 
     csv_means = "model_means.csv", 
@@ -43,6 +44,7 @@ fxn_setup_lookup_tables <- function(
     file.path(project_paths$path_in_lookup, csv_plots), 
     file.path(project_paths$path_in_lookup, csv_surveys), 
     file.path(project_paths$path_in_lookup, csv_plot_names), 
+    file.path(project_paths$path_in_lookup, csv_grazing_interval), 
     file.path(project_paths$path_in_lookup, csv_subsets), 
     file.path(project_paths$path_in_lookup, csv_terms), 
     file.path(project_paths$path_in_lookup, csv_means), 
@@ -59,14 +61,24 @@ fxn_setup_lookup_tables <- function(
   lookup_plants <- readr::read_csv(
     here::here(project_paths$path_in_lookup, csv_plants)
   ) %>%
-    dplyr::distinct()
+    dplyr::distinct(
+      orig_name,
+      taxonomic_name,
+      genus_species,
+      f_native,
+      f_forb,
+      include_plant,
+      has_mult_taxa,
+      is_native,
+      is_forb
+    )
   
   lookup_plot_names <- readr::read_csv(
     here::here(project_paths$path_in_lookup, csv_plot_names)
   )
   
   lookup_grazing_interval <- readr::read_csv(
-    here::here(project_paths$path_in_lookup, csv_plots)
+    here::here(project_paths$path_in_lookup, csv_grazing_interval)
   ) %>%
     dplyr::select(
       index,
@@ -74,11 +86,12 @@ fxn_setup_lookup_tables <- function(
       grazer,
       interval,
       in_v1,
+      -f_grazed
     ) %>%
     dplyr::distinct()
   
   list_active_surveys <- readr::read_csv(
-    here::here(project_paths$path_in_lookup, csv_plots)
+    here::here(project_paths$path_in_lookup, csv_surveys)
   ) %>%
     dplyr::filter(
       include_plot == TRUE,
@@ -90,6 +103,7 @@ fxn_setup_lookup_tables <- function(
   lookup_plots <- readr::read_csv(
     here::here(project_paths$path_in_lookup, csv_plots)
   ) %>%
+    dplyr::mutate(f_new = dplyr::if_else(interval == "New plot", "n1", "n0")) %>%
     dplyr::filter(index %in% list_active_surveys) %>%
     dplyr::distinct(
       treatment,

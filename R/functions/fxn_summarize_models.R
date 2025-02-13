@@ -50,7 +50,6 @@ fxn_backtransform <- function(index_data, index_value, index_transform) {
 #' Computes and formats marginal means for a given statistical model
 #'
 #' @param index_model_name Name of the model object to analyze
-#' @param index_link Name of the link used to fit the model 
 #' @param lookup_tables A list of lookup tables for additional metadata
 #'
 #' @return A data frame with summarized marginal means and associated metadata
@@ -91,9 +90,6 @@ fxn_summarize_marginal_means <- function(index_model_name, lookup_tables) {
   response <- if(stringr::str_detect(index_model_name, "abun")) "abundance" else "richness"
   subset <- stringr::str_sub(index_model_name, -3)
   transformation <- stringr::str_remove(as.character(formula(index_model))[2], "value_")
-  # if(transformation == "value" & index_link != "none"){
-  #   transformation <- index_link
-  # }
   
   # Compute marginal means
   marginal_means <- 
@@ -142,7 +138,6 @@ fxn_summarize_marginal_means <- function(index_model_name, lookup_tables) {
 #' Performs pairwise comparisons and computes contrasts for statistical models
 #'
 #' @param index_model_name Name of the model object to analyze
-#' @param index_link Name of the link used to fit the model 
 #' @param lookup_tables A list of lookup tables for additional metadata
 #'
 #' @return A data frame with computed contrasts and associated statistical information
@@ -183,9 +178,6 @@ fxn_summarize_contrasts <- function(index_model_name, lookup_tables) {
   response <- if(stringr::str_detect(index_model_name, "abun")) "abundance" else "richness"
   subset <- stringr::str_sub(index_model_name, -3)
   transformation <- stringr::str_remove(as.character(formula(index_model))[2], "value_")
-  # if(transformation == "value" & index_link != "none"){
-  #   transformation <- index_link
-  # }
 
   # Extract predictor variables
   predictors <- attr(terms(index_model), "term.labels")
