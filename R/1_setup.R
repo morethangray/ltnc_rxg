@@ -1,4 +1,4 @@
-rm(list = ls())
+# rm(list = ls())
 
 # Set seed for reproducible simulations during model selection
 set.seed(912)
@@ -25,3 +25,6 @@ source(here::here("R/functions/fxn_calculate_metrics.R"))
 
 # Load richness and abundance data
 source(here::here("R/functions/fxn_load_rich_abun.R"))
+
+# For reporting tables
+source(here("R/functions/fxn_kable.R"))

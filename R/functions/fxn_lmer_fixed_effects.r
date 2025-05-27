@@ -27,6 +27,7 @@
 #' \dontrun{
 #' fixed_effects_results <- fxn_fixed_effects(initial_model)
 #' }
+# index_model <- mod_abun_nat
 fxn_lmer_fixed_effects <- function(index_model) {
   # Validate required packages
   required_packages <- c("dplyr")
@@ -41,7 +42,8 @@ fxn_lmer_fixed_effects <- function(index_model) {
     terms_count = integer(),
     terms = character(),
     aic = numeric(),
-    model = I(list())
+    model = I(list()), 
+    is_singular = character()
   )
   
   # One-term models
@@ -49,12 +51,14 @@ fxn_lmer_fixed_effects <- function(index_model) {
   fix_one <- lapply(model_terms_one, function(term) {
     model <- stats::update(index_model, stats::as.formula(paste(". ~ . +", term)))
     aic <- stats::AIC(model)
-    data.frame(
+    is_singular <- lme4::isSingular(model)
+    tibble::tibble(
       model_name = term,
       terms_count = 1,
       terms = term,
       aic = aic,
-      model = I(list(model))
+      model = I(list(model)), 
+      is_singular = is_singular
     )
   }) %>% dplyr::bind_rows()
   
@@ -67,13 +71,15 @@ fxn_lmer_fixed_effects <- function(index_model) {
   fix_two <- lapply(model_terms_two, function(terms) {
     model <- stats::update(index_model, stats::as.formula(paste(". ~ . +", paste(terms, collapse = " + "))))
     aic <- stats::AIC(model)
+    is_singular <- lme4::isSingular(model)
     model_name <- paste(terms, collapse = " + ")
-    data.frame(
+    tibble::tibble(
       model_name = model_name,
       terms_count = 2,
       terms = model_name,
       aic = aic,
-      model = I(list(model))
+      model = I(list(model)), 
+      is_singular = is_singular
     )
   }) %>% dplyr::bind_rows()
   
